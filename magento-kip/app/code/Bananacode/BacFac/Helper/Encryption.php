@@ -1,7 +1,7 @@
 <?php
 
 namespace Bananacode\BacFac\Helper;
-
+use Magento\Payment\Model\Method\Logger;
 /**
  * Encryption class for encrypt/decrypt that works between programming languages.
  *
@@ -26,7 +26,17 @@ class Encryption
      */
     public function decrypt($encryptedString, $key)
     {
+        $logHandler = new \Monolog\Handler\RotatingFileHandler(BP . '/var/log/bacfac.log');
+        $this->logger = new \Monolog\Logger('Bacfac');
+        $this->logger->pushHandler($logHandler);
+        $this->logger->addInfo(print_r("EXECUTE DECRYPT START", true));
+        $this->logger->addInfo(print_r($encryptedString, true));
+        $this->logger->addInfo(print_r($key, true));
+
         $json = json_decode(base64_decode($encryptedString), true);
+
+        $this->logger->addInfo(print_r($json, true));
+        $this->logger->addInfo(print_r("EXECUTE DECRYPT END", true));
 
         try {
             $salt = hex2bin($json["salt"]);
@@ -60,6 +70,13 @@ class Encryption
      */
     public function encrypt($string, $key)
     {
+        $logHandler = new \Monolog\Handler\RotatingFileHandler(BP . '/var/log/bacfac.log');
+        $this->logger = new \Monolog\Logger('Bacfac');
+        $this->logger->pushHandler($logHandler);
+        $this->logger->addInfo(print_r("EXECUTE ENCRYPT START", true));
+        $this->logger->addInfo(print_r("EXECUTE ENCRYPT=".$string."------".$key, true));
+        
+
         $ivLength = openssl_cipher_iv_length($this->encryptMethod);
         $iv = openssl_random_pseudo_bytes($ivLength);
 

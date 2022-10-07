@@ -8,6 +8,7 @@ namespace Bananacode\BacFac\Gateway\Http;
 use Magento\Payment\Gateway\Http\TransferBuilder;
 use Magento\Payment\Gateway\Http\TransferFactoryInterface;
 use Magento\Payment\Gateway\Http\TransferInterface;
+use Magento\Payment\Model\Method\Logger;
 
 /**
  * Class TransferFactory
@@ -15,6 +16,12 @@ use Magento\Payment\Gateway\Http\TransferInterface;
  */
 class TransferFactory implements TransferFactoryInterface
 {
+    /**
+     * @var Logger
+     */
+    private $logger;
+    
+
     /**
      * @var TransferBuilder
      */
@@ -37,6 +44,13 @@ class TransferFactory implements TransferFactoryInterface
      */
     public function create(array $request)
     {
+        
+        $logHandler = new \Monolog\Handler\RotatingFileHandler(BP . '/var/log/bacfac.log');
+        $this->logger = new \Monolog\Logger('Bacfac');
+        $this->logger->pushHandler($logHandler);
+        $this->logger->addInfo(print_r("TransferFactory CREATE", true));
+        $this->logger->addInfo(print_r('------------------->'.json_encode($request), true));
+
         return $this->transferBuilder
             ->setBody($request)
             ->setMethod('POST')

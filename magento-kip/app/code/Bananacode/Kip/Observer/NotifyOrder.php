@@ -6,10 +6,10 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
 /**
- * Class NotifyOrder
+ * Class NotifyOrderFailed
  * @package Bananacode\Kip\Observer
  */
-class NotifyOrder implements ObserverInterface
+class NotifyOrderFailed implements ObserverInterface
 {
     /**
      * @var \Bananacode\Kip\Helper\Notify
@@ -27,6 +27,11 @@ class NotifyOrder implements ObserverInterface
     protected $_scopeConfig;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
      * NotifyOrder constructor.
      * @param \Bananacode\Kip\Helper\Notify $bananaNotify
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
@@ -35,11 +40,13 @@ class NotifyOrder implements ObserverInterface
     public function __construct(
         \Bananacode\Kip\Helper\Notify $bananaNotify,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Checkout\Model\Session $checkoutSession
     ) {
         $this->_bananaNotify = $bananaNotify;
         $this->_orderRepository = $orderRepository;
         $this->_scopeConfig = $scopeConfig;
+        $this->_checkoutSession = $checkoutSession;
     }
 
     /**
@@ -52,20 +59,25 @@ class NotifyOrder implements ObserverInterface
             /**
              * @var \Magento\Sales\Model\Order $order
              */
-            $order = $observer->getEvent()->getOrder();                        
+            $order = $observer->getEvent()->getOrder();
+
             /**
              * @var \Magento\Quote\Model\Quote $quote
              */
             $quote = $observer->getEvent()->getQuote();
-                                        
+
+            /**
+             * @var \Exception $ex
+             */
+            $ex = $observer->getEvent()->getException();
+
             if ($order && $quote) {
-                $this->_bananaNotify->discord('sales',":red_circle: ╭✧--------------------------------------  *NUEVA ORDEN*  --------------------------------------", 'Nueva Orden');
-                // $this->_bananaNotify->discord('sales', 'Nueva orden con ID en magento #' . $order->getIncrementId() . ' Geo:' .  $lat.','. $lng . ' Dirección: ' . $address, 'Nueva Orden');
-                $this->_bananaNotify->discord('sales', 'Nueva orden con ID en magento **#' . $order->getIncrementId().'**', 'Nueva Orden');
+                $customerName = $this->_checkoutSession->getCustomerNameValue();
+                $this->_bananaNotify->discord('errors', 'Error al procesar pedido: '. $customerName , 'Error');
+                $this->_bananaNotify->discord('errors',  $ex->getMessage(), 'Error');
+
             }
-        } catch (\Exception $e) {
-            
-        }
+        } catch (\Exception $e) {}
     }
 
     /**

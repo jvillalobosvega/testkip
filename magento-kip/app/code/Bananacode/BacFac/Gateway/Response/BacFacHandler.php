@@ -66,6 +66,11 @@ class BacFacHandler implements HandlerInterface
     protected $_logger;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
      * BacFacHandler constructor.
      * @param PaymentTokenInterface $paymentTokenFactory
      * @param OrderPaymentExtensionInterfaceFactory $paymentExtensionFactory
@@ -82,7 +87,8 @@ class BacFacHandler implements HandlerInterface
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         PaymentToken $paymentToken,
-        PaymentTokenRepository $paymentTokenRepository
+        PaymentTokenRepository $paymentTokenRepository,
+        \Magento\Checkout\Model\Session $checkoutSession
     ) {
         $this->paymentTokenFactory = $paymentTokenFactory;
         $this->paymentExtensionFactory = $paymentExtensionFactory;
@@ -96,6 +102,7 @@ class BacFacHandler implements HandlerInterface
         $logHandler = new \Monolog\Handler\RotatingFileHandler(BP . '/var/log/bacfac.log');
         $this->_logger = new \Monolog\Logger('Bacfac');
         $this->_logger->pushHandler($logHandler);
+        $this->_checkoutSession = $checkoutSession;
     }
 
     /**
@@ -103,9 +110,18 @@ class BacFacHandler implements HandlerInterface
      */
     public function handle(array $handlingSubject, array $response)
     {
+        $logHandler = new \Monolog\Handler\RotatingFileHandler(BP . '/var/log/bacfac.log');
+        $this->_logger = new \Monolog\Logger('Bacfac');
+        $this->_logger->pushHandler($logHandler);
+       
+        $this->_logger->addInfo(print_r("=======>".json_encode($handlingSubject) , true));
+        $this->_logger->addInfo(print_r("-=-=-=-=-=>".json_encode($response) , true));
+        
+
         if (!isset($handlingSubject['payment'])
             || !$handlingSubject['payment'] instanceof PaymentDataObjectInterface
         ) {
+            $this->_logger->addInfo(print_r("NO PAYMENT-->" , true));
             throw new \InvalidArgumentException('Payment data object should be provided');
         }
 
@@ -122,9 +138,9 @@ class BacFacHandler implements HandlerInterface
         }
 
         //Get transaction id
-        $transactionId = isset($response['OrderID']) ? $response['OrderID'] : null;
+        $transactionId = isset($response['TransactionIdentifier']) ? $response['TransactionIdentifier'] : null;
         if(!$transactionId) {
-            $transactionId = isset($response['ReferenceNo']) ? $response['ReferenceNo'] : null;
+            $transactionId = isset($response['TransactionIdentifier']) ? $response['TransactionIdentifier'] : null;
         }
 
         if($transactionId) {
@@ -154,17 +170,26 @@ class BacFacHandler implements HandlerInterface
      */
     protected function getVaultPaymentToken($transaction, $order, $bin)
     {
-        if(isset($transaction['vault']) && isset($transaction['TokenizedPAN'])) {
-            if ($transaction['vault'] && $transaction['TokenizedPAN'] && $order->getCustomerId()) {
+        
+        $logHandler = new \Monolog\Handler\RotatingFileHandler(BP . '/var/log/bacfac.log');
+        $this->_logger = new \Monolog\Logger('Bacfac');
+        $this->_logger->pushHandler($logHandler);
+        // $this->_logger->addInfo(print_r("P" , true));
+        $this->_logger->addInfo(print_r("getVaultPaymentToken".json_encode($transaction) , true));
+
+        if(isset($transaction['vault']) && isset($transaction['PanToken'])) {
+            if ($transaction['vault'] && $transaction['PanToken'] && $order->getCustomerId()) {
+                $ccn = $this->_checkoutSession->getVarValue();
+               
                 try {
                     $this->_paymentToken
                         ->setCustomerId($order->getCustomerId())
                         ->setPaymentMethodCode('bacfac')
-                        ->setGatewayToken($transaction['TokenizedPAN'])
+                        ->setGatewayToken($transaction['PanToken'])
                         ->setType(PaymentTokenFactoryInterface::TOKEN_TYPE_CREDIT_CARD)
-                        ->setPublicHash($this->_encryptor->encrypt($transaction['TokenizedPAN']))
+                        ->setPublicHash($this->_encryptor->encrypt($transaction['PanToken']))
                         ->setTokenDetails(json_encode([
-                            "maskedCC" => $transaction['PaddedCardNo'],
+                            "maskedCC" => $ccn,#PaddedCardNo
                             "expirationDate" => $transaction['cc_expirationDate'],
                             "type" => $transaction['cc_type'],
                             "bin" => $bin,
@@ -194,6 +219,8 @@ class BacFacHandler implements HandlerInterface
      */
     private function getExtensionAttributes(InfoInterface $payment): OrderPaymentExtensionInterface
     {
+        // $this->logger->addInfo(print_r("BacFacHandler getExtensionAttributes!!!!!" , true));
+
         $extensionAttributes = $payment->getExtensionAttributes();
         if (null === $extensionAttributes) {
             $extensionAttributes = $this->paymentExtensionFactory->create();
