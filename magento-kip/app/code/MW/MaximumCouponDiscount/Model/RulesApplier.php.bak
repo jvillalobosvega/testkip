@@ -1,0 +1,53 @@
+<?php
+/**
+ * *
+ *  Copyright © 2016 MW. All rights reserved.
+ *  See COPYING.txt for license details.
+ *
+ */
+
+namespace MW\MaximumCouponDiscount\Model;
+
+/**
+ * Class RulesApplier
+ * @package Magento\SalesRule\Model\Validator
+ */
+class RulesApplier extends \Magento\SalesRule\Model\RulesApplier
+{
+    /**
+     * @param \Magento\Quote\Model\Quote\Item\AbstractItem $item
+     * @param \Magento\SalesRule\Model\Rule $rule
+     * @param \Magento\Quote\Model\Quote\Address $address
+     * @param mixed $couponCode
+     * @return $this
+     */
+    protected function applyRule($item, $rule, $address, $couponCode)
+    {
+        $om = \Magento\Framework\App\ObjectManager::getInstance();
+        $dataHelper = $om->create(\MW\MaximumCouponDiscount\Helper\Data::class);
+        $currencySymbol = $om->get(\Magento\Store\Model\StoreManagerInterface::class);
+        $messageManager = $om->create(\Magento\Framework\Message\ManagerInterface::class);
+
+        $discountData = $this->getDiscountData($item, $rule, $address);
+        $maxDiscount = $rule->getMaxDiscount();
+        $discountAmount = $rule->getDiscountAmount();
+        $baseSubtotal = $address->getBaseSubtotal();
+        if ($dataHelper->isEnabled() && $discountData->getAmount() > 0 && $maxDiscount > 0 && $rule->getSimpleAction() == 'by_percent') {
+            $discountTotalAmount = $baseSubtotal * $discountAmount / 100;
+            if ($discountTotalAmount >= $maxDiscount) {
+                $finalDiscountPercentage = $item->getRowTotal() * $maxDiscount / $baseSubtotal;
+                $discountData->setAmount($finalDiscountPercentage);
+                $discountData->setBaseAmount($finalDiscountPercentage);
+                /*$messageManager->addWarning(
+                    __('Descuento máximo de %1 alcanzado.',
+                    $currencySymbol->getStore()->getCurrentCurrencyCode() . ' ' . $maxDiscount)
+                );*/
+            }
+        }
+        $this->setDiscountData($discountData, $item);
+        $this->maintainAddressCouponCode($address, $rule, $couponCode);
+        $this->addDiscountDescription($address, $rule);
+
+        return $this;
+    }
+}

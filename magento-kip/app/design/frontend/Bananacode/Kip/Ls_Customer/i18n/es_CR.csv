@@ -1,0 +1,140 @@
+Send customer to LS Central?,¿Envíar cliente a LS Central?
+Save to LS Central,Save to LS Central
+LS Central Membership,LS Central Membership
+Loyalty,Lealtad
+Go To Product,Ir al Producto
+Go To Category,Ir a la Categoria
+%1 # %2,%1 # %2
+Click and Collect,Click and Collect
+Flat Rate - Fixed,Flat Rate - Fixed
+Cash,Efectivo
+Card,Tarjeta
+Coupon,Cupón
+Loyalty Points,Puntos de Lealtad
+Gift Card,Tarjeta de Regalo
+Unknown,Desconocido
+Pay At Store,Pagar en la Tienda
+Save,Guardar
+There is no account found with the provided email/username.,No encontramos ninguna cuenta con el correo electrónico.
+We're unable to send the password reset email.,No podemos envíar el correo electrónico para reiniciar su contraseña
+Please enter your email.,Por favor agregue su correo electrónico
+Customer request has been sent to LS Central successfully.,La solicitud del cliente fue enviada a LS Central con éxito
+Something went wrong while creating a customer. Please refer log for details.,Hubo un error creando el cliente. Por favir verifique los logs para más detalles.
+Omni service is down.,Omni service esta caído
+Coupon Offers,Ofertas de Cupón
+General Offers,Ofertas Generales
+Loyalty Offers,Ofertas de Lealtad
+Member Offers,Ofertas para Miembros
+Point Offers,Ofertas de Puntos
+Enter a valid %1. Valid characters are A-Z a-z 0-9 . _ - @,Ingrese un %1 válido. Caracteres válidos son A-Z a-z 0-9 . _ - @
+Enter a valid %1. It can only have a min of length 3 and a max of length 5,Ingrese un %1 válido. Tamaño entre 3 y 5
+"Something went wrong, Please try again later.","Algo ha salido mal, por favor inténtelo de nuevo más tarde"
+Your password has been updated.,Su contraseña ha sido actualizada.
+You have entered an invalid current password.,Ha ingresado una contraseña invalida.
+Confirm password did not match.,La contraseña de confirmación no coinciden.
+Sorry. No account found with the provided email address,No se ha encontrado ninguna cuenta con su correo electrónico
+Invalid Omni login or Omni password,Contraseña o Usuario del Omni invalida.
+Omni login successful.,Se ha iniciado sesión al Omni con éxito.
+The service is currently unavailable. Please try again later.,El servicio esta fuera de servicio. Por favor inténtelo más tarde.
+"There is already an account with this email address. If you are sure that it is your email address, please proceed to login or use different email address.",Ya hay una cuenta con su correo electrónico. Si esta seguro que es correcta inicie sesión o utilice un correo electrónico diferente.
+Your email address is invalid.,Su correo electrónico es inválido.
+Sorry! No account found with the provided email address.,No se ha encontrado ninguna cuenta con su correo electrónico
+Invalid LS Central login or password.,Usuario o contraseña inválidos
+Membership Information,Información Suscripción
+Member Contact No.:,Contacto Miembro #:
+Member Card No.:,Tarjeta Miembro #:
+Member Username:,Nombre de Usuario del Miembro:
+* Required Fields,* Campos Requeridos
+Contact Information,Información de Contacto
+Address,Dirección
+Street Address %1,Calle %1
+City,Ciudad
+"Please select a region, state or province.","Selecciona una region, estado o provincia."
+It's a default billing address.,Dirección de facturación seleccionada.
+Use as my default billing address,Utilizar como dirección de facturación
+It's a default shipping address.,Dirección de envío seleccionada.
+Use as my default shipping address,Utilizar como dirección de envío
+Save Address,Guardar
+Go back,Volver
+Member Information,Información de Usuario
+Club Name:,Nombre del Club:
+Loyalty Points Earned:,Puntos de Lealtad Obtenidos:
+Loyalty Level:,Nivel Programa Lealtad:
+Next Level,Siguiente Nivel
+Level:,Nivel:
+Points Needed:,Puntos Necesarios:
+Benefits of Next Level:,Beneficios del próximo nivel:
+You are at the top level.,Está en el nivel máximo.
+Please enter your email address below to receive a password reset link.,Por favor ingrese su correo electrónico para reiniciar su contraseña
+Username/Email,Correo Electrónico
+Reset My Password,Reiniciar Contraseña
+Registered Customers,Usuario Registrado
+"If you have an account, sign in with your email address.","Si tiene una cuenta, inicie sesión con su correo electrónico"
+Email,Correo Electrónico
+Password,Contraseña
+Sign In,Iniciar Sesión
+Forgot Your Password?,¿Olvidó su contraseña?
+Code: ,Código:
+Offer Type: ,Tipo de Oferta:
+Expiry: ,Expiración:
+No offers,Sin Ofertas
+Orders,Ordenes
+Doc ID,ID
+Date,Fecha
+Ship To,Enviar a
+Store Name,Nombre de la tienda
+Total,Total
+Status,Estado
+Action,Acción
+Document ID #,# de Documento
+Not Applicable,No Aplica
+Actions,Acciones
+View Order,Ver Orden
+Reorder,Reordenar
+Order #,Orden #
+You have placed no orders.,No ha realizado ninguna orden
+Order Information,Información de la Orden
+Shipping Address,Dirección de Envío
+Shipping Method,Método de Envío
+Billing Address,Dirección de Facturación
+Payment Method,Método de Pago
+Print Order,Imprimir Orden
+Product Name,Nombre del Producto
+SKU,SKU
+Price,Precio
+Qty,Cantidad
+Subtotal,Subtotal
+Items Ordered,Artículos Ordenados
+"<span class=""label"">Order Date:</span> %1","<span class=""label"">Fecha de la Orden:</span> %1"
+Recent Orders,Ordenes Recientes
+View All,Ver Todos
+Qty Shipped,Cantidad Enviados
+Useful Information,Información Importante
+Store Name:,Nombre de la Tienda:
+Click & Collect:,Click & Collect:
+Loyalty Points Rewarded:,Puntos de Lealtad
+Gift Card Code:,Código de Regalo:
+Print Invoice,Imprimir Factura
+Print Shipment,Imprimir Envío
+Track this shipment,Traquear envío
+Tracking Number(s):,Números de Traqueo:
+Name,Nombre
+Phone Number,Celular
+Enter a valid username prefix. Valid characters are A-Z a-z 0-9 . _ - @.,Ingrese un prefijo de nombre de usuario válido. Caracteres válidos son A-Z a-z 0-9 . _ - @.
+Customer Dashboard and Loyalty Elements,Dashboard de Clientes y Elementos de Lealtad
+Show Customer Club Information,Mostrar Informacíon del Club de Clientes
+Enable Loyalty Elements,Mostrar Elementos de Lealtad
+Show Loyalty Offers,Mostrar Ofertas de Lealtad
+Use Static Block for Loyalty Offers Page,Usar Bloques Estaticos para Página de Ofertas de Lealtad
+Show Point Offers,Mostrar Ofertas con Puntos
+Show Member Offers,Mostrar Ofertas para Miembros
+Show General Offers,Mostrar Ofertas Generales
+Show Coupon Offers,Mostrar Ofertas con Cupón
+Loyalty Page Image Width,Ancho de Imágen en Página de Lealtad
+Loyalty Page Image Height,Alto de Imágen en Página de Lealtad
+Expiry Date Format,Formato de Fecha de Expiración
+Customer username prefix,Prefijo de Nombre de Usuario
+Member Card No.,Tarjeta de Miembro
+Member Username,Nombre de Usuario del Miembro
+Invoices,Facturas
+Order Shipments,Envíos de Pedidos

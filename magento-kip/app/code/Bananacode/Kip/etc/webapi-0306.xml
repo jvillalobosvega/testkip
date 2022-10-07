@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/kip/report" method="POST">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="report"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/customer/avatar" method="POST">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="avatar"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/customer/experience" method="POST">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="experience"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/customer" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="currentCustomer"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/customer-data" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="currentCustomerContactData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/customer/recurring" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="recurring"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/kip/is-wished/:product_id" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="isWished"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/customer-wishes" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="wishLists"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/customer/add-wish/:product_id/:name" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="addToWishList"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/customer/delete-wishlist/:name" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="deleteWishList"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/kip/offers" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="offers"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/banners" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="banners"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/season" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="season"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/kip/order/summary" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="orderSummary"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/cart" method="POST">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="kipcart"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/lscart" method="POST">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="lscart"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/token" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="token"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/kip/map/search/:query" method="GET">
+        <service class="Bananacode\Kip\Api\MapInterface" method="search"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/locations" method="GET">
+        <service class="Bananacode\Kip\Api\MapInterface" method="locations"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/categories" method="GET">
+        <service class="Bananacode\Kip\Api\KipApiInterface" method="categories"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/kip/reports/recurring/:id/:sort/:from/:to/:email/:name" method="GET">
+        <service class="Bananacode\Kip\Api\ReportsInterface" method="recurring"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/reports/wishlist/:id/:sort/:from/:to/:email/:name" method="GET">
+        <service class="Bananacode\Kip\Api\ReportsInterface" method="wishlist"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kip/reports/lspowerbiorders/:from/:to/:status/:count/:page" method="GET">
+        <service class="Bananacode\Kip\Api\ReportsInterface" method="lspowerbiorders"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+</routes>

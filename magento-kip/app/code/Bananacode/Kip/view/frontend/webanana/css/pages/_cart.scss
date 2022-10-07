@@ -1,0 +1,371 @@
+body[class*="checkout-cart-index"] {
+    .page-title-wrapper {
+        h1 {
+            margin: 40px 0;
+            @include break-max(mobile) {
+                margin: 20px 0;
+            }
+
+            p.express-left-cart, p.flash-left-cart {
+                @include medium-16;
+                color:  $sky-blue;
+                font-weight: bold;
+                margin-top: 15px;
+            }
+
+            p.flash-left-cart {
+                color: $sky-dark-blue;
+            }
+
+            .available-shippings-cart {
+                margin-bottom: 10px;
+                font-size: 16px;
+                margin-top: 10px;
+                @include break-max(mobile) {
+                    font-size: 14px;
+                }
+
+                strong {
+                    @include break-max(mobile) {
+                        display: block;
+                    }
+                }
+
+                span {
+                    opacity: 0.3;
+                }
+                span.on {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    #maincontent {
+        position: relative;
+
+        .cart-container {
+            #form-validate {
+                position: initial;
+            }
+
+            .cart-summary {
+                background: $white;
+                z-index: 1;
+                @include break-max(mobile) {
+                    padding: 0;
+                }
+
+                .data.table.totals {
+                    width: 100%;
+
+                    .totals.sub + .totals:not(.shipping):not(.grand) {
+                        .title {
+                            color: $white;
+                            &:before {
+                                content: "Descuento";
+                                color: $black;
+                            }
+                        }
+                    }
+                }
+
+                #block-shipping,
+                .action.multicheckout,
+                .totals-tax {
+                    display: none;
+                }
+
+                button.action.primary.checkout {
+                    background: $gradient-background;
+                    border: none;
+                }
+            }
+
+            .cart-summary._sticky {
+                @include break-min(mobile) {
+                    padding-top: 120px;
+                }
+            }
+
+            .form-cart {
+                #shopping-cart-table {
+                    @include break-max(mobile) {
+                        width: 100%;
+                    }
+
+                    input {
+                        padding: 0;
+                    }
+
+                    .input-floating-label {
+                        display: none;
+                    }
+
+                    img {
+                        border: $input solid 1px;
+                        border-radius: $border-radius;
+                    }
+
+                    .cart.item {
+                        position: relative;
+                        left: 0;
+                        @include transition(left, 0.3s, ease);
+
+                        tr.item-info {
+                            .col.item {
+                                padding: 20px 0 30px;
+                                text-align: left;
+
+                                .product-item-photo-kip {
+                                    float: left;
+                                    margin-right: 15px;
+
+                                    img {
+                                        width: 55px;
+                                        height: 55px;
+                                        object-fit: cover;
+                                    }
+                                }
+
+                                .product-item-details {
+                                    padding-bottom: 0;
+                                    .product-item-name {
+                                        @include break-max(mobile){
+                                            max-width: 70%;
+
+                                            a {
+                                                font-size: 16px;
+                                                margin-bottom: 10px;
+                                                display: block;
+                                            }
+                                        }
+                                    }
+
+                                    .presentacion {
+                                        .ex, .fest, .flash {
+                                            @include medium-12;
+                                            color:  $sky-blue;
+                                            font-weight: bold;
+                                        }
+                                        .fest {
+                                            color: $fest;
+                                        }
+                                        .flash {
+                                            color: $sky-dark-blue;
+                                        }
+                                    }
+                                }
+
+                                .item-options {
+                                    margin-top: 5px;
+
+                                    dt {
+                                        display: none;
+                                    }
+
+                                    dd {
+                                        font-size: 12px;
+                                        color: $text;
+                                        display: block;
+                                        float: none;
+                                    }
+                                }
+                            }
+
+                            .col.qty {
+                                @include qty-controls;
+                                .control.qty {
+                                    justify-content: flex-end;
+                                    display: flex;
+                                    .qty-controls {
+                                        max-width: 95px;
+                                        border: none;
+                                        height: 25px;
+
+                                        span {
+                                            padding: 0;
+                                        }
+
+                                        .input-text {
+                                            height: auto;
+                                            margin: 0;
+                                        }
+                                    }
+                                }
+                            }
+
+                            td {
+                                @include break-max(mobile) {
+                                    text-align: center;
+                                    padding: 10px;
+                                    span {
+                                        font-size: 14px;
+                                    }
+                                }
+                            }
+                        }
+
+                        tr.item-actions {
+                            position: absolute;
+                            bottom: 5px;
+                            right: 0;
+                            width: 27px;
+                            height: 27px;
+                            overflow: hidden;
+                            @include break-max(mobile) {
+                                bottom: initial;
+                                top: 3px;
+                            }
+
+                            > td {
+                                padding: 0;
+                                .actions-toolbar {
+                                    margin: 0;
+
+                                    .action-edit,
+                                    .towishlist {
+                                        display: none;
+                                    }
+
+                                    .kip-delete {
+                                        cursor: pointer;
+
+                                        span {
+                                            display: none;
+                                        }
+
+                                        svg {
+                                            color: $text;
+                                        }
+
+                                        &:hover {
+                                            svg {
+                                                color: $red;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .lsdiscountamount {
+                            display: none;
+                        }
+                    }
+
+                    .cart.item:last-child {
+                        border-bottom: none;
+                    }
+
+                    .cart.item.removed {
+                        left: 50vh;
+                    }
+
+                    .cart.item.killed {
+                        display: none;
+                    }
+                }
+
+                .cart.main.actions {
+                    @include break-min(mobile) {
+                        position: absolute;
+                        width: 100%;
+                        top: 30px;
+                        right: 25%;
+                    }
+
+                    .action.clear {
+                        background-color: $red;
+                        text-decoration: none;
+                        &:hover {
+                            text-decoration: none;
+                        }
+                    }
+                    .action.update {
+                        display: none;
+                    }
+                }
+            }
+
+            .cart-discount {
+                #block-discount {
+                    strong {
+                        color: $dark-green;
+                    }
+
+                    .title {
+                        &:after {
+                            display: none;
+                        }
+                    }
+
+                    .content {
+                        display: block !important;
+                        padding: 30px 15px 0 15px;
+                        overflow: hidden;
+
+                        #discount-coupon-form {
+                            .fieldset.coupon {
+                                display: flex;
+
+                                .field {
+                                    padding: 0;
+
+                                    input {
+                                        border-right:none;
+                                        height: 50px;
+                                        width: 100%;
+                                    }
+
+                                    .actions-toolbar {
+                                        margin: 0;
+                                        width: 95px;
+
+                                        button {
+                                            @include btn;
+                                            height: auto;
+                                            width: auto;
+                                            min-width: auto;
+                                            position: relative;
+                                            z-index: 1;
+                                        }
+                                    }
+                                }
+
+                                .actions-toolbar {
+                                    margin: 0;
+                                    .primary {
+                                        max-width: 100%;
+
+                                        button {
+                                            min-width: 100%;
+                                            @include btn;
+                                            background: $white;
+                                            margin: 0;
+                                            max-width: max-content;
+                                        }
+                                    }
+                                }
+                            }
+                            .fieldset.coupon.applied {
+                                .field > .control {
+                                    input#coupon_code {
+                                        color: $white;
+                                    }
+                                    &:before {
+                                        content: "CUPÓN APLICADO";
+                                        color: $black;
+                                        position: absolute;
+                                        top: 15px;
+                                        left: 15px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

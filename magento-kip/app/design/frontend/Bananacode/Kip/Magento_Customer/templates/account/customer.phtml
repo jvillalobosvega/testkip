@@ -1,0 +1,75 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var Magento\Customer\Block\Account\Customer $block */
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+?>
+<?php if ($block->customerLoggedIn()) : ?>
+    <li class="customer-wishlist customer-welcome">
+        <span class="customer-name"
+              role="link"
+              tabindex="0"
+              data-mage-init='{"dropdown":{}}'
+              data-toggle="dropdown"
+              data-trigger-keypress-button="true"
+              data-bind="scope: 'customer'">
+            <button type="button"
+                    class="action switch"
+                    tabindex="-1"
+                    data-action="customer-menu-toggle">
+                <span><?= $block->escapeHtml(__('Mis Favoritos')) ?></span>
+            </button>
+        </span>
+        <div class="customer-menu" data-target="dropdown">
+            <ul>
+                <li><a href="/wishlist"><?= $block->escapeHtml(__('Mis productos favoritos')) ?></a></li>
+                <li><a href="/kip/recipes/wishlist"><?= $block->escapeHtml(__('Mis recetas favoritas')) ?></a></li>
+            </ul>
+        </div>
+    </li>
+
+    <li class="customer-welcome">
+        <span class="customer-name"
+              role="link"
+              tabindex="0"
+              data-mage-init='{"dropdown":{}}'
+              data-toggle="dropdown"
+              data-trigger-keypress-button="true"
+              data-bind="scope: 'customer'">
+            <button type="button"
+                    class="action switch"
+                    tabindex="-1"
+                    data-action="customer-menu-toggle"
+                    id="logged-in-nav-action"
+            >
+                  <span class="avatar"></span>
+                  <span class="name"></span>
+                  <span class="settings"><?= $block->escapeHtml(__('Cuenta y conf.')) ?></span>
+            </button>
+        </span>
+        <?php if ($block->getChildHtml()) : ?>
+            <div class="customer-menu" data-target="dropdown">
+                <ul>
+                    <li><a href="/customer/account"><?= $block->escapeHtml(__('My Account')) ?></a></li>
+                    <li><a href="/sales/order/history/"><?= $block->escapeHtml(__('My Orders')) ?></a></li>
+                    <li><a href="/customer/address/"><?= $block->escapeHtml(__('Direcciones de envío')) ?></a></li>
+                    <li><a href="/vault/cards/listaction/"><?= $block->escapeHtml(__('Payment Methods')) ?></a></li>
+                    <!--<li><a href="/customer/loyalty/"><?/*= $block->escapeHtml(__('Plan de fidelidad')) */?></a></li>-->
+                    <li><a href="/kip/tax/document"><?= $block->escapeHtml(__('Crédito Fiscal y Exento de IVA')) ?></a></li>
+                    <!--<li><a href="/customer/account" class="person-icon"><?/*= $block->escapeHtml(__('Personaliza tu experiencia')) */?></a></li>-->
+                    <!--<li><a href="/customer/account" class="megaphone-icon"><?/*= $block->escapeHtml(__('Solicita un producto nuevo')) */?></a></li>-->
+                    <!--<li><a href="/customer/account" class="info-icon"><?/*= $block->escapeHtml(__('Reportar falla en sitio web')) */?></a></li>-->
+                    <li><a href="/customer/account/logout" class="logout"><?= $block->escapeHtml(__('Cerrar Sesión')) ?></a>
+                    </li>
+                </ul>
+            </div>
+        <?php endif; ?>
+    </li>
+<?php endif; ?>

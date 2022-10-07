@@ -1,0 +1,378 @@
+/*------------------------------------*\
+         Forms Elements Styling
+\*------------------------------------*/
+
+@mixin input {
+    @include medium-14;
+
+    color: $sub-title;
+    border: $input solid 1.5px;
+    border-radius: $border-radius;
+    height: 50px;
+    box-shadow: none;
+    padding: 15px;
+
+    &:active, &:focus {
+        border-color: $green;
+        box-shadow: none !important;
+    }
+
+    @include placeholder-color($text);
+}
+
+@mixin forms() {
+    .fieldset > .field > .label,
+    .fieldset > .fields > .field > .label,
+    label:not(.checkbox):not(.radio):not(.configurable),
+    label.label:not(.checkbox):not(.radio):not(.configurable) {
+        display: none;
+    }
+
+    .fieldset > .field.configurable > .label,
+    .fieldset > .field.configurable > label.label,
+    .fieldset > .fields > .field.configurable > .label {
+        display: block;
+        margin: 15px 0;
+    }
+
+    input:not(.checkbox):not(.radio),
+    select {
+        @include input;
+    }
+
+    select {
+        font-family: $montse-medium;
+        border-radius: $border-radius !important;
+    }
+
+    input.mage-error {
+        border-color: $red !important;
+    }
+
+    button.action.primary,
+    button.action-primary,
+    button.action {
+        @include btn-gradient;
+        min-width: 250px;
+        @include break-max(mobile) {
+            min-width: 100%;
+        }
+    }
+
+    textarea {
+        border-radius: $border-radius;
+        height: 154px;
+        border-color: $input;
+
+        &:active, &:focus {
+            border-color: $green;
+            box-shadow: none !important;
+        }
+    }
+
+    legend {
+        display: none;
+    }
+
+    .fieldset > .field,
+    .fieldset > .fields > .field {
+        margin: 0 !important;
+        padding: 10px 5px;
+    }
+
+    .fieldset > .field:last-child,
+    .fieldset > .fields > .field:last-child {
+        margin: 0 !important;
+        padding: 10px 5px;
+    }
+
+    .fieldset>.field .additional,
+    .fieldset>.fields>.field .additional {
+        margin: 0 !important;
+    }
+
+    .field {
+        overflow: visible !important;
+        padding: 10px 5px;
+
+        .control {
+            width: 100% !important; //override magento2 styles
+            overflow: visible !important;
+        }
+    }
+
+    .field.choice {
+        position: relative;
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            position: relative;
+            top: 3px;
+            z-index: 2;
+            opacity: 1;
+            width: 20px;
+            height: 20px;
+            margin: 0;
+        }
+
+        span.input-floating-label.show {
+            display: none;
+        }
+    }
+
+    .field.choice.checked {
+        input[type="checkbox"],
+        input[type="radio"] {
+            opacity: 0;
+        }
+
+        @include icon-before('assets/icons/checkbox.svg', 20px, 20px);
+
+        &:before {
+            position: absolute;
+            top: 3px;
+            left: 0;
+            z-index: 1;
+        }
+    }
+
+    .field.telephone {
+        position: relative;
+        /*&:before {
+            @include medium-14;
+            color: $text;
+            content: '(+503)';
+            display: inline-block;
+            position: absolute;
+            z-index: 1;
+            top: 17px;
+            left: 18px;
+        }
+        */
+
+        #telephone-preview,
+        input {
+            padding-left: 78px !important;
+        }
+    }
+
+    .box-actions,
+    .field.static {
+        position: relative;
+        //border-bottom: $input solid 1px;
+
+        a,
+        button {
+            height: 36px;
+            position: absolute;
+            min-width: auto;
+            top: 0;
+            right: 0;
+            @include medium-14;
+        }
+    }
+
+    .field.password {
+        position: relative;
+        @include icon-after('assets/icons/eye-on.svg', 20px, 20px);
+
+        &:after {
+            cursor: pointer;
+            position: absolute;
+            top: 25px;
+            right: 15px;
+            z-index: 2;
+        }
+    }
+
+    .field.password.show {
+        @include icon-after('assets/icons/eye-off.svg', 20px, 16px);
+
+        &:after {
+            top: 27px;
+        }
+    }
+
+    .field.search ~ .actions {
+        padding: 0 !important; //override magento2 styles
+        button.action.search {
+            margin: 0 !important; //override magento2 styles
+            width: 100% !important; //override magento2 styles
+            min-width: auto;
+        }
+    }
+
+    .actions-toolbar {
+        text-align: center;
+
+        .primary {
+            float: none;
+        }
+
+        .secondary {
+            width: 100%;
+            text-align: left;
+
+            span {
+                @include medium-12;
+            }
+
+            a,
+            a.action {
+                margin: 0;
+                color: $dark-green;
+
+                span {
+                    color: $dark-green;
+                }
+            }
+        }
+    }
+
+    .hide {
+        display: none;
+    }
+
+    fieldset.fieldset {
+        margin: 0;
+        padding: 0;
+
+        > .fields > .field:last-child,
+        > .field:last-child {
+            margin-bottom: 20px;
+        }
+    }
+
+    .control.customer-dob {
+        position: relative;
+        button.ui-datepicker-trigger.v-middle {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+}
+
+@mixin checkout() {
+    [name*="firstname"],
+    [name*="lastname"],
+    [name*="country_id"],
+    [name*="telephone"],
+    [name*="latitude"],
+    [name*="postcode"],
+    [data-bind*="after"],
+    [name*="longitude"],
+    [name*="street.2"] {
+        display: none;
+    }
+
+    div.field {
+        flex-basis: 50%;
+        max-width: 50%;
+        @include break-max(mobile) {
+            flex-basis: 100%;
+            max-width: 100%;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+    }
+    fieldset.field {
+        flex-basis: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+
+        > .control {
+            @include flex;
+            margin: 0 auto;
+
+            > div {
+                flex-basis: 50%;
+                max-width: 50%;
+                @include break-max(mobile) {
+                    flex-basis: 100%;
+                    max-width: 100%;
+                    margin-top: 0;
+                    margin-bottom: 5px;
+                }
+            }
+
+            > div[name*="street.0"],
+            > div[name*="street.1"] {
+                flex-basis: 100%;
+                max-width: 100%;
+            }
+        }
+    }
+
+    div.field[name*="postcode"],
+    div.field[name*="company"] {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+
+    .field.choice {
+        flex-basis: 100%;
+        max-width: 100%;
+        text-align: left;
+        display: flex;
+
+        input,
+        input.checkbox-inline
+        {
+            width: 15px;
+            height: 15px;
+            min-width: 15px;
+            margin-right: 10px;
+            position: relative;
+            top: 0;
+        }
+
+        label {
+            margin-bottom: 0;
+            display: inline-block;
+            @include medium-14;
+        }
+    }
+
+    .field .control._with-tooltip input {
+        margin-right: 35px;
+    }
+
+    .field-error {
+        text-align: left;
+    }
+
+    fieldset.address {
+        @include flex;
+    }
+}
+
+.input-floating-label {
+    position: absolute;
+    top: 0;
+    left: 15px;
+    background: white;
+    display: inline-block;
+    padding: 0 10px;
+    text-align: center;
+    z-index: 2;
+    overflow: hidden;
+    opacity: 0;
+    @include transition2(opacity, 0.3s, ease, top, 0.3s, ease);
+    @include medium-12;
+    color: $text;
+    @include break-max(mobile) {
+        left: 0;
+    }
+}
+
+.input-floating-label.show {
+    opacity: 1;
+    top: -10px;
+    @include transition2(opacity, 0.3s, ease, top, 0.3s, ease);
+}
+
+form {
+    @include forms;
+}

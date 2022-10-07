@@ -1,0 +1,192 @@
+/*------------------------------------*\
+             Footer Styles
+\*------------------------------------*/
+footer.page-footer {
+    background-color: $footer;
+    position: relative;
+
+    .footer.content {
+        position: relative;
+        max-width: 1440px;
+        @include flex;                            
+        padding: 20px 0px 0 100px; 
+        /* top:    50px padding  */
+        /* right:  0px padding  */
+        /* bottom: 0px padding */
+        /* left:   10px padding  */
+        @include break-max(mobile) {
+            display: block;
+            padding: 95px 15px 0 15px;
+        }
+
+        @include icon-before('assets/logo-kip.svg', 91px, 91px, 61px, 61px);
+
+        &:before {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .block.newsletter {
+            display: none;
+        }
+
+        ul {
+            max-width: 20%;
+            flex-basis: 20%;
+            @include break-max(mobile) {
+                max-width: 100%;
+                flex-basis: 100%;
+            }
+
+            li:not(.title) {
+                margin-top: 20px;
+                margin-bottom: 30px;
+                margin-left:50px;
+                @include medium-14;
+
+                a {
+                    @include medium-14;
+                    text-decoration: none;
+                }
+            }
+            li:first-child {
+                margin-left: 50px;                
+            }
+            li.icon {
+                position: relative;
+                @include break-max(mobile) {
+                    padding-left: 25px;
+                }
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                    background-position: center;
+                    background-size: cover;
+                    display: inline-block;
+                    position: absolute;
+                    left: -25px;
+                    @include break-max(mobile) {
+                        left: 0;
+                    }
+                }
+            }
+
+            li.title {
+                @include bold-16;
+                margin-top: 30px;
+            }
+        }
+
+        ul.social {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            @include break-max(mobile) {
+                right: 25px;
+            }
+
+            li {
+                margin: 10px 0 0 25px;
+                position: relative;
+                width: 20px;
+                height: 20px;
+
+                a {
+                    color: $footer;
+                    position: absolute;
+
+                    svg {
+                        width: 32px;
+                        height: 32px;
+                        background-position: center;
+                        background-size: cover;
+                        display: inline-block;
+                        position: relative;
+                        margin-right: 5px;
+                        color: $green;
+                    }
+                }
+            }
+        }
+
+        .footer-badges {
+            flex-basis: 100%;
+            max-width: 100%;
+            text-align: center;
+            // margin-top: 95px;
+            margin-top: 10px;
+            @include break-max(mobile) {
+                display: flex;
+            }
+
+            .copyright {
+                padding-right: 30px;
+                @include medium-12;
+                color: $text;
+                background-color: transparent;
+                border-right: $input solid 1px;
+                @include break-max(mobile) {
+                    border-right: none;
+                    flex-basis: 100%;
+                    max-width: 100%;
+                    order: 2;
+                    padding: 20px 15px;
+                }
+            }
+
+            .badges {
+                display: flex;
+                @include break-max(mobile) {
+                    display: block;
+                    order: 1;
+                    flex-basis: 100%;
+                    max-width: 100%;
+                    border-bottom: $input solid 1px;
+                    padding: 0 0 30px 0;
+                }
+
+                strong {
+                    padding: 10px 10px 10px 30px;
+                    @include bold-12;
+                    color: $black;
+                    @include break-max(mobile) {
+                        padding: 10px;
+                        display: block;
+                        margin-bottom: 20px;
+                    }
+                }
+
+                .icons {
+                    display: flex;
+                    svg {
+                        margin-left: 30px;
+                        width: auto;
+                        height: 45px;
+                        @include break-max(mobile) {
+                            margin: auto;
+                            height: 35px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+html.noscroll {
+    footer.page-footer {
+        z-index: 100;
+    }
+}
+
+small.copyright {
+    background-color: $footer;
+    display: none;
+
+    span {
+        color: $text
+    }
+}

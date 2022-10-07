@@ -1,0 +1,51 @@
+<script type="text/javascript">
+    if(window.checkoutConfig) {
+        require([
+            'jquery',
+            'Magento_Customer/js/customer-data',
+            'Magento_Checkout/js/action/get-totals',
+            'Magento_Checkout/js/action/get-payment-information',
+            'Magento_Checkout/js/model/totals'
+        ], function ($, customerData, getTotalsAction, getPaymentInformationAction, totals) {
+
+            const initRequire = (node) => {
+                if(node) {
+                    new MutationObserver((mutationsList, observer) => {
+                        for (const mutation of mutationsList) {
+                            let nodes = mutation.addedNodes;
+                            if(nodes.length > 0) {
+                                if(nodes[0].id) {
+                                    if(nodes[0].id.includes('wake-up-mag')) {
+                                        // The totals summary block reloading
+                                        let deferred = $.Deferred();
+                                        //getTotalsAction([], deferred);
+
+                                        totals.isLoading(true);
+                                        getPaymentInformationAction(deferred);
+                                        $.when(deferred).done(function () {
+                                            totals.isLoading(false);
+                                        });
+
+                                        nodes[0].parentNode.removeChild(nodes[0]);
+                                    }
+                                }
+                            }
+                        }
+                    }).observe(node, {attributes: true, childList: true, subtree: true});
+                }
+            }
+
+            let summary = document.querySelector('.opc-block-summary');
+            if(!summary) {
+                let summaryInt = setInterval(function () {
+                    summary = document.querySelector('.opc-block-summary');
+                    if(summary) {
+                        clearInterval(summaryInt);
+                    }
+                    initRequire(summary);
+                }, 300);
+            }
+            initRequire(summary);
+        });
+    }
+</script>

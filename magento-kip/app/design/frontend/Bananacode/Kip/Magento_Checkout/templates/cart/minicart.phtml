@@ -1,0 +1,139 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Magento\Checkout\Block\Cart\Sidebar */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+
+/** @var $kipBlocks \Bananacode\Kip\Block\CustomBlocks */
+$kipBlocks = $block->getLayout()->createBlock('Bananacode\Kip\Block\CustomBlocks');
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+
+?>
+
+<div class="minisearch-wrapper">
+    <a class="action showsearch"></a>
+</div>
+
+<a href="/customer/account/" class="action mobile-only myaccount"></a>
+
+<div data-block="minicart" class="minicart-wrapper">
+    <a class="action showcart" href="<?= $block->escapeUrl($block->getShoppingCartUrl()) ?>" data-bind="scope: 'minicart_content'">
+        <p class="cart-empty">
+            <span><?= $block->escapeHtml(__('My Cart')) ?></span>
+        </p>
+    </a>
+
+    <?php if ($block->getIsNeedToDisplaySideBar()): ?>
+        <div class="block block-minicart"
+             data-role="dropdownDialog"
+             data-mage-init='{"dropdownDialog":{
+                "appendTo":"[data-block=minicart]",
+                "triggerTarget":".showcart",
+                "timeout": "2000",
+                "closeOnMouseLeave": false,
+                "closeOnEscape": true,
+                "triggerClass":"active",
+                "parentClass":"active",
+                "buttons":[]}}'
+             data-bind="scope: 'minicart_content'">
+
+            <div id="minicart-custom-header">
+                <h4 id="amplify-cart-kip">
+                    <?= $block->escapeHtml(__('My Cart')) ?>
+                    <!-- <a href="/checkout/cart">(ampliar carrito)</a> -->                    
+                    <span>| </span>
+                    <span class="count"></span>
+                    <span>ítems</span>                    
+                    <button onclick="window.askClearCart()" type="button"  style="background-color: #EF3340; color:#FFFFFF; margin-left:10px;">
+                        <span>Limpiar carrito</span>
+                    </button>
+                </h4>
+               
+                <button type="button" id="btn-minicart-close" class="action close" data-action="close" title="Cerrar">
+                    <span>Cerrar</span>
+                </button>
+            </div>
+
+            <div id="minicart-custom-items"></div>
+
+            <div id="minicart-empty-custom-content">
+                <?= $kipBlocks->getHtmlBlock('minicart-empty') ?>
+            </div>
+
+            <div id="minicart-custom-footer" data-bind="css: { empty: !!getCartParam('summary_count') == false && !isLoading() }">
+            
+
+          
+
+                <table>
+                    <!-- <tr style="display: none">
+                        <td>
+                            <strong class="bold-14"><?= $block->escapeHtml(__('Envío')) ?></strong>
+                            <span class="medium-14"><?= $block->escapeHtml(__('(calculado al finalizar la compra)')) ?></span>
+                        </td>
+                        <td>-</td>
+                    </tr> -->
+                    <!-- <tr>
+                        <td>
+                            <strong class="bold-14"><?= $block->escapeHtml(__('Descuento')) ?></strong>
+                        </td>
+                        <td>
+                                <span class="medium-14" id="minicart-discount">
+
+                                </span>
+                        </td>
+                    </tr> -->
+                    <tr>
+                        <td class="bold-18">
+                            <?= $block->escapeHtml(__('Subtotal')) ?>
+                        </td>
+                        <td>
+                            <span class="cart-subtotal bold-18 total" data-bind="html: getCartParam('subtotal')"></span>
+                        </td>
+                    </tr>
+                </table>
+
+                <a href="/checkout" class="checkout"><?= $block->escapeHtml(__('Checkout')) ?></a>
+            </div>
+
+            <?= ''; //$block->getChildHtml('minicart.addons') ?>
+        </div>
+    <?php else: ?>
+        <?php $scriptString = <<<script
+            require(['jquery'], function ($) {
+                $('a.action.showcart').click(function() {
+                    $(document.body).trigger('processStart');
+                });
+            });
+script;
+        ?>
+        <?= /* @noEscape */
+        $secureRenderer->renderTag('script', [], $scriptString, false); ?>
+    <?php endif ?>
+
+    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], 'window.checkout = ' .
+        /* @noEscape */
+        $block->getSerializedConfig(), false); ?>
+
+    <script type="text/x-magento-init">
+    {
+        "[data-block='minicart']": {
+            "Magento_Ui/js/core/app": <?= /* @noEscape */
+        $block->getJsLayout() ?>
+        },
+        "*": {
+            "Magento_Ui/js/block-loader": "<?= $block->escapeJs(
+            $block->escapeUrl($block->getViewFileUrl('images/loader-1.gif'))
+        ) ?>"
+        }
+    }
+
+    </script>
+</div>

@@ -1,0 +1,253 @@
+#referrals-modal {
+    .modal {
+        max-width: 900px;
+
+        .content {
+            .medium-16 {
+                max-width: 376px;
+            }
+
+            .referrals-share {
+                display: flex;
+                align-items: center;
+                margin-top: 30px;
+                @include break-max(mobile) {
+                    @include flex;
+                }
+
+                .referrals-code {
+                    @include break-max(mobile) {
+                        flex-basis: 100%;
+                        max-width: 100%;
+                    }
+
+                    #referrals-code {
+                        border: $input solid 1px;
+                        height: 52px;
+                        padding: 17px;
+                        color: $green;
+                        border-radius: $border-radius;
+                    }
+
+                    > .medium-12 {
+                        display: flex;
+                        svg {
+                            height: 15px;
+                            margin-right: 5px;
+                        }
+                    }
+                }
+
+                .icons {
+                    display: flex;
+                    margin-left: 50px;
+                    @include break-max(mobile) {
+                        flex-basis: 100%;
+                        max-width: 100%;
+                        margin: 20px auto 0;
+                        justify-content: center;
+                    }
+
+                    > a {
+                        display: inline-flex;
+                        padding: 15px;
+                        border: $green solid 1px;
+                        border-radius: 100%;
+                        margin-right: 10px;
+                        width: 45px;
+                        height: 45px;
+                        cursor: pointer;
+                        position: relative;
+
+                        &:before {
+                            content: '';
+                            position: absolute;
+                            left: 50%;
+                            top: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                    }
+
+                    a#referrals-copy {
+                        @include icon-before('assets/referrals/copy.png', 20px, 20px);
+                    }
+                    a#referrals-wp {
+                        @include icon-before('assets/referrals/wp.png', 25px, 25px);
+                    }
+                    a#referrals-fb {
+                        @include icon-before('assets/referrals/fb.png', 25px, 25px);
+                    }
+                    a#referrals-email {
+                        background-color: $green;
+                        @include icon-before('assets/referrals/mail.png', 25px, 25px);
+                    }
+                }
+
+                .image {
+                    background-image: url('assets/backgrounds/referrals.png');
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    width: 170px;
+                    height: 140px;
+                    margin-left: 70px;
+                    @include break-max(mobile) {
+                       margin: 30px auto 15px;
+                    }
+                }
+            }
+
+            .how-it-works {
+                .bold-18 {
+                    display: flex;
+                    margin-bottom: 0;
+
+                    &:after {
+                        border-top: $input solid 1px;
+                        content: "";
+                        width: 70%;
+                        height: 2px;
+                        display: block;
+                        margin-left: 20px;
+                        top: 9px;
+                        position: relative;
+                        @include break-max(mobile) {
+                            width: 35%;
+                        }
+                    }
+                }
+
+                .steps {
+                    @include flex;
+                    > div {
+                        flex-basis: 33.3%;
+                        max-width: 185px;
+                        text-align: center;
+                        margin: auto;
+                        @include break-max(mobile) {
+                            flex-basis: 100%;
+                        }
+
+                        span {
+                            color: #F9A000;
+                        }
+
+                        > div {
+                            position: relative;
+
+                            svg {
+                                margin: 20px auto;
+                                display: block;
+                                color: $green;
+                                transform: rotate(90deg);
+                                width: 40px;
+                                height: 45px;
+                            }
+
+                            .number {
+                                @include bold-18;
+                                color: white;
+                                position: absolute;
+                                left: 50%;
+                                top: 50%;
+                                transform: translate(-50%, -50%);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .footer {
+                border-top: $lighter-green solid 1px;
+                margin-top: 30px;
+                padding-top: 30px;
+
+                > .medium-12 {
+                    text-align: center;
+                    max-width: 575px;
+                    margin: auto;
+
+                    a {
+                        color: $sky-blue;
+                        text-decoration: underline;
+                    }
+                }
+
+                .balance {
+                    display: flex;
+                    // margin-top: 60px;
+                    background: $white;
+                    border: 1px solid $input;
+                    box-sizing: border-box;
+                    box-shadow: 0 2px 10px rgba(112, 112, 112, 0.25);
+                    border-radius: $border-radius;
+                    padding: 0 30px 0 0;
+                    position: relative;
+                    @include break-max(mobile) {
+                        @include flex;
+                        padding: 20px;
+                    }
+
+                    &:before {
+                        content: "";
+                        display: block;
+                        height: auto;
+                        width: 16%;
+                        background-color: $lighter-green;
+                        border-radius: 0 0 2pc 0;
+                        margin-right: 25px;
+                        background-image: url('assets/referrals/apple-dollar.png');
+                        background-repeat: no-repeat;
+                        background-size: 70%;
+                        background-position: center;
+                        @include break-max(mobile) {
+                            position: absolute;
+                            width: 65px;
+                            height: 83px;
+                            left: 0;
+                            top: 0;
+                        }
+                    }
+
+                    > div:first-child {
+                        max-width: 188px;
+                        @include break-max(mobile) {
+                            flex-basis: 100%;
+                            max-width: 100%;
+                            padding-left: 65px;
+                        }
+                    }
+
+                    > div.medium-14 {
+                        text-align: center;
+                        flex-basis: 16%;
+                        max-width: 16%;
+                        padding-top: 30px;
+                        min-width: 125px;
+                        @include break-max(mobile) {
+                            flex-basis: 100%;
+                            max-width: 100%;
+                        }
+
+                        p:first-child {
+                            display: flex;
+                            svg {
+                                margin-right: 5px;
+                                width: 18px;
+                                color: $green;
+                            }
+                        }
+
+                        p:nth-child(2) {
+                            padding: 15px;
+                            color: $black;
+                            background-color: rgba(221, 221, 221, 0.35);
+                            border-radius: $border-radius;
+                            margin: 0 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

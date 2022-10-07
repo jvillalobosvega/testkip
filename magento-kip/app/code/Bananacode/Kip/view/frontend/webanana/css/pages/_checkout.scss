@@ -1,0 +1,1785 @@
+body[class*="checkout-index-index"] {
+    .page-wrapper {
+        @include break-max(mobile) {
+            padding-top: 95px;
+        }
+    }
+
+    header.page-header {
+        background-color: transparent;
+        height: 95px;
+        @include break-max(mobile) {
+            width: 63px;
+            padding: 0;
+            left: 50%;
+            transform: translate(-50%,0);
+            z-index: 101;
+            border: none;
+            background: transparent;
+
+            a.logo {
+                position: initial !important;
+                transform: none !important;
+            }
+        }
+
+        .panel.wrapper,
+        .block.block-search,
+        .minisearch-wrapper,
+        .action.mobile-only.myaccount {
+            display: none !important;
+            @include break-max(mobile) {
+                display: none !important;
+            }
+        }
+
+        .header.content {
+            background-color: transparent;
+        }
+
+        .minicart-wrapper {
+            .action.showcart {
+                display: none;
+            }
+            @include break-max(mobile) {
+                display: none;
+            }
+        }
+
+        a.logo {
+            right: 15px;
+        }
+    }
+
+    #maincontent {
+        position: relative;
+
+        .page-title-wrapper.show {
+            clip: initial;
+            width: auto;
+            position: absolute;
+            top: -50px;
+            z-index: 100;
+            height: 30px;
+            overflow: visible;
+            @include break-max(mobile) {
+                position: initial;
+                margin-bottom: 10px;
+            }
+
+            #go-back {
+                @include goBack();
+                margin: 0;
+                position: absolute;
+                top: -50px;
+                @include break-max(mobile) {
+                    top: 0;
+                    right: 25px;
+                }
+            }
+
+            h1 {
+                span {
+                    @include bold-24;
+                }
+            }
+        }
+
+        #checkout {
+            .opc-progress-bar {
+                display: none;
+            }
+
+            .opc-wrapper {
+                #checkoutSteps {
+                    max-width: 695px;
+                    box-shadow: $box-shadow;
+                    border-radius: $border-radius;
+                    overflow: visible;
+
+                    li {
+                        display: block !important;
+                        overflow: hidden;
+                        height: 83px;
+                        @include break-max(mobile) {
+                            height: 53px;
+                        }
+
+                        .step-title {
+                            @include bold-18;
+                            margin: 0;
+                            display: flex;
+                            cursor: pointer;
+                            border-bottom: $input solid 1px;
+                            padding: 30px;
+                            position: relative;
+                            @include break-max(mobile) {
+                                padding: 15px;
+                            }
+
+                            &:before {
+                                position: relative;
+                                top: 2px;
+                                margin-right: 8px;
+                            }
+
+                            @include icon-after('assets/icons/chevron-grey.svg', 20px, 20px);
+
+                            &:after {
+                                position: absolute;
+                                right: 30px;
+                                top: 30px;
+                                transform: rotate(-90deg);
+                                @include break-max(mobile) {
+                                    right: 15px;
+                                    top: 15px;
+                                }
+                            }
+                        }
+
+                        .step-summary {
+                            padding: 10px 30px 30px 60px;
+                            cursor: pointer;
+                            @include break-max(mobile) {
+                                padding: 10px 15px 15px 30px;
+                            }
+
+                            p {
+                                @include medium-14;
+                                color: $sub-title;
+                                max-width: 320px;
+                                line-height: 1.5;
+                            }
+                        }
+
+                        .step-content {
+                            overflow: hidden;
+                            margin: 0;
+                            padding: 15px 30px;
+                            @include break-max(mobile) {
+                                padding: 15px;
+                            }
+
+                            form {
+                                max-width: 100%;
+                                margin-top: 10px;
+                                @include checkout();
+                            }
+
+                            #map-container {
+                                position: relative;
+                                @include break-max(mobile) {
+                                    margin-top: 10px;
+                                }
+
+                                @include map-search-input();
+
+                                #google-map {
+                                    width: 100%;
+                                    height: 508px;
+                                    @include break-max(mobile) {
+                                        margin-top: 10px;
+                                    }
+                                }
+                            }
+
+                            table.table-checkout-shipping-method {
+                                display: none;
+                            }
+
+                            #kip-shipping-custom-options {
+                                margin: 10px auto 40px auto;
+                                @include break-max(mobile) {
+                                    margin: 10px auto 0 auto;
+                                }
+
+                                #shipping-type,
+                                #packaging,
+                                #scheduled,
+                                #scheduled_festivity,
+                                #shipping-estimated,
+                                #order-note {
+                                    .medium-12 {
+                                        color: $text;
+                                        margin-top: 20px;
+                                    }
+
+                                    .bold-14,
+                                    .medium-14 {
+                                        color: $sub-title;
+                                    }
+
+                                    .row {
+                                        > div,
+                                        > select {
+                                            flex-basis: calc(50% - 50px);
+                                            margin: auto 25px auto 0;
+                                            padding: 10px;
+                                            border: $input solid 1px;
+                                            border-radius: $border-radius;
+                                            max-width: 235px;
+                                            overflow: hidden;
+                                            @include break-max(mobile) {
+                                                flex-basis: 100%;
+                                                max-width: 100%;
+                                                margin-top: 0;
+                                                margin-bottom: 15px;
+                                            }
+                                        }
+
+                                        > div {
+                                            cursor: pointer;
+                                            position: relative;
+                                            padding-left: 50px;
+                                            height: auto;
+                                            overflow: hidden;
+                                            margin-top: 10px;
+
+                                            .medium-14 {
+                                                margin-bottom: 5px;
+                                            }
+
+                                            &:before {
+                                                cursor: pointer;
+                                                content: '';
+                                                width: 20px;
+                                                height: 20px;
+                                                border: $dark-green solid 1px;
+                                                border-radius: 50%;
+                                                top: 10px;
+                                                left: 10px;
+                                                display: block;
+                                                position: absolute;
+                                            }
+                                        }
+
+                                        > div.checked {
+                                            border: $dark-green solid 1.5px;
+                                            &:after {
+                                                background-color: $dark-green;
+                                                cursor: pointer;
+                                                content: '';
+                                                width: 16px;
+                                                height: 16px;
+                                                border: $white solid 1px;
+                                                border-radius: 50%;
+                                                top: 12px;
+                                                left: 12px;
+                                                display: block;
+                                                position: absolute;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                #shipping-estimated,
+                                #order-note,
+                                #scheduled,
+                                #scheduled_festivity {
+                                    margin-top: 30px;
+                                    @include break-max(mobile) {
+                                        margin-top: 15px;
+                                    }
+
+                                    .bold-14 {
+                                        display: flex;
+
+                                        @include icon-before('assets/icons/time.svg', 20px, 20px);
+
+                                        &:before {
+                                            margin-right: 7px;
+                                            position: relative;
+                                            top: -2px;
+                                        }
+                                    }
+                                }
+
+                                #scheduled,
+                                #scheduled_festivity {
+                                    display: none;
+
+                                    select {
+                                        option.disabled {
+                                            display: none;
+                                        }
+                                    }
+                                }
+
+                                #scheduled.active,
+                                #scheduled_festivity.active {
+                                    display: block;
+                                }
+
+                                #shipping-type {
+                                    .bold-14 {
+                                        display: flex;
+                                        @include icon-before('assets/icons/bag-handle.svg', 20px, 20px);
+
+                                        &:before {
+                                            margin-right: 7px;
+                                            position: relative;
+                                            top: -2px;
+                                        }
+                                    }
+
+                                    .shipping-type.disabled {
+                                        opacity: 0.5;
+                                    }
+                                }
+
+                                #shipping-estimated {
+                                    .medium-14 {
+                                        padding-top: 14px;
+                                    }
+
+                                    #total {
+                                        @include medium-14;
+                                        color: $dark-green;
+                                        width: 132px;
+                                        height: 45px;
+                                        background-color: rgba(221, 221, 221, 0.35);
+                                        border-radius: $border-radius;
+                                        margin-left: 50px;
+                                        text-align: center;
+                                        padding-top: 14px;
+                                        @include break-max(mobile) {
+                                            margin-left: 0;
+                                        }
+                                    }
+                                }
+
+                                #order-note {
+                                    .bold-14 {
+                                        @include icon-before('assets/icons/create.svg', 20px, 20px);
+                                    }
+                                }
+
+                                #order-note {
+                                    .medium-10 {
+                                        text-align: right;
+                                        margin-top: 5px;
+                                    }
+                                }
+                            }
+                        }
+
+                        #shipping-address-buttons-container,
+                        #shipping-method-buttons-container {
+                            text-align: right;
+                            display: flex;
+                            justify-content: right;
+
+                            div {
+                                float: none;
+                                width: 100%;
+                                margin: 0 0 0 auto;
+                                text-align: right;
+                                @include break-max(mobile) {
+                                    width: 100%;
+                                }
+                            }
+
+                            button {
+                                @include btn-gradient;
+                                width: 100%;
+                                margin: 0 0 0 auto;
+                                max-width: 250px;
+                                @include break-max(mobile) {
+                                    margin-top: 10px;
+                                    max-width: 100%;
+                                }
+                            }
+                        }
+
+                        #checkout-step-shipping {
+                            #co-shipping-form {
+                                @include flex;
+                                display: flex !important;
+
+                                #shipping-new-address-form {
+                                    flex-basis: 100%;
+                                    max-width: 100%;
+                                    order: 1;
+                                    @include flex;
+                                }
+
+                                #map-container {
+                                    flex-basis: 100%;
+                                    max-width: 100%;
+                                    order: 0;
+                                    margin-bottom: 40px;
+                                }
+                            }
+                        }
+                    }
+
+                    li.summary-opc,
+                    li.summary-shipping {
+                        height: 130px;
+                        overflow: hidden;
+
+                        .step-title {
+                            border-bottom: none;
+                            padding: 30px 30px 10px 30px;
+                            @include break-max(mobile) {
+                                padding: 15px 15px 10px 15px;
+                            }
+                        }
+
+                        .step-summary {
+                            border-bottom: $input solid 1px;
+                            max-height: 68px;
+                            overflow: hidden;
+
+                            button {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    li.summary-shipping {
+                        .step-summary {
+                            p {
+                                max-height: 45px;
+                                overflow: hidden;
+
+                                br {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+
+                    li#shipping {
+                        .step-title {
+                            @include icon-before('assets/icons/location-sharp.svg', 20px, 20px);
+                        }
+
+                        .step-content {
+                            .shipping-address-items {
+                                &:before {
+                                    content: 'Selecciona de tus direcciones guardadas:';
+                                    @include medium-14;
+                                    color: $sub-title;
+                                    display: block;
+                                    margin: 20px 0;
+                                }
+
+                                .shipping-address-item {
+                                    background-color: $grey;
+                                    border-radius: $border-radius;
+                                    margin-right: 15px;
+                                    padding: 30px 15px 0 15px;
+                                    max-height: 190px;
+                                    overflow: hidden;
+                                    @include break-max(mobile) {
+                                        padding: 10px 50px;
+                                        border-color: $input;
+                                    }
+
+                                    &:before {
+                                        display: none;
+                                    }
+
+                                    .action.action-select-shipping-item {
+                                        position: absolute;
+                                        top: 10px;
+                                        left: 10px;
+                                        margin: 0;
+                                        padding: 0;
+                                        border: none;
+                                        background: transparent;
+
+                                        span {
+                                            display: none;
+                                        }
+
+                                        &:before {
+                                            cursor: pointer;
+                                            content: '';
+                                            width: 20px;
+                                            height: 20px;
+                                            border: $input solid 1px;
+                                            border-radius: 50%;
+                                            display: block;
+                                            background: $white;
+                                        }
+                                    }
+
+                                    .action.edit-address-link {
+                                        position: absolute;
+                                        top: 15px;
+                                        margin: 0;
+                                        right: 15px;
+                                        @include icon-before('assets/icons/pencil.svg', 20px, 20px);
+
+                                        span {
+                                            display: none;
+                                        }
+                                    }
+                                }
+
+                                .shipping-address-item.select {
+                                    border: $red solid 1px;
+                                }
+
+                                .shipping-address-item.selected-item {
+                                    border-color: $dark-green;
+
+                                    @include icon-after('assets/icons/checkmark-circle.svg', 24px, 24px);
+
+                                    &:after {
+                                        background-color: $white;
+                                        content: '';
+                                        border-radius: 50%;
+                                        top: 10px;
+                                        right: auto;
+                                        left: 10px;
+                                        width: 20px;
+                                        height: 20px;
+                                        padding: 0;
+                                    }
+                                }
+                            }
+
+                            .new-address-popup {
+                                &:before {
+                                    content: 'O configura una nueva dirección:';
+                                    @include medium-14;
+                                    color: $sub-title;
+                                    display: block;
+                                    margin: 20px 0;
+                                }
+
+                                button.action.action-show-popup {
+                                    position: relative;
+                                    border: none;
+                                    box-shadow: none;
+                                    background-color: $white;
+                                    padding: 0;
+                                    margin: 0 0 30px 0;
+                                    @include break-max(mobile) {
+                                        margin: 0 0 15px 0;
+                                    }
+
+                                    span {
+                                        @include bold-18;
+                                        @include icon-before('assets/icons/add-circle.svg', 20px, 20px);
+
+                                        &:before {
+                                            content: '';
+                                            margin-right: 10px;
+                                            position: relative;
+                                            top: 4px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .step-content#checkout-step-shipping.empty-address {
+                            @include checkout-shipping-steps;
+                            form#co-shipping-form {
+                                #map-container {
+                                    #google-map {
+                                        max-height: 40vh;
+                                    }
+                                }
+                            }
+                            form#co-shipping-form.step2 {
+                                #shipping-new-address-form {
+                                    right: 0;
+                                    left: initial;
+                                    flex-basis: 100%;
+                                    max-width: 100%;
+                                    top: 0;
+                                    transform: none;
+                                    @include break-max(mobile) {
+                                        margin: 15px auto;
+                                    }
+                                }
+                                #map-container {
+                                    display: none;
+                                }
+                            }
+
+                            #shipping-address-buttons-container {
+                                @include flex;
+                                @include checkout-shipping-actions;
+                                justify-content: right;
+
+                                button.active {
+                                    margin: 5px;
+                                    flex-basis: 45%;
+                                    max-width: 45%;
+                                }
+                            }
+                        }
+                    }
+
+                    li#shipping.active {
+                        .step-title {
+                            @include icon-before('assets/icons/location-sharp-green.svg', 20px, 20px);
+                        }
+                    }
+
+
+                    li.summary-opc {
+                        height: 210px;
+                        @include break-max(mobile) {
+                            height: 166px;
+                        }
+
+                        .step-summary {
+                            max-height: 148px;
+                            @include break-max(mobile) {
+                                max-height: 119px;
+
+                                p {
+                                    margin-bottom: 5px;
+                                }
+                            }
+                        }
+                    }
+
+                    li#opc-shipping_method {
+                        .step-title {
+                            @include icon-before('assets/icons/delivery-van.svg', 20px, 20px);
+                        }
+                    }
+
+                    li#opc-shipping_method.active {
+                        .step-title {
+                            @include icon-before('assets/icons/delivery-van-green.svg', 20px, 20px);
+                        }
+                    }
+
+
+                    li#payment {
+                        .step-title {
+                            @include icon-before('assets/icons/wallet.svg', 20px, 20px);
+                        }
+
+                        .step-content {
+                            .billing-address-form {
+                                position: relative;
+
+                                [name*="telephone"] {
+                                    display: block;
+                                }
+
+                                div.field {
+                                    flex-basis: 100%;
+                                    max-width: 100%;
+                                }
+                            }
+
+                            #co-payment-form {
+                                margin-top: 0;
+
+                                br {
+                                    display: none !important;
+                                }
+
+                                > fieldset.fieldset {
+                                    min-width: auto;
+
+                                    form.form {
+                                        #payment_form_bacfac {
+                                            @include flex;
+
+                                            > .field {
+                                                margin-bottom: 10px !important;
+                                            }
+
+                                            .field.type {
+                                                max-width: 100%;
+                                                flex-basis: 100%;
+                                                display: flex;
+
+                                                .info {
+                                                    display: flex;
+                                                    flex-basis: calc(100% - 110px);
+                                                    max-width: calc(100% - 110px);
+                                                    @include icon-before('assets/icons/card.svg', 20px, 20px);
+                                                    &:before {
+                                                        margin-right: 8px;
+                                                    }
+                                                    p {
+                                                        @include bold-14;
+                                                        color: $titles;
+                                                    }
+                                                }
+
+                                                > .control {
+                                                    flex-basis: calc(110px);
+                                                    max-width: calc(110px);
+                                                    ul.credit-card-types {
+                                                        li.item {
+                                                            border: 1px solid #D9D9D9;
+                                                            border-radius: $border-radius;
+                                                            height: 24px !important;
+                                                            width: 34px;
+                                                            text-align: center;
+                                                        }
+                                                        li.item.active {
+                                                            border: $green solid 2px;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            .field.number,
+                                            .field.cvv,
+                                            .field.date {
+                                                max-width: 100%;
+                                                flex-basis: 100%;
+
+                                                input {
+                                                    width: 100%;
+                                                }
+                                            }
+
+                                            .field.number {
+                                                flex-basis: 75%;
+                                                max-width: 75%;
+                                                padding-right: 35px;
+                                                @include break-max(mobile) {
+                                                    padding-right: 15px;
+                                                    flex-basis: 65%;
+                                                    max-width: 65%;
+                                                }
+                                            }
+
+                                            .field.cvv {
+                                                flex-basis: 25%;
+                                                max-width: 25%;
+                                                @include break-max(mobile) {
+                                                    flex-basis: 35%;
+                                                    max-width: 35%;
+                                                }
+                                            }
+
+                                            .field.date {
+                                                .control {
+                                                    .fields {
+                                                        @include flex;
+                                                        > .field {
+                                                            flex-basis: 50%;
+                                                            max-width: 50%;
+
+                                                            select {
+                                                                width: 100% !important;
+                                                            }
+                                                        }
+
+                                                        > .field.month {
+                                                            padding-right: 35px;
+                                                            @include break-max(mobile) {
+                                                                padding-right: 15px;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                #checkout-payment-method-load {
+                                    margin-bottom: 25px;
+                                    @include break-max(mobile) {
+                                        margin-bottom: 20px;
+                                    }
+
+                                    .payment-methods {
+                                        padding-top: 20px;
+                                        @include break-max(mobile) {
+                                            margin: 0;
+                                        }
+
+                                        .payment-group {
+                                            position: relative;
+
+                                            .step-title {
+                                                display: none;
+                                            }
+
+                                            .payment-method {
+                                                .payment-method-title {
+                                                    border-radius: $border-radius;
+                                                    //border: $input solid 1px !important;
+                                                    width: auto;
+                                                    //height: 50px;
+                                                    //padding: 12px;
+                                                    overflow: hidden;
+                                                    margin: 10px 0;
+                                                    text-align: left;
+                                                    display: inline-block;
+                                                    cursor: pointer;
+                                                    padding: 10px;
+                                                    border: none;
+
+                                                    &:hover {
+                                                        background-color: $lighter-green;
+                                                    }
+
+                                                    input {
+                                                        display: none;
+                                                    }
+
+                                                    label.label {
+                                                        display: inline;
+                                                        @include bold-18;
+                                                        color: $sub-title;
+                                                        cursor: pointer;
+                                                        span {
+                                                            @include bold-18;
+                                                            padding-top: 1px;
+                                                        }
+                                                    }
+                                                }
+
+                                                .payment-method-content {
+                                                    padding: 0;
+
+                                                    > div, form {
+                                                        flex-basis: 100%;
+                                                        max-width: 100%;
+                                                    }
+
+                                                    .action.action-edit-address {
+                                                        @include btn;
+                                                        display: block;
+                                                        width: auto;
+                                                        min-width: auto;
+                                                        margin-top: 10px;
+                                                        background: $white;
+                                                    }
+
+                                                    .action.primary.checkout {
+                                                        @include break-max(mobile) {
+                                                            margin-bottom: 25px;
+                                                        }
+                                                        @include break-min(mobile) {
+                                                            display: none;
+                                                        }
+                                                    }
+
+                                                    form {
+                                                        [id*='payment_form'] {
+                                                            margin: 0;
+
+                                                            div.field {
+                                                                margin: 0;
+                                                                padding: 5px 5px 5px 0;
+                                                            }
+
+                                                            div.field.date {
+                                                                margin: 0;
+                                                                padding: 0;
+                                                            }
+
+                                                            div.field.type {
+                                                                .credit-card-types {
+                                                                    display: flex;
+
+                                                                    .item {
+                                                                        height: auto;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                        .field-tooltip-content {
+                                                            label {
+                                                                margin-bottom: 20px;
+                                                                display: inline-block;
+                                                                @include medium-14;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    .ccard .cvv .input-text {
+                                                        width: 75px;
+                                                    }
+
+                                                    .tds-iframe-container {
+                                                        position: fixed;
+                                                        left: 0;
+                                                        top: 0;
+                                                        width: 100vw;
+                                                        height: 100vh;
+                                                        background: rgba(112, 112, 112, 0.5);
+                                                        z-index: 9999;
+                                                        display: none;
+                                                        @include hide-scroll;
+
+                                                        iframe {
+                                                            position: absolute;
+                                                            width: 90vw;
+                                                            height: 90vh;
+                                                            border-radius: $border-radius;
+                                                            max-height: 600px;
+                                                            max-width: 600px;
+                                                            top: 50%;
+                                                            left: 50%;
+                                                            transform: translate(-50%, -50%);
+                                                            box-shadow: $box-shadow;
+                                                            background-color: $white;
+                                                        }
+                                                    }
+
+                                                    .tds-iframe-container.active {
+                                                        display: block;
+                                                    }
+
+                                                    .payment-method-billing-address {
+                                                        order: 2;
+
+                                                        .checkout-billing-address {
+                                                            .billing-address-details {
+                                                                background: #FBFBFB;
+                                                                padding: 10px;
+                                                                border: $input solid 2px;
+                                                                border-radius: $border-radius;
+
+                                                                button.action {
+                                                                    border: none;
+                                                                    padding: 0;
+                                                                    text-decoration: underline;
+                                                                    height: auto;
+                                                                    &:hover {
+                                                                        background: $white;
+                                                                    }
+
+                                                                    span {
+                                                                        text-decoration: underline;
+                                                                        padding: 0;
+                                                                        font-size: 14px;
+                                                                        &:hover {
+                                                                            color: $dark-green;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                        div.field.field-select-billing {
+                                                            max-width: 100%;
+                                                        }
+                                                    }
+
+                                                    .actions-toolbar {
+                                                        @include break-max(mobile) {
+                                                            order: 3;
+                                                        }
+                                                    }
+
+                                                    .disclaimer {
+                                                        @include reservedFunds();
+                                                        @include break-min(mobile) {
+                                                            display: none;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            .payment-method._active {
+                                                .payment-method-title {
+                                                    /*border-color: $dark-green !important;
+                                                    color: $dark-green;
+
+                                                    label.label {
+                                                        color: $dark-green;
+                                                    }
+
+                                                    span {
+                                                        color: $dark-green;
+                                                    }*/
+                                                }
+
+                                                .payment-method-content {
+                                                    @include flex;
+                                                    max-width: 468px;
+                                                    margin: auto;
+                                                }
+                                            }
+
+                                            .payment-method.payment-method-bacfac {
+                                                .payment-method-title {
+                                                    display: flex;
+                                                    width: max-content;
+                                                    //padding: 15px;
+
+                                                    label {
+                                                        display: flex;
+                                                        @include icon-before('assets/icons/add-circle.svg', 25px, 25px);
+                                                        &:before {
+                                                            margin-right: 5px;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            #payment-method-bacfac-vault:not(._active) {
+                                                display: none;
+                                            }
+
+                                            #payment-method-bacfac-vault {
+                                                .payment-method-title {
+                                                    display: none;
+                                                }
+
+                                                .payment-method-content {
+                                                    max-width: 100%;
+
+                                                    form.form {
+                                                        @include break-max(mobile) {
+                                                            margin-bottom: 20px;
+                                                        }
+
+                                                        fieldset {
+                                                            @include flex;
+                                                            .field.summary {
+                                                                @include input;
+                                                                background-color: #FBFBFB;
+                                                                @include flex;
+                                                                flex-basis: 75%;
+                                                                max-width: 332px;
+                                                                margin-top: 5px !important;
+                                                                @include break-max(mobile) {
+                                                                    flex-basis: 60%;
+                                                                    max-width: 60%;
+                                                                }
+
+                                                                span {
+                                                                    flex-basis: 33%;
+                                                                    max-width: 33%;
+                                                                    padding-right: 10px;
+                                                                }
+                                                                span:nth-child(2) {
+                                                                    text-align: center;
+                                                                }
+                                                                span:nth-child(3) {
+                                                                    text-align: right;
+                                                                }
+                                                            }
+                                                            .field.cvv {
+                                                                flex-basis: 25%;
+                                                                max-width: 25%;
+                                                                padding-left: 15px;
+                                                                @include break-max(mobile) {
+                                                                    flex-basis: 40%;
+                                                                    max-width: 40%;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            #vault-custom-selector {
+                                                border: $input solid 1px;
+                                                height: 50px;
+                                                overflow: hidden;
+                                                border-radius: $border-radius;
+                                                width: 100%;
+                                                max-width: 332px;
+                                                position: absolute;
+                                                z-index: 5;
+                                                background-color: $white;
+                                                @include break-max(mobile) {
+                                                    width: 100%;
+                                                }
+
+                                                @include icon-after('assets/icons/chevron-grey.svg', 20px, 20px);
+                                                &:after {
+                                                    position: absolute;
+                                                    top: 16px;
+                                                    right: 16px;
+                                                    transform: rotate(-90deg);
+                                                }
+
+                                                > div {
+                                                    height: 50px;
+                                                    display: flex;
+                                                    @include input;
+                                                    border: none;
+                                                    border-radius: 0;
+                                                    cursor: pointer;
+                                                    @include flex;
+
+                                                    span {
+                                                        flex-basis: 33%;
+                                                        max-width: 33%;
+                                                        padding-right: 10px;
+                                                    }
+                                                    span:nth-child(3) {
+                                                        text-align: center;
+                                                    }
+                                                    span:nth-child(4) {
+                                                        text-align: right;
+                                                    }
+
+                                                    &:hover {
+                                                        background-color: $lighter-green;
+                                                    }
+                                                }
+                                            }
+
+                                            #vault-custom-dummy {
+                                                min-height: 60px;
+                                                width: 100%;
+                                            }
+
+                                            #vault-custom-selector.open {
+                                                height: auto;
+                                                border-color: $green;
+                                                &:after {
+                                                    transform: rotate(90deg);
+                                                }
+
+                                                > div:not(:last-child) {
+                                                    border-bottom: $green solid 1px;
+                                                }
+                                            }
+
+                                            > div:nth-child(1) {
+                                                display: none;
+                                            }
+                                        }
+                                    }
+
+                                    #tax-documents {
+                                        > .bold-14 {
+                                            color: $sub-title;
+                                            display: flex;
+
+                                            @include icon-before('assets/icons/briefcase-green.svg', 20px, 20px);
+                                            &:before {
+                                                margin-right: 7px;
+                                                position: relative;
+                                                top: -2px;
+                                            }
+                                        }
+
+                                        > select {
+                                            margin-bottom: 15px;
+                                        }
+
+                                        > button {
+                                            background-color: $white;
+                                            border-color: $white;
+                                            box-shadow: none;
+                                            @include bold-18;
+                                            color: $sub-title;
+                                            display: flex;
+
+                                            @include icon-before('assets/icons/add-circle.svg', 20px, 20px);
+
+                                            &:before {
+                                                margin-right: 7px;
+                                                position: relative;
+                                                top: 2px;
+                                            }
+                                        }
+
+                                        > .medium-12 {
+                                            margin-bottom: 25px;
+                                            max-width: 75%;
+                                            @include break-max(mobile) {
+                                                max-width: 100%;
+                                            }
+                                        }
+
+                                        > .bold-14.next-step {
+                                            border-top: $input solid 1px;
+                                            padding-top: 25px;
+                                            display: flex;
+                                            @include icon-before('assets/icons/card.svg', 20px, 20px);
+                                            @include break-max(mobile) {
+                                                margin-top: 20px;
+                                            }
+                                            &:before {
+                                                margin-right: 5px;
+                                            }
+                                        }
+
+                                        @include tax-documents-modals();
+
+                                        select#customer-documents {
+                                            option {
+                                                display: none;
+                                            }
+
+                                            option.active {
+                                                display: block
+                                            }
+                                        }
+
+                                        #stored-tax-docs {
+                                            display: none;
+                                            margin-bottom: 15px;
+                                        }
+
+                                        #stored-tax-docs.active {
+                                            display: block;
+                                        }
+
+                                        select {
+                                            max-width: 332px;
+                                        }
+                                    }
+                                }
+
+                                #referrals-input {
+                                    padding-top: 25px;
+                                    margin-bottom: 25px;
+                                    border-top: $input solid 1px;
+
+                                    > button {
+                                        padding: 0;
+                                        display: flex;
+                                        margin-bottom: 10px;
+                                        border: none;
+                                        background-color: transparent;
+                                        color: $black;
+
+                                        svg {
+                                            width: 17px;
+                                            margin-right: 8px;
+                                        }
+                                    }
+
+                                    .form {
+                                        display: flex;
+                                        position: relative;
+
+                                        &:before {
+                                            content: '$';
+                                            @include medium-16;
+                                            color: $text;
+                                            display: block;
+                                            position: absolute;
+                                            top: 16px;
+                                            left: 20px;
+                                        }
+
+                                        input {
+                                            padding-left: 40px;
+                                            max-width: 215px;
+                                        }
+
+                                        button {
+                                            @include btn;
+                                            position: relative;
+                                            left: -10px;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .payment-option {
+                                margin: 0;
+                                //display: none;
+                                @include break-max(mobile) {
+                                    margin: 0;
+                                }
+
+                                .payment-option-title {
+                                    padding: 25px 15px 5px;
+                                    border-top: $input solid 1px;
+                                }
+
+                                .payment-option-content {
+                                    padding: 0;
+                                    display: block !important;
+                                    @include break-max(mobile) {
+                                        padding: 0 0 15px 0;
+                                    }
+
+                                    form {
+                                        @include flex;
+
+                                        > div {
+                                            padding: 0;
+                                            margin: 0;
+                                            flex-basis: auto;
+                                            max-width: 100%;
+                                            @include break-max(mobile) {
+                                                margin-bottom: 10px;
+                                            }
+
+                                            .field {
+                                                padding: 0;
+                                                margin: 0;
+                                                flex-basis: auto;
+                                                max-width: 100%;
+                                            }
+
+                                            input {
+                                                margin-right: 15px;
+                                                max-width: 332px;
+                                                width: 100%;
+                                                border-radius: 6px;
+                                            }
+
+                                            .primary {
+                                                @include break-max(mobile) {
+                                                    width: 100%;
+                                                }
+
+                                                button.action {
+                                                    @include btn;
+                                                    width: auto;
+                                                    min-width: auto;
+                                                    position: relative;
+                                                    left: -10px;
+                                                    @include break-max(mobile) {
+                                                        width: 100%;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        > div.actions-toolbar {
+                                            flex-basis: calc(100% - 250px);
+                                        }
+                                    }
+                                }
+
+                                form#loyalty-form {
+                                    .loyalty-points-label {
+                                        flex-basis: 100%;
+                                        max-width: 100%;
+                                        margin-bottom: 20px;
+
+                                        label {
+                                            display: block;
+                                        }
+                                    }
+                                }
+
+                                .action.action-toggle {
+                                    @include bold-14;
+                                    color: $black;
+                                    span {
+                                        @include bold-14;
+                                        color: $black;
+                                    }
+                                    &:after {
+                                        display: none;
+                                    }
+                                }
+                            }
+                            .payment-option.giftcard {
+                                display: none;
+                            }
+                            .payment-option.loyaltypoints {
+                                display: none; //todo: remove on launch
+
+                                .action.action-toggle {
+                                    @include icon-before('assets/icons/coins.svg', 20px, 20px);
+                                    &:before {
+                                        position: absolute;
+                                    }
+
+                                    span {
+                                        margin-left: 30px;
+                                    }
+                                }
+                            }
+                            .payment-option.discount-code {
+                                .action.action-toggle {
+                                    @include icon-before('assets/icons/pricetags.svg', 20px, 20px);
+                                    &:before {
+                                        position: absolute;
+                                    }
+
+                                    span {
+                                        margin-left: 30px;
+                                    }
+                                }
+                            }
+
+                            .cc-icon {
+                                padding-top: 2px;
+
+                                &-VI {
+                                    @include icon-before('assets/cc/VI.svg', 24px, 13px);
+                                }
+
+                                &-MC {
+                                    padding-top: 3px;
+                                    @include icon-before('assets/cc/MC.svg', 24px, 15px);
+                                }
+
+                                &-AE {
+                                    @include icon-before('assets/cc/AE.svg', 24px, 13px);
+                                }
+                            }
+                        }
+
+                        .choice.field {
+                            flex-basis: 100%;
+                            max-width: 100%;
+
+                            label {
+                                display: inline;
+                                @include medium-14;
+                                color: $sub-title;
+                            }
+                        }
+                    }
+
+                    li#payment.active {
+                        .step-title {
+                            @include icon-before('assets/icons/wallet-green.svg', 20px, 20px);
+                        }
+                    }
+
+                    li.active {
+                        border-bottom: $input solid 1px;
+                        height: auto;
+                        overflow: visible;
+
+                        .step-title {
+                            color: $dark-green;
+
+                            @include icon-after('assets/icons/chevron.svg', 20px, 20px);
+
+                            &:after {
+                                transform: rotate(90deg);
+                            }
+                        }
+
+                        .step-content {
+                            overflow: visible;
+                        }
+                    }
+                }
+
+                .form-login,
+                .form-shipping-address,
+                .methods-shipping {
+                    @include break-max(mobile) {
+                        background-color: $white;
+                        padding: 0;
+                        margin: 0;
+                        border: none;
+                    }
+                }
+            }
+
+            .opc-estimated-wrapper {
+                margin: 0;
+                background: transparent;
+                position: fixed;
+                width: 100vw;
+                left: 0;
+                top: 0;
+                z-index: 100;
+                border: none;
+
+                @include break-max(mobile) {
+                    background: $white;
+                    border-bottom: $grey solid 1px;
+                }
+            }
+        }
+
+        .modal-custom.opc-sidebar.opc-summary-wrapper.custom-slide {
+            box-shadow: $box-shadow;
+            border-radius: $border-radius;
+            margin: 0;
+            background-color: $white;
+            @include break-min(mobile) {
+                position: fixed;
+                right: 30px;
+                max-width: 470px;
+                top: 120px;
+                z-index: 100;
+                max-height: calc(100vh - 135px);
+                @include hide-scroll;
+            }
+            @include break-min(max) {
+                right: 130px;
+            }
+            @include break-max(mobile) {
+                border-radius: 0;
+            }
+
+            .opc-block-summary {
+                background-color: $white;
+                padding: 0;
+                @include hide-scroll;
+
+                .title {
+                    @include bold-18;
+                    padding: 30px;
+                    border-bottom: $input solid 1px;
+                    @include break-max(mobile) {
+                        padding: 15px;
+                    }
+                }
+
+                .block.items-in-cart {
+                    padding: 30px 40px;
+                    margin: 0;
+                    @include flex;
+                    @include break-max(mobile) {
+                        padding: 15px 20px;
+                    }
+
+                    .title {
+                        padding: 0;
+                        border: none;
+                        height: 20px;
+                        overflow: hidden;
+                        flex-basis: 100%;
+                        margin-bottom: 10px;
+
+                        strong {
+                            @include bold-14;
+                        }
+
+                        &:after {
+                            display: none;
+                        }
+                    }
+
+                    .content.minicart-items {
+                        display: block !important;
+                        flex-basis: 100%;
+                        max-width: 100%;
+
+                        .minicart-items-wrapper {
+                            margin: 0;
+                            padding: 0;
+
+                            ol.minicart-items {
+                                display: flex;
+
+                                li.product-item {
+                                    padding: 0;
+                                    border: none;
+
+                                    .product-image-container {
+                                        border-radius: 50%;
+                                        overflow: hidden;
+                                        width: 43px !important;
+                                        height: 43px !important;
+                                        border: $input solid 1px;
+                                    }
+
+                                    .product-item-details {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .actions-toolbar {
+                        display: none;
+                    }
+                }
+
+                #kip-order-summary {
+                    @include order-summary();
+                }
+
+                .data.table.table-totals {
+                    display: none;
+                }
+            }
+
+            .opc-block-shipping-information {
+                display: none;
+            }
+        }
+    }
+
+    .loader {
+        max-width: 50px !important;
+        overflow: hidden;
+
+        img {
+            max-width: 50px;
+        }
+    }
+
+    aside.modal-popup._inner-scroll {
+        @include break-max(mobile) {
+            left: 0;
+        }
+
+        .modal-inner-wrap {
+            width: 90vw;
+            max-width: 1301px;
+            @include break-max(mobile) {
+                width: 90vw;
+                height: 90vh;
+                transform: translate(-50%, -50%);
+                min-height: auto;
+                background-color: $white;
+            }
+
+            .modal-title {
+                @include bold-24;
+                color: $sub-title;
+                border-bottom: none;
+            }
+
+            .modal-content {
+                @include break-max(mobile) {
+                    padding: 12px;
+                }
+            }
+
+            #opc-new-shipping-address {
+                @include flex;
+                margin-bottom: 0;
+
+                @include checkout-shipping-steps;
+            }
+
+            .modal-footer {
+                display: flex;
+                justify-content: center;
+                border: none;
+
+                @include checkout-shipping-actions;
+            }
+        }
+    }
+
+    aside.modal-custom.opc-sidebar.opc-summary-wrapper.custom-slide {
+        .modal-inner-wrap {
+            @include break-max(mobile) {
+                background-color: $white;
+            }
+        }
+    }
+}
+
+body[class*="checkout-onepage-success"] {
+    #maincontent {
+        text-align: center;
+        position: relative;
+        padding-top: 75px !important;
+        @include break-max(mobile) {
+            padding-top: 40px !important;
+        }
+
+        .page-title-wrapper {
+            h1 {
+                margin-bottom: 25px;
+            }
+
+            .action.print {
+                float: none;
+                position: absolute;
+                top: 30px;
+                margin: 0;
+                right: 10px;
+            }
+        }
+
+        .column.main {
+            text-align: center;
+
+            .checkout-success {
+                max-width: 695px;
+                margin: auto;
+
+                > p {
+                    max-width: 400px;
+                    margin: 0 auto 10px auto;
+                }
+
+                .actions-toolbar {
+                    text-align: center;
+                    margin-top: 30px;
+
+                    .primary {
+                        margin: auto;
+                        width: 100%;
+                        text-align: center;
+                        float: none;
+
+                        a {
+                            margin: auto;
+                            float: none;
+                            @include btn-gradient;
+                            max-width: 250px;
+                            padding-top: 14px;
+                        }
+                    }
+                }
+
+                .share-experience {
+                    @include shadow-container(30px auto, auto, 695px);
+                    padding: 50px 100px;
+                    @include break-max(mobile) {
+                        padding: 50px 30px;
+                    }
+
+                    #share-experience {
+                        text-align: left;
+
+                        h3 {
+                            margin-bottom: 30px;
+                            color: $sub-title;
+                        }
+
+                        > p {
+                            color: $sub-title;
+                        }
+
+                        .stars {
+                            margin: 30px 0;
+                            display: flex;
+                            flex-direction: row-reverse;
+                            justify-content: flex-end;
+
+                            .rate-star {
+                                cursor: pointer;
+                                margin: 0 10px;
+                            }
+
+                            .rate-star:hover,
+                            .rate-star:hover ~ .rate-star,
+
+                            .rate-star.selected,
+                            .rate-star.selected ~ .rate-star,
+                            {
+                                svg  {
+                                    g {
+                                        path:last-child {
+                                            fill: $yellow;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .row {
+                        margin-top: 30px;
+
+                        a,button {
+                            margin: 10px;
+                            flex-basis: calc(50% - 20px);
+                            max-width: calc(50% - 20px);
+                        }
+                    }
+                }
+            }
+        }
+
+        .action.print {
+            display: none;
+        }
+    }
+}

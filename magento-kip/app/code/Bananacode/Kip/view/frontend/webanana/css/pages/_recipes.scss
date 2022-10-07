@@ -1,0 +1,115 @@
+body[class*="kip-recipes-index"] {
+    #maincontent {
+        position: relative;
+
+        .page-title-wrapper {
+            display: none;
+        }
+
+        #recipes-index {
+            .header {
+                position: relative;
+                border-radius: 0 0 $border-corner 0;
+                overflow: hidden;
+
+                img {
+                    height: 175px;
+                    width: 100%;
+                    @include break-max(mobile) {
+                        height: 80px;
+                    }
+                }
+
+                .content {
+                    width: 100%;
+                    position: absolute;
+                    z-index: 1;
+                    bottom: 40px;
+                    left: 120px;
+                    max-width: 500px;
+                    @include break-max(mobile) {
+                        left: 15px;
+                        max-width: 80%;
+                    }
+
+                    .title {
+
+                    }
+
+                    .description {
+
+                    }
+                }
+            }
+
+            .tabs {
+                @include tabs;
+                max-width: 100%;
+                margin: 35px auto;
+                @include break-max(mobile) {
+                    margin: 15px auto;
+                }
+
+                > button {
+                    max-width: 300px;
+                }
+
+                > div {
+                    margin-top: 40px;
+                    order: 2;
+                    flex-basis: 100%;
+                    max-width: 100%;
+                    justify-content: center;
+                    @include break-max(mobile) {
+                        margin-top: 20px;
+                    }
+
+                    a.category {
+                        @include bold-18;
+                        text-decoration: none;
+                        text-align: center;
+                        display: inline-block;
+                        padding: 25px;
+                        @include break-max(mobile) {
+                            flex-basis: 50%;
+                            max-width: 50%;
+                        }
+
+                        .img {
+                            overflow: hidden;
+                            box-shadow: 0px 2px 10px rgba(112, 112, 112, 1);
+                            width: 210px;
+                            height: 210px;
+                            border-radius: 50%;
+                            @include break-max(mobile) {
+                                width: 100%;
+                                height: auto;
+                            }
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+                        }
+
+                        span {
+                            margin-top: 10px;
+                            display: block;
+                        }
+
+                        &:hover {
+                            .img {
+                                border: $dark-green solid 1.5px;
+                            }
+                        }
+                    }
+                }
+
+                > div:not(.active) {
+                    display: none;
+                }
+            }
+        }
+    }
+}

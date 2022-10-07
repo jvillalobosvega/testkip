@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <kipping>
+                <active>1</active>
+                <title>Kipping</title>
+                <name>Kipping</name>
+                <shipping_cost>2.99</shipping_cost>
+                <model>Bananacode\Kipping\Model\Carrier\Kipping</model>
+                <allowed_methods>express,scheduled,scheduled_today,scheduled_add,scheduled_festivity</allowed_methods>
+            </kipping>
+        </carriers>
+    </default>
+</config>

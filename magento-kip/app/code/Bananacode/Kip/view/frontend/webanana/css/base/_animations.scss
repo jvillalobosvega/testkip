@@ -1,0 +1,16 @@
+/*------------------------------------*\
+         Animations Definition
+\*------------------------------------*/
+.anm {
+  .fade-up {
+    position: relative;
+    opacity: 0;
+    bottom: -100px;
+    @include transition2(opacity, 0.8s, ease, bottom, 0.8s, ease);
+  }
+
+  .fade-up.up {
+    opacity: 1;
+    bottom: 0;
+  }
+}

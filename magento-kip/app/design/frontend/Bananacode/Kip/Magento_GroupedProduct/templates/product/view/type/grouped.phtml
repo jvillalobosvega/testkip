@@ -1,0 +1,277 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * Grouped product data template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\BaseImage
+ * @var $block \Magento\GroupedProduct\Block\Product\View\Type\Grouped
+ */
+?>
+<?php $block->setPreconfiguredValue(); ?>
+<?php $_product = $block->getProduct(); ?>
+<?php $_associatedProducts = $block->getAssociatedProducts(); ?>
+<?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
+<?php $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); ?>
+<?php $_imageHelper = $objectManager->get('\Magento\Catalog\Helper\Image'); ?>
+<?php $_productListBlock = $block->getLayout()->createBlock('\Magento\Catalog\Block\Product\ListProduct'); ?>
+<style>
+    .cms-ing-block-mobile{
+        display: inline-flex; 
+        position: initial !important
+    }
+    @media only screen  and (max-width : 640px) {
+        .cms-ing-block-mobile{
+            display: block; 
+            position: initial !important
+        }
+    }
+</style>
+<?php
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+$ingredients = $kip->getIngredients($_product);
+?>
+
+<div class="print-only">
+    <h3>
+        Ingredientes
+    </h3>
+    <?= is_string($ingredients) ? $ingredients : '' ?>
+</div>
+
+<div class="product attribute overview">
+    <table style="border-collapse: collapse; width: 100%;" border="1">
+        <tbody>
+        <tr style="width: 100%;">
+            <?php $src = $_imageHelper
+                ->init($_product, 'product_page_image_large')
+                ->setImageFile($_product->getImage())
+                ->getUrl(); ?>
+            <td style="width: 50%;"><img src="<?= $src ?>" alt="<?= $_product->getName() ?>"></td>
+            <td style="width: 50%;">
+                <ul 
+                class="cms-ing-block-mobile"
+                >
+                    <?php $_portions = $_product->getCustomAttribute('recipe_portions') ?>
+                    <?php if ($_portions): ?>
+                        <li><?= $_portions->getValue() ?> personas</li>
+                    <?php endif; ?>
+                    <?php $_time = $_product->getCustomAttribute('recipe_time') ?>
+                    <?php if ($_time): ?>
+                        <li><?= $_time->getValue() ?> min.</li>
+                    <?php endif; ?>
+                    <?php $_ingN = $_product->getCustomAttribute('recipe_ingredients_total') ?>
+                    <?php if ($_ingN): ?>
+                        <li><strong><?= $_ingN->getValue() ?></strong> Ingredientes</li>
+                    <?php endif; ?>                                                            
+                </ul>                    
+
+
+                <div id="ingredients-container" class="tab active">
+                <!-- <h3>
+                    
+                </h3> -->
+                <ul>
+                <h3> <?= $block->escapeHtml('Ingredientes') ?></h3><br/>
+                    <?= is_string($ingredients) ? str_replace('||', '<br/>', $ingredients) : '' ?>
+                </ul>
+            </div>
+
+
+            </td>            
+            
+            
+        </tr>        
+        </tbody>        
+    </table>
+</div>
+
+<div class="row">
+    <div id="recipe-ingredients">
+        <div class="scroller">
+            <div class="tabs">
+                <!-- <button data-container="ingredients-container"
+                        class="active"> <?= $block->escapeHtml('Ingredientes') ?></button> -->
+                <button data-container="buy-container"> <?= $block->escapeHtml('Comprar') ?></button>
+            </div>
+            <!-- <div id="ingredients-container" class="tab active">
+                <h3>
+                    <?= $block->escapeHtml('Ingredientes') ?>
+                </h3>
+                <ul>
+                    <?= is_string($ingredients) ? str_replace('||', '<br/>', $ingredients) : '' ?>
+                </ul>
+            </div> -->
+            <div id="buy-container" class="tab active">
+                <h3>
+                    <?= $block->escapeHtml('Comprar ingredientes') ?>
+                </h3>
+                <div class="table-wrapper grouped">
+                    <table class="table data grouped"
+                           id="super-product-table"
+                           data-mage-init='{ "Magento_GroupedProduct/js/product-ids-resolver": {} }'>
+
+                        <?php if ($_hasAssociatedProducts) : ?>
+                            <tbody>
+                            <?php
+                            /**
+                             * @var \Magento\Catalog\Model\Product $_item
+                             */
+                            ?>
+                            <?php foreach ($_associatedProducts as $_item) : ?>
+                                <tr class="sub-product ingredient-id-<?= $_item->getId() ?>">
+                                    <?php if ($_product->isSaleable()) : ?>
+                                        <td data-th="<?= $block->escapeHtml(__('Qty')) ?>" class="col qty">
+                                            <?php if ($_item->isSaleable() && $_item->getPrice() > 0) : ?>
+                                                <div class="control qty">
+                                                    <div class="qty-controls">
+                                                        <span class="minus"></span>
+                                                        <input type="number"
+                                                               name="super_group[<?= $block->escapeHtmlAttr($_item->getId()) ?>]"
+                                                               data-selector="super_group[<?= $block->escapeHtmlAttr($_item->getId()) ?>]"
+                                                               value="<?= $block->escapeHtmlAttr($_item->getQty() * 1) ?>"
+                                                               data-min="<?= $block->escapeHtmlAttr($_item->getQty() * 1) ?>"
+                                                               title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                                                               class="input-text qty"
+                                                               data-validate="{'validate-grouped-qty':'#super-product-table'}"
+                                                               data-errors-message-box="#validation-message-box"/>
+                                                        <span class="add"></span>
+                                                    </div>
+                                                </div>
+                                            <?php else : ?>
+                                                <div class="stock unavailable"
+                                                     title="<?= $block->escapeHtmlAttr(__('Availability')) ?>">
+                                                    <span><?= $block->escapeHtml(__('Out of stock')) ?></span>
+                                                </div>
+                                            <?php endif; ?>
+                                        </td>
+                                    <?php endif; ?>
+
+                                    <td data-th="<?= $block->escapeHtml(__('Product Image')) ?>" class="col img">
+                                        <img src="<?= $kip->getProductImageHtml(null, $_item, true) ?>" alt="ingredient-thumbnail">
+                                    </td>
+
+                                    <td data-th="<?= $block->escapeHtml(__('Product Name')) ?>" class="col item">
+                                        <div class="product-item-name">
+                                            <?= $block->escapeHtml($_item->getName()) ?>
+                                        </div>
+
+                                        <div style="display: none">
+                                            <?php $presentacion = $kip->getPresentacion($_item) ?>
+                                            <?php if ($presentacion) :?>
+                                                <?= /* @noEscape */ $presentacion ?>
+                                            <?php endif ?>
+                                        </div>
+
+                                        <?php if ($block->getCanShowProductPrice($_product)) : ?>
+                                            <?php if ($block->getCanShowProductPrice($_item)) : ?>
+                                                <?= /* @noEscape */$block->getProductPrice($_item) ?>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <td class="col atc">
+                                        <?php if ($_item->isSaleable() && $_item->getPrice() > 0) : ?>
+                                            <?php $postParams = $_productListBlock->getAddToCartPostParams($_item); ?>
+                                            <div class="ingredient-form">
+                                                <input type="hidden"
+                                                       name="action"
+                                                       value="<?= $block->escapeUrl($postParams['action']) ?>"
+                                                />
+
+                                                <input type="hidden"
+                                                       name="papa"
+                                                       value='<?= $kip->getAtcPapa($_item, $_item->getQty() * 1); ?>'
+                                                />
+
+                                                <input type="hidden"
+                                                       name="product"
+                                                       value="<?= $postParams['data']['product'] ?>"/>
+
+                                                <input type="hidden"
+                                                       name="uenc"
+                                                       value="<?= $postParams['data'][Action::PARAM_NAME_URL_ENCODED] ?>"/>
+
+                                                <button title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>"
+                                                        class="action tocart primary">
+                                                </button>
+                                            </div>
+                                        <?php else : ?>
+                                            <button data-sku="<?= $_item->getSku() ?>"
+                                                    title="<?= $block->escapeHtml(__('Add to Cart')) ?>"
+                                                    disabled
+                                                    class="action tocart primary out">
+                                            </button>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+
+                                <?php if ($block->getCanShowProductPrice($_product)
+                                    && $block->getCanShowProductPrice($_item)
+                                    && trim($block->getProductPriceHtml(
+                                        $_item,
+                                        \Magento\Catalog\Pricing\Price\TierPrice::PRICE_CODE
+                                    ))) : ?>
+                                    <tr class="row-tier-price">
+                                        <td colspan="2">
+                                            <?= $block->getProductPriceHtml(
+                                                $_item,
+                                                \Magento\Catalog\Pricing\Price\TierPrice::PRICE_CODE
+                                            ) ?>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+
+                            <?php endforeach; ?>
+                            </tbody>
+                        <?php else : ?>
+                            <tbody>
+                            <tr>
+                                <td class="unavailable"
+                                    colspan="<?php if ($_product->isSaleable()) : ?>4<?php else : ?>3<?php endif; ?>">
+                                    <?= $block->escapeHtml(__('No options of this product are available.')) ?>
+                                </td>
+                            </tr>
+                            </tbody>
+                        <?php endif; ?>
+                    </table>
+                </div>
+                <div class="ingredients-footer">
+                    <button class="primary-btn" id="order-recipe">
+                        <?= $block->escapeHtml('Pedir Ingredientes') ?>
+                    </button>
+                    <p class="medium-12">
+                        <?= $block->escapeHtml('Puedes pedir uno o todos los ingredientes de esta receta y se agregarán a tu carrito.') ?>
+                    </p>
+                </div>
+                <div id="validation-message-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="recipe-instructions">
+        <h3>Cómo preparar esta receta</h3>
+        <ul>
+            <?php $_steps = $_product->getCustomAttribute('recipe_steps') ?>
+            <?php if ($_steps): ?>
+                <?php
+                $_steps = explode('||', $_steps->getValue());
+                foreach ($_steps as $i => $step) {
+                    if (!empty($step)) {
+                        echo '<li><strong>Paso ' . ($i + 1) . ':</strong> ' . $step . '</li>';
+                    }
+                }
+                ?>
+            <?php endif; ?>
+        </ul>
+    </div>
+</div>

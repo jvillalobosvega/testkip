@@ -1,0 +1,43 @@
+<?php
+/**
+ * Copyright © 2021 Bananacode. All rights reserved.
+ */
+
+/**
+ * @var \Bananacode\Kip\Block\Main $block
+ */
+
+$currentLevel = $block->getCustomerLoyaltyLevel();
+
+?>
+
+<div id="logged-header" class="row">
+    <div class="col col-lg-6 col-md-half col-sm-6 row">
+        <div class="col col-lg-4 col-md-3 col-sm-3 avatar">
+            <form>
+                <input hidden name="token" value="<?= $block->getCustomerToken() ?>">
+                <input hidden name="id" value="<?= $block->getCustomerId() ?>">
+
+                <span class="<?= $block->getCustomerAvatar() ? '' : 'no-avatar' ?>"></span>
+                <img src="<?= $block->getCustomerAvatar() ?>" class="<?= $block->getCustomerAvatar() ? '' : 'no-avatar' ?>" alt="customer-avatar">
+                <input type="file" name="avatar">
+
+                <span class="loyalty-icon <?= $currentLevel ?>"></span>
+            </form>
+            <span class="loyalty-tag <?= $currentLevel ?>">
+                <?= $currentLevel ?>
+            </span>
+        </div>
+        <div class="col col-lg-8 col-md-6 col-sm-3">
+            <h2 class="bold-24">
+                <?= $block->escapeHtml(__('Hola %1,', $block->getCustomerName())) ?>
+            </h2>
+            <p class="medium-14">
+                <?= $block->escapeHtml(__('Aquí puedes configurar tu cuenta.')) ?>
+            </p>
+        </div>
+    </div>
+    <div class="col col-lg-6 col-md-half col-sm-6 logout">
+        <a href="/customer/account/logout" class="logout"><?= $block->escapeHtml(__('Cerrar Sesión')) ?></a>
+    </div>
+</div>

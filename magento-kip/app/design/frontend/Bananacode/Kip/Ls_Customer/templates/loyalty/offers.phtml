@@ -1,0 +1,162 @@
+<?php
+/** @var Dashboard $this */
+
+use Ls\Customer\Block\Account\Dashboard;
+
+$ls = $block->getLayout()->createBlock('Ls\Customer\Block\Account\Dashboard');
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+
+/** @var $kipBlocks \Bananacode\Kip\Block\CustomBlocks */
+$kipBlocks = $block->getLayout()->createBlock('Bananacode\Kip\Block\CustomBlocks');
+
+/** @var $totalsLs \Ls\Customer\Block\Order\Totals */
+$totalsLs = $block->getLayout()->createBlock('Ls\Customer\Block\Order\Totals');
+
+?>
+
+<div class="breadcrumbs">
+    <ul class="items">
+        <li>
+            <a href="/customer/account">
+                <?= $block->escapeHtmlAttr(__('Configuración de cuenta')) ?>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <?= $block->escapeHtmlAttr(__('Plan de fidelidad')) ?>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<?php if ($account = $ls->getMembersInfo()) : ?>
+    <?php $scheme = $account->getScheme() ?>
+    <?php $currentLevel = $kip->getCustomerLoyaltyLevel(); ?>
+    <?php $points = floatval($account->getPointBalance()); ?>
+    <?php $nextLevelPercentage = (100 - (100  * ($points / ($scheme->getPointsNeeded() + $points)))) ?>
+
+    <div class="block block-club-info">
+        <h1 class="bold-24">
+            <?= $block->escapeHtmlAttr(__('Plan de Fidelidad')) ?>
+        </h1>
+        <div class="loyalty-data">
+            <div class="row top">
+                <div class="col col-sm-6 col-md-3 col-lg-3 level-img <?= $currentLevel ?>">
+                    <span class="icon">
+
+                    </span>
+                </div>
+                <div class="col col-sm-6 col-md-6 col-lg-9">
+                    <div>
+                        <span class="bold-14 level"><?= $scheme->getDescription() ?></span>
+                        <span class="bold-18 points"><?php echo $points; ?> <?= $block->escapeHtmlAttr(__('pts')) ?> ($<?=$totalsLs->convertLoyaltyPointsToAmount($points)?>)</span>
+                    </div>
+                    <div class="progress">
+                        <p class="bar">
+                            <span class="left"></span>
+                            <span class="percentage" style="left: -<?= $nextLevelPercentage ?>%;"></span>
+                        </p>
+                        <p class="medium-12">
+                            <?= __('Necesitas %1 puntos para pasar al nivel %2.', $scheme->getPointsNeeded(), $scheme->getNextScheme()->getDescription()); ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row bottom">
+                <div class="col col-sm-2 col-md-3 col-lg-4">
+                    <p class="bold-12">
+                        <?= $scheme->getDescription(); ?>
+                    </p>
+                    <p class="medium-12">
+                        <?= $scheme->getPointsNeeded(); ?> <?= $block->escapeHtmlAttr(__('puntos')) ?>
+                    </p>
+                </div>
+
+                <?php $nextScheme = $scheme->getNextScheme() ?>
+                <?php while ($nextScheme) : ?>
+                    <div class="col col-sm-2 col-md-3 col-lg-4">
+                        <p class="bold-12">
+                            <?= $nextScheme->getDescription(); ?>
+                        </p>
+                        <p class="medium-12">
+                            <?= $nextScheme->getPointsNeeded(); ?> <?= $block->escapeHtmlAttr(__('puntos')) ?>
+                        </p>
+                    </div>
+
+                    <?php $nextScheme = $nextScheme->getNextScheme() ?>
+                <?php endwhile; ?>
+
+                <div class="bars col col-sm-6 col-md-9 col-lg-12">
+                    <span class="checkmark left"></span>
+                    <span class="checkmark center"></span>
+                    <span class="checkmark right"></span>
+                    <p class="bar">
+                        <span class="left"></span>
+                        <span class="percentage" style="left: -<?= $nextLevelPercentage ?>%;"></span>
+                    </p>
+                    <?php $nextScheme = $scheme->getNextScheme() ?>
+                    <?php while ($nextScheme) : ?>
+                        <p class="bar">
+                            <span class="left"></span>
+                            <span class="percentage" style="left: -100%;"></span>
+                        </p>
+
+                        <?php $nextScheme = $nextScheme->getNextScheme() ?>
+                    <?php endwhile; ?>
+                </div>
+            </div>
+        </div>
+
+        <?= $kipBlocks->getHtmlBlock('loyalty') ?>
+
+        <div class="report-issue">
+            <div>
+                <button data-m="report-error" class="open-modal info-icon"><?= $block->escapeHtml(__('Reportar falla en mi plan')) ?></button>
+                <p class="medium-12">¿Ha fallado el plan de fidelidad?
+                    Puedes reportarlo y lo resolveremos con prontitud.</p>
+            </div>
+        </div>
+
+        <!-- Report Error Modal -->
+        <div id="report-error" class="modal-container">
+            <div class="modal">
+                <div class="header">
+                    <div class="header-img"></div>
+                    <button class="close-modal"></button>
+                </div>
+
+                <div class="content">
+                    <h1 class="bold-24"><?= $block->escapeHtml(__('Reportar falla en plan de fidelidad')) ?></h1>
+                    <p class="medium-16"><?= (__('¿Has tenido problemas con tu plan de fidelidad?')) ?></p>
+                    <p class="medium-14"><?= (__('Reporta las fallas que has notado en Kip.')) ?></p>
+                    <form id="askproduct-form" method="POST" action="/contact/index/post/">
+                        <input hidden name="name" value="<?= $block->getCustomerName() ?>">
+                        <input hidden name="email" value="<?= $block->getCustomerEmail() ?>">
+                        <input hidden name="telephone" value="<?= $block->getCustomerTelephone() ?>">
+                        <?= $block->getBlockHtml('formkey') ?>
+                        <textarea class="medium-14" name="comment" placeholder="Escribe aquí..."></textarea>
+                    </form>
+                    <div class="row">
+                        <button class="secondary-btn close-modal">
+                            <?= $block->escapeHtml(__('Cancelar')) ?>
+                        </button>
+                        <button class="primary-btn" id="report">
+                            <?= $block->escapeHtml(__('Reportar')) ?>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content content-success hide">
+                    <h1 class="bold-24"><?= $block->escapeHtml(__('¡Gracias por tu reporte!')) ?></h1>
+                    <p class="medium-16"><?= (__('Lamentamos lo sucedido.')) ?></p>
+                    <p class="medium-14"><?= (__('Estaremos trabajando para que no vuelvas a experimentar esta falla en Kip.')) ?></p>
+                    <div class="row">
+                        <button class="secondary-btn close-modal">
+                            <?= $block->escapeHtml(__('De acuerdo')) ?>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>

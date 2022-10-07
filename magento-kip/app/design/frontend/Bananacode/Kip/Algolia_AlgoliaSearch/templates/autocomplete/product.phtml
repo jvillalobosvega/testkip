@@ -1,0 +1,100 @@
+<?php
+
+/** @var \Algolia\AlgoliaSearch\Block\Algolia $block */
+$priceKey = $block->getPriceKey();
+
+$origFormatedVar = 'price' . $priceKey . '_original_formated';
+$tierFormatedVar = 'price' . $priceKey . '_tier_formated'
+
+?>
+
+<!-- Product hit template -->
+<script type="text/template" id="autocomplete_products_template">
+    <div class="algoliasearch-autocomplete-hit">
+        <a {{^__queryID}} href="{{url}}" {{/__queryID}}
+           {{#__queryID}} href="{{urlForInsights}}" {{/__queryID}}
+        >
+            {{#thumbnail_url}}
+                <div class="thumb">
+                    {{{kip_image}}}
+                </div>
+            {{/thumbnail_url}}
+
+            <div class="info">
+                {{{_highlightResult.name.value}}}
+
+                <div class="algoliasearch-autocomplete-category">
+                    {{#categories_without_path}}
+                    <?php echo $block->escapeHtml(__('in')); ?> {{{categories_without_path}}}
+                    {{/categories_without_path}}
+
+                    {{#_highlightResult.color}}
+                    {{#_highlightResult.color.value}}
+                    <span>
+                            {{#categories_without_path}} | {{/categories_without_path}}
+                            Color: {{{_highlightResult.color.value}}}
+                        </span>
+                    {{/_highlightResult.color.value}}
+                    {{/_highlightResult.color}}
+                </div>
+
+                <div class="algoliasearch-autocomplete-price" id="algoliasearch-autocomplete-price-{{objectID}}">
+                            <span class="after_special
+                                        {{#<?php echo $block->escapeHtml($origFormatedVar); ?>}}
+                                            promotion
+                                        {{/<?php echo $block->escapeHtml($origFormatedVar); ?>}}">
+                                        {{price<?php echo $block->escapeHtml($priceKey); ?>_formated}}
+                                        {{{kip_um}}}
+                            </span>
+
+                    {{#<?php echo $block->escapeHtml($origFormatedVar); ?>}}
+                            <span class="before_special">
+                                {{<?php echo $block->escapeHtml($origFormatedVar); ?>}}
+                                {{{kip_um}}}
+                            </span>
+                    {{/<?php echo $block->escapeHtml($origFormatedVar); ?>}}
+                    {{#<?php echo $block->escapeHtml($tierFormatedVar); ?>}}
+                            <span class="tier_price">
+                                <?php echo __('As low as') ?>
+                                <span class="tier_value">{{<?php echo $block->escapeHtml($tierFormatedVar); ?>}}</span>
+                                {{{kip_um}}}
+                            </span>
+                    {{/<?php echo $block->escapeHtml($tierFormatedVar); ?>}}
+                </div>
+            </div>
+        </a>
+
+        <form class="atc kip-autocomplete-atc kip-autocomplete-atc-{{type_id}}" data-role="tocart-form" action="{{ addToCart.action }}" method="post">
+            <div class="atc hover-atc">
+                <input class="atc" type="hidden"
+                       name="product"
+                       value="{{objectID}}">
+                <button class="atc action tocart primary">
+                    <span class="atc"><?= (__('Add to Cart')) ?></span>
+                </button>
+                <div class="atc qty-controls">
+                    <span class="atc minus">
+                        <svg class="atc" width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use class="atc" xlink:href="#img-minus"></use></svg>
+                    </span>
+                    <input name="qty"
+                           class="atc"
+                           id="qty"
+                           type="number"
+                           value="{{kip_min_qty}}"
+                           data-min="{{kip_min_qty}}"
+                    >
+                    <span class="atc add">
+                       <svg class="atc" width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use class="atc" xlink:href="#img-add"></use></svg>
+                    </span>
+                </div>
+            </div>
+            <div class="goto-options">
+                <a href="{{url}}" class="action togo primary">
+                    <span>
+                        Elegir
+                    </span>
+                </a>
+            </div>
+        </form>
+    </div>
+</script>

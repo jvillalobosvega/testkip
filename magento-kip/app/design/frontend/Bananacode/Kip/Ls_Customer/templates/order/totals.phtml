@@ -1,0 +1,77 @@
+<?php
+
+// @codingStandardsIgnoreFile
+
+/**
+ * @var $block Totals
+ */
+
+use \Ls\Customer\Block\Order\Totals;
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+$_order = $block->getOrder();
+$omniReceipt = null;
+if ($_omniOrder = $kip->getLsOrderFromLsDocumentId($_order->getId())) {
+    $omniReceipt = $kip->getLsReceiptFromLsDocumentId($_omniOrder['receipt_id']);
+} else {
+    $omniReceipt = $kip->getLsReceiptFromLsDocumentId($_order->getId());
+}
+
+?>
+
+<tr class="subtotal">
+    <th colspan="4" class="mark" scope="row">
+        <?= __($block->escapeHtml('Subtotal')) ?>
+    </th>
+    <td class="amount" data-th="<?= $block->escapeHtml('Subtotal') ?>">
+        <?php if ($omniReceipt) : ?>
+            <span class="price"><?= /* @noEscape */ $omniReceipt['total_net_amount'] ?></span>
+        <?php else : ?>
+            <span class="price"><?= $block->getFormattedPrice($block->getSubtotal()); ?></span>
+        <?php endif?>
+    </td>
+</tr>
+
+<tr class="discount">
+    <th colspan="4" class="mark" scope="row">
+        <?= __($block->escapeHtml('Descuento')) ?>
+    </th>
+    <td class="amount" data-th="<?= $block->escapeHtml('Descuento') ?>">
+        <?php if ($omniReceipt) : ?>
+            <span class="price">-<?= /* @noEscape */ $omniReceipt['total_discount'] ?></span>
+        <?php else : ?>
+            <span class="price">-<?= $block->getFormattedPrice($block->getTotalDiscount()); ?></span>
+        <?php endif?>
+    </td>
+</tr>
+
+<tr class="shipping">
+    <th colspan="4" class="mark" scope="row">
+        <?= __($block->escapeHtml('Envío')) ?>
+    </th>
+    <td class="amount" data-th="<?= $block->escapeHtml('Envío') ?>">
+        <?php if ($omniReceipt) : ?>
+            <span class="price"><?= /* @noEscape */ $omniReceipt['total_shipping'] ?></span>
+        <?php else : ?>
+            <span class="price"><?= $block->getFormattedPrice($block->getShipmentChargeLineFee()); ?></span>
+        <?php endif?>
+    </td>
+</tr>
+
+<tr class="grand_total">
+    <th colspan="4" class="mark" scope="row">
+        <strong><?= __($block->escapeHtml('Total')) ?> </strong>
+    </th>
+    <td class="amount" data-th="<?= $block->escapeHtml('Total') ?>">
+        <strong>
+            <?php if ($omniReceipt) : ?>
+                <span class="price"><?= /* @noEscape */ $omniReceipt['total_amount'] ?></span>
+            <?php else : ?>
+                <span class="price"><?= $block->getFormattedPrice($block->getTotalAmount()); ?></span>
+            <?php endif?>
+        </strong>
+    </td>
+</tr>

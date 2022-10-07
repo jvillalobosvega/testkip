@@ -1,0 +1,125 @@
+<?php
+
+namespace Bananacode\Kipping\Observer;
+
+use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\ObserverInterface;
+
+/**
+ * Class StoreAddressLatLng
+ * @package Bananacode\Kipping\Observer
+ */
+class StoreAddressLatLng implements ObserverInterface
+{
+    /**
+     * @var \Magento\Framework\Webapi\ServiceOutputProcessor
+     */
+    protected $_serviceOutputProcessor;
+
+    /**
+     * @var \Magento\Checkout\Api\Data\ShippingInformationInterface
+     */
+    protected $_shippingInformation;
+
+    /**
+     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     */
+    protected $_orderRepository;
+
+    /**
+     * @var \Magento\Customer\Api\AddressRepositoryInterface
+     */
+    protected $_addressRepository;
+
+    /**
+     * @var \Magento\Sales\Model\ResourceModel\Order\Address
+     */
+    protected $_orderAddressResource;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    private $_checkoutSession;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Status\HistoryFactory
+     */
+    protected $_orderHistoryFactory;
+
+    /**
+     * StoreAddressLatLng constructor.
+     * @param \Magento\Framework\Webapi\ServiceOutputProcessor $serviceOutputProcessor
+     * @param \Magento\Checkout\Api\Data\ShippingInformationInterface $_shippingInformation
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+     * @param \Magento\Sales\Model\ResourceModel\Order\Address $orderAddressResource
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Sales\Model\Order\Status\HistoryFactory $orderHistoryFactory
+     */
+    public function __construct(
+        \Magento\Framework\Webapi\ServiceOutputProcessor $serviceOutputProcessor,
+        \Magento\Checkout\Api\Data\ShippingInformationInterface $_shippingInformation,
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+        \Magento\Sales\Model\ResourceModel\Order\Address $orderAddressResource,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Sales\Model\Order\Status\HistoryFactory $orderHistoryFactory
+    ) {
+        $this->_serviceOutputProcessor = $serviceOutputProcessor;
+        $this->_shippingInformation = $_shippingInformation;
+        $this->_orderRepository = $orderRepository;
+        $this->_addressRepository = $addressRepository;
+        $this->_orderAddressResource = $orderAddressResource;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_orderHistoryFactory = $orderHistoryFactory;
+    }
+
+    /**
+     * @param Observer $observer
+     * @throws \Exception
+     */
+    public function execute(Observer $observer)
+    {
+        /**
+         * @var \Magento\Sales\Model\Order $order
+         */
+        $order = $observer->getEvent()->getOrder();
+
+        /**
+         * @var \Magento\Quote\Model\Quote $quote
+         */
+        $quote = $observer->getEvent()->getQuote();
+
+        if ($order && $quote) {
+            if (strpos($order->getShippingMethod(), 'kipping') !== false) {
+                $quoteShippingAddress = $quote->getShippingAddress();
+                $latitude = $quoteShippingAddress->getAddressLatitude();
+                $longitude = $quoteShippingAddress->getAddressLongitude();
+
+                try {
+                    //Save current order lat,lng (backup)
+                    $order->setAddressLatitude($latitude);
+                    $order->setAddressLongitude($longitude);
+                    $this->_orderRepository->save($order);
+
+                    //If order != virtual
+                    if ($shippingAddress = $order->getShippingAddress()) {
+                        //Save order address lat,lng
+                        $shippingAddress->setAddressLatitude($latitude);
+                        $shippingAddress->setAddressLongitude($longitude);
+                        $this->_orderAddressResource->save($shippingAddress);
+
+                        //Update/Save customer address lat,lng
+                        if ($shippingAddress->getCustomerAddressId()) {
+                            $customerAddress = $this->_addressRepository->getById($shippingAddress->getCustomerAddressId());
+                            $customerAddress->setCustomAttribute('address_latitude', $latitude);
+                            $customerAddress->setCustomAttribute('address_longitude', $longitude);
+                            $this->_addressRepository->save($customerAddress);
+                        }
+                    }
+                } catch (\Exception $e) {
+                }
+            }
+        }
+    }
+}

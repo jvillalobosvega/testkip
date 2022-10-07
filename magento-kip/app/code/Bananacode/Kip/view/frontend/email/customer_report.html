@@ -1,0 +1,14 @@
+<!--@subject {{trans "%subject" subject=$subject}}  @-->
+
+{{template config_path="design/email/header_template"}}
+
+<div>
+    <p>
+        {{trans 'Hola %name,' name=$name }}
+    </p>
+    <p>
+        {{trans 'Adjunto a este correo el reporte de %type' type=$type }}
+    </p
+</div>
+
+{{template config_path="design/email/footer_template"}}

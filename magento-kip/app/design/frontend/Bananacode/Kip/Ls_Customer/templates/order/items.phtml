@@ -1,0 +1,105 @@
+<?php
+
+// @codingStandardsIgnoreFile
+
+/** @var Items $block */
+$order = $block->getMagOrder();
+
+use \Ls\Customer\Block\Order\Items;
+
+
+/**
+ * @var \Ls\Customer\Block\Order\Info $info
+ */
+$info = $block->getLayout()->createBlock('\Ls\Customer\Block\Order\Info');
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+?>
+
+<div class="order-details row">
+    <div class="col col-sm-6 col-md-half col-lg-6 ">
+        <div class="order-id">
+            <strong>Pedido </strong>
+            <span>#<?= /* @escapeNotVerified */ $info->getOrder()->getCustomerOrderNo() ?></span>
+        </div>
+        <div class="order-date">
+            <?= /* @escapeNotVerified */
+            __(
+                '<span class="label">Order Date:</span> %1',
+                '<date>' . $info->formatDate(
+                    $info->getOrder()->getDocumentRegTime(),
+                    IntlDateFormatter::LONG
+                ) . '</date>'
+            ) ?>
+        </div>
+    </div>
+    <div class="col col-sm-6 col-md-half col-lg-6 order-status">
+        <strong>Estado: </strong>
+        <span class="<?= strtolower($info->getOrder()->getStatus()) ?>">
+            <?= /* @escapeNotVerified */ __($info->getOrder()->getStatus()) ?>
+        </span>
+    </div>
+</div>
+
+<div class="table-wrapper order-items">
+    <table class="data table table-order-items" id="my-orders-table" summary="<?= /* @escapeNotVerified */
+    __('Items Ordered') ?>">
+        <caption class="table-caption"><?= /* @escapeNotVerified */
+            __('Items Ordered') ?></caption>
+        <thead>
+        <tr>
+            <th class="col img"></th>
+            <th class="col name"></th>
+            <?php if (!$block->getShipmentOption()) { ?>
+                <th class="col price"></th>
+            <?php } ?>
+                <th class="col qty"></th>
+            <?php if (!$block->getShipmentOption()) { ?>
+                <th class="col subtotal"></th>
+            <?php } ?>
+        </tr>
+        </thead>
+        <?php $items = $block->getItems(); ?>
+        <?php $giftMessage = '' ?>
+        <?php foreach ($items as $item):
+            ?>
+            
+            <tbody>
+                <?php
+                if (get_class($item) === 'Ls\Omni\Client\Ecommerce\Entity\SalesEntryLine') {
+                    $sku = $item->getItemId() . '-' . $item->getVariantId();
+                    $qty = $item->getQuantity();
+                } else {
+                    $sku = $item->getSku();
+                    $qty = $item->getQtyOrdered();
+                }
+                $product = $kip->getProductBySku($sku);
+                ?>
+                <?php if ($product) { ?>
+                    <input hidden
+                           class="atc-reorder"
+                           data-name="<?= $product->getName() ?>"
+                           data-qty="<?= $qty ?>"
+                           data-min="<?= $kip->getMinSale($product) ?>"
+                           data-papa='<?= $kip->getAtcPapa($product, $qty * 1); ?>'
+                           data-price='<?= $product->getPrice() ?>'
+                           value="<?= $product->getId() ?>"
+                           data-presentacion="<?= $kip->getPresentacion($product, true) ?>"
+                    />
+                <?php } ?>
+                <?php echo $block->getCustomItemRenderer($item); ?>
+                
+            </tbody>
+        <?php endforeach; ?>
+        <tfoot>
+        <?= $block->getChildHtml('custom_order_totals') ?>
+        </tfoot>
+    </table>
+</div>
+
+<button id="repeat-order-kip" class="primary-btn">
+    <span>Repetir pedido.</span>
+</button>

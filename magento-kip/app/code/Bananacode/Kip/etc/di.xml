@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Web Apis -->
+    <preference for="Bananacode\Kip\Api\KipApiInterface"
+                type="Bananacode\Kip\Model\KipApi" />
+
+    <preference for="Bananacode\Kip\Api\MapInterface"
+                type="Bananacode\Kip\Model\Map" />
+
+    <preference for="Bananacode\Kip\Api\ReportsInterface"
+                type="Bananacode\Kip\Model\Reports" />
+
+    <!-- Category Icon Image -->
+    <type name="Bananacode\Kip\Controller\Adminhtml\Category\Image\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magento\Catalog\CategoryImageUpload</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Magento\Catalog\CategoryImageUpload" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">catalog/tmp/category</argument>
+            <argument name="basePath" xsi:type="string">catalog/category</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+                <item name="svg" xsi:type="string">svg</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <preference for="Magento\Catalog\Model\Category\DataProvider" type="Bananacode\Kip\Model\Category\DataProvider" />
+
+    <type name="Magento\Cms\Model\Wysiwyg\Images\Storage">
+        <arguments>
+            <argument name="extensions" xsi:type="array">
+                <item name="allowed" xsi:type="array">
+                    <item name="svg" xsi:type="string">text/html</item>
+                </item>
+                <item name="image_allowed" xsi:type="array">
+                    <item name="svg" xsi:type="string">text/html</item>
+                </item>
+                <item name="media_allowed" xsi:type="array">
+                    <item name="svg" xsi:type="string">text/html</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- On wishlist add reload page -->
+    <preference for="Magento\Wishlist\Controller\Index\Add" type="Bananacode\Kip\Controller\Index\WishlistAdd" />
+
+    <!-- Custom Layered Navigation -->
+    <preference for="Magento\Catalog\Model\Layer\ContextInterface" type="Magento\Catalog\Model\Layer\Context" />
+    <preference for="Magento\Catalog\Model\Layer\ItemCollectionProviderInterface" type="Magento\Catalog\Model\Layer\Category\ItemCollectionProvider" />
+    <preference for="Magento\Catalog\Model\Layer\StateKeyInterface" type="Magento\Catalog\Model\Layer\Category\StateKey" />
+    <preference for="Magento\Catalog\Model\Layer\CollectionFilterInterface" type="Magento\Catalog\Model\Layer\Category\CollectionFilter" />
+    <preference for="Magento\Catalog\Model\Layer\FilterableAttributeListInterface" type="Magento\Catalog\Model\Layer\Category\FilterableAttributeList" />
+    <preference for="Magento\Catalog\Model\Layer\AvailabilityFlagInterface" type="Magento\Catalog\Model\Layer\Category\AvailabilityFlag" />
+    <preference for="Magento\Catalog\Model\ResourceModel\Layer\Filter\Price" type="Bananacode\Kip\Model\ResourceModel\Layer\Filter\Price" />
+
+    <!-- Cart items custom data -->
+    <preference for="Magento\Checkout\CustomerData\DefaultItem"
+                type="Bananacode\Kip\CustomerData\DefaultItem" />
+
+    <!-- Redirect Signup -->
+    <type name="Magento\Customer\Controller\Account\CreatePost">
+        <plugin name="kip_redirect_signup" type="\Bananacode\Kip\Plugin\CreatePost" sortOrder="1" />
+    </type>
+    <type name="Magento\Customer\Controller\Account\LoginPost">
+        <plugin name="kip_redirect_login" type="\Bananacode\Kip\Plugin\LoginPost" sortOrder="1" />
+    </type>
+
+    <!-- Offline Payment -->
+    <type name="Magento\Payment\Model\Method\AbstractMethod">
+        <plugin name="testValidate"
+                type="Bananacode\Kip\Plugin\Model\PaymentMethod\Available" sortOrder="1" disabled="false" />
+    </type>
+
+    <!-- Algolia Custom Data -->
+    <type name="\Algolia\AlgoliaSearch\Helper\Entity\ProductHelper">
+        <plugin name="kip_algolia_product" type="\Bananacode\Kip\Plugin\Algolia\ProductHelper" sortOrder="1" />
+    </type>
+
+    <!-- Widgets with images -->
+    <type name="Magento\Widget\Model\Widget">
+        <plugin name="widget_images" type="Bananacode\Kip\Model\Widget" sortOrder="1" disabled="false"/>
+    </type>
+
+    <!-- Attach files to email -->
+    <preference for="Magento\Framework\Mail\Template\TransportBuilder"
+                type="Bananacode\Kip\Model\Mail\Template\TransportBuilder" />
+</config>

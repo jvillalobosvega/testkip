@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add
+            module="Bananacode_Referral"
+            title="Referral"
+            id="Bananacode_Referral::referral"
+            resource="Bananacode_Referral::config"
+            sortOrder="40"
+        />
+        <add
+            parent="Bananacode_Referral::referral"
+            module="Bananacode_Referral"
+            title="Referrals"
+            id="Bananacode_Referral::referrals"
+            resource="Bananacode_Referral::config"
+            sortOrder="10"
+            action="lorem/ipsum"
+        />
+    </menu>
+</config>

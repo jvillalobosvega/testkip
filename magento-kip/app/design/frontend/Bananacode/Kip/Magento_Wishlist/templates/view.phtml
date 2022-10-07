@@ -1,0 +1,38 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Wishlist\Block\Customer\Wishlist $block */
+?>
+
+<?php
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+$wishlists = $kip->wishLists();
+?>
+
+<?php if ($this->helper(\Magento\Wishlist\Helper\Data::class)->isAllow() && count($wishlists) > 0) : ?>
+
+    <p><?= $block->escapeHtml(__('Aquí puedes administrar tus productos favoritos en listas.'))?></p>
+
+    <div id="wish-lists" class="row">
+        <?php foreach ($wishlists as $wishlist): ?>
+            <div class="col col-sm-6 col-md-half col-lg-6 wishlist-card">
+                <div class="content">
+                    <span class="thumbnail">
+                          <img src="<?= $wishlist['thumb'] ?>" alt="list-thumbnail">
+                    </span>
+                    <span class="bold-18"><?= $wishlist['value'] ?></span>
+                    <span class="medium-12 count"><?= $wishlist['count'] ?> producto(s)</span>
+                    <button class="delete-wishlist" data-list="<?= $wishlist['value'] ?>"></button>
+                    <a href="<?= $wishlist['url'] ?>"></a>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+<?php endif ?>

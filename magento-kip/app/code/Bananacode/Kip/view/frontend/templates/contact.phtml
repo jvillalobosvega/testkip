@@ -1,0 +1,30 @@
+<?php
+/**
+ * Copyright © 2021 Bananacode. All rights reserved.
+ */
+
+/**
+ * @var \Bananacode\Kip\Block\CustomBlocks $block
+ */
+
+$_mapHelper = $this->helper('Bananacode\Kip\Helper\Map');
+$_mapPolygon = $_mapHelper->getPolygon();
+$_mapCenter = $_mapHelper->getCenter();
+$_mapKey = $_mapHelper->getKey();
+$_mapPolygonRestricted = $_mapHelper->getPolygonRestricted();
+
+?>
+<div class="col col-sm-6 col-md-half col-lg-6 custom">
+    <?= $block->getHtmlBlock('contact') ?>
+</div>
+
+<div class="col col-sm-6 col-md-9 col-lg-12 map">
+    <div class="map-container">
+        <input name="address_latitude" hidden value="">
+        <input name="address_longitude" hidden value="">
+        <input name="map_key" hidden value="<?= $_mapKey ?>">
+        <input name="map_center" hidden value='<?= $_mapCenter ?>'>
+        <input name="map_polygon" hidden value='<?= $_mapPolygon ?>'>
+        <input name="map_polygon_restricted" hidden value='<?= $_mapPolygonRestricted ?>'>
+    </div>
+</div>

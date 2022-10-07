@@ -1,0 +1,240 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Catalog\Block\Product\View\Details $block */
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+
+/**
+ * @var \Magento\Catalog\Block\Product\View\BaseImage $product
+ */
+
+$product = $block->getLayout()->createBlock('\Magento\Catalog\Block\Product\View\BaseImage');
+$frescura = $product->getProduct()->getCustomAttribute('ls_frescura');
+$ingredientes = $product->getProduct()->getCustomAttribute('ls_ingredientes');
+$alergenos = $product->getProduct()->getCustomAttribute('ls_alergenos');
+$nutricional = $kip->getNutritionalImage($product->getProduct());
+$isRecipe = $kip->getIsRecipe($product->getProduct());
+
+?>
+
+<?php if ($detailedInfoGroup = $block->getGroupSortedChildNames('detailed_info', 'getChildHtml')) :?>
+    
+    
+    
+    <div class="product info detailed">
+    <!-- <a style="border: #48d597 solid 1px;border-radius: 6px;background: linear-gradient(180deg,#48d597 0%,#33be81 100%);" class="action primary back" href="javascript:history.back()"><?= __('Back') ?></a> -->
+        <?php $layout = $block->getLayout(); ?>
+
+        <?php if ($frescura) :?>
+            <?php if (floatval($frescura->getValue()) > 0) :?>
+                <div id="product-details-fresh" class="row">
+                    <div class="col col-sm-6 col-md-half col-lg-6">
+                        <div class="content">
+                            <strong class="bold-14">Garantía de Frescura:</strong>
+                            <span class="medium-14"><?= $frescura->getValue() ?> días</span>
+                        </div>
+                    </div>
+                    <div class="col col-sm-6 col-md-half col-lg-6"></div>
+                </div>
+            <?php endif ?>
+        <?php endif ?>
+
+        <div class="product data items">
+            <?php if ($nutricional) :?>
+                <div id="product-details-nutritional">
+                    <img src="<?= $nutricional ?>" alt="info-nutritional">
+                </div>
+            <?php endif ?>
+            <div>
+                <?php if ($ingredientes) :?>
+                    <div>
+                        <h3>
+                            Ingredientes
+                        </h3>
+                        <div>
+                            <?= /* @noEscape */ $ingredientes->getValue() ?>
+                        </div>
+                    </div>
+                <?php endif ?>
+
+
+                <?php if ($alergenos) :?>
+                    <div>
+                        <h3>
+                            Alergenos
+                        </h3>
+                        <div>
+                            <?= /* @noEscape */ $alergenos->getValue() ?>
+                        </div>
+                    </div>
+                <?php endif ?>
+
+                <button class="bold-14 open-modal" id="report-pdp-issue" data-m="report-error">
+                    Reportar información incorrecta del producto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Error Modal -->
+    <div id="report-error" class="modal-container">
+        <div class="modal">
+            <div class="header">
+                <div class="header-img"></div>
+                <button class="close-modal"></button>
+            </div>
+
+            <div class="content">
+                <h1 class="bold-24"><?= $block->escapeHtml(__('Reportar información incorrecta del producto')) ?></h1>
+                <form id="report-error-form" method="POST" action="/contact/index/post/">
+                    <input hidden name="name" value="John Doe">
+                    <input hidden name="email" value="anonimo@email.com">
+                    <input hidden name="telephone" value="88888888">
+                    <?= $block->getBlockHtml('formkey') ?>
+                    <textarea class="medium-14" name="comment" placeholder="Escribe aquí..."></textarea>
+                </form>
+                <div class="row">
+                    <button class="secondary-btn close-modal">
+                        <?= $block->escapeHtml(__('Cancelar')) ?>
+                    </button>
+                    <button class="primary-btn" id="report" onclick="reportError(this)">
+                        <?= $block->escapeHtml(__('Reportar')) ?>
+                    </button>
+                </div>
+            </div>
+
+            <div class="content content-success hide">
+                <h1 class="bold-24"><?= $block->escapeHtml(__('¡Gracias por tu reporte!')) ?></h1>
+                <p class="medium-16"><?= (__('Lamentamos lo sucedido.')) ?></p>
+                <p class="medium-14"><?= (__('Estaremos trabajando para que no vuelvas a experimentar esta falla en Kip.')) ?></p>
+                <div class="row">
+                    <button class="secondary-btn close-modal">
+                        <?= $block->escapeHtml(__('De acuerdo')) ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        const ajax = (
+            method,
+            url,
+            data = {},
+            contentType = "application/json",
+            xhttp = null,
+            auth = null
+        ) => {
+            return new Promise((resolve) => {
+                if (!xhttp) {
+                    xhttp = new XMLHttpRequest();
+                }
+                xhttp.onreadystatechange = function () {
+                    if (xhttp.readyState === 4) {
+                        resolve(
+                            JSON.stringify({
+                                status: xhttp.status,
+                                response: xhttp.responseText,
+                            })
+                        );
+                    }
+                };
+
+                xhttp.open(method, url, true);
+                if(auth) {
+                    xhttp.setRequestHeader("Authorization", auth);
+                }
+                if (method === "POST" && data) {
+                    xhttp.setRequestHeader("Content-type", contentType);
+                    xhttp.send(data);
+                } else {
+                    xhttp.send();
+                }
+
+                return xhttp;
+            });
+        };
+
+        function reportError(button) {
+            let f = new FormData(document.querySelector('#report-error-form'));
+            if (f) {
+                let data = '';
+                for (let prop of f.entries()) {
+                    if (prop[0] && prop[1]) {
+                        data += `${prop[0]}=`;
+                        if(prop[0] === 'comment') {
+                            data += `${encodeURI('Reporte producto - SKU ' + <?= $product->getProduct()->getSku() ?> + ' : ' + prop[1])}&`;
+                        } else {
+                            data += `${encodeURI(prop[1])}&`;
+                        }
+                    }
+                }
+
+                button.style.opacity = '0.5';
+                ajax('POST',
+                    '/contact/index/post?' + data,
+                    null,
+                    'text/html; charset=UTF-8',
+                ).then(function (response) {
+                    button.style.opacity = '1';
+                    let data = JSON.parse(response);
+                    if (data.status === 200) {
+                        document.querySelector('#report-error .content').classList.add('hide');
+                        document.querySelector('#report-error .content-success').classList.remove('hide');
+                    }
+                })
+            }
+        }
+
+        <?php if (!$isRecipe): ?>
+            let body = document.querySelector('body #maincontent'),
+                disclaimer = document.createElement('div');
+
+            disclaimer.className = 'disclaimer';
+            disclaimer.innerHTML = `<h4 class="bold-18">
+                                        Reclamación de información
+                                    </h4>
+                                    <p class="medium-14">
+                                        Nos esforzamos por obtener información precisa de los productos, aun asi, no podemos garantizar ni asegurar la exactitud, integridad o actualidad de la información de estos. Los productos y sus ingredientes pueden cambiar a corto plazo, lo que puede afectar la imagen, la información nutricional, de los ingredientes y de los alérgenos. Te recomendamos que siempre leas las etiqueta antes de usarlo o consumirlo.
+                                    </p>`;
+
+            body.appendChild(disclaimer);
+        <?php endif; ?>
+
+
+        ajax('GET',
+            '/rest/V1/kip/customer-data',
+            null,
+            'text/html; charset=UTF-8',
+        ).then(function (response) {
+            let data = JSON.parse(response),
+                customer = JSON.parse(data.response);
+
+            if(customer.data) {
+                let name = document.querySelector('#report-error-form [name="name"]'),
+                    email = document.querySelector('#report-error-form [name="email"]'),
+                    telephone = document.querySelector('#report-error-form [name="telephone"]');
+
+                if(name) {
+                    name.value = customer.data.name;
+                    name.setAttribute('value' , `${customer.data.firstname} ${customer.data.lastname}`);
+                }
+                if(email) {
+                    email.value = customer.data.email;
+                    email.setAttribute('value' , customer.data.email);
+                }
+                if(telephone) {
+                    telephone.value = customer.data.telephone;
+                    telephone.setAttribute('value' , customer.data.telephone);
+                }
+            }
+        })
+    </script>
+<?php endif; ?>

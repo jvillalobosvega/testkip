@@ -1,0 +1,18 @@
+body[class*="no-route"] {
+  .column.main {
+    padding: 40px;
+      @include break-max(mobile) {
+          padding: 20px;
+      }
+
+    p {
+      margin: 30px auto;
+      max-width: 430px;
+      color: $text;
+    }
+  }
+
+  .sidebar.sidebar-additional {
+    display: none;
+  }
+}

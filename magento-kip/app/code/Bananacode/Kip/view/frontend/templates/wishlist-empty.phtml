@@ -1,0 +1,26 @@
+<?php
+/**
+ * Copyright © 2021 Bananacode. All rights reserved.
+ */
+
+/**
+ * @var \Bananacode\Kip\Block\CustomBlocks $block
+ */
+?>
+
+<?php
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+?>
+
+<h1 class="bold-24">
+    <?= $block->escapeHtmlAttr(__('Mis productos favoritos')) ?>
+</h1>
+
+<?php if ($kip->wishListCount() < 1): ?>
+    <div id="empty-wishlist">
+        <?= $block->getHtmlBlock('wishlist-empty') ?>
+    </div>
+<?php endif; ?>

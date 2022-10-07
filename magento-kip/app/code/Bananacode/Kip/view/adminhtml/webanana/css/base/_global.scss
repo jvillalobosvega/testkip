@@ -1,0 +1,242 @@
+.page-layout-admin-login {
+    background: $sub-title !important;
+
+    .page-wrapper {
+        box-shadow: none !important;
+    }
+
+    .admin__legend {
+        color: $sub-title !important;
+    }
+
+    .login-header {
+        text-align: center;
+
+        .logo img {
+            max-width: 150px;
+        }
+    }
+
+    #login-form .admin__legend {
+        font-size: 20px;
+    }
+}
+
+a.action-forgotpassword {
+    color: $dark-green !important;
+}
+
+footer.login-footer {
+    color: #fff;
+}
+
+a.logo {
+    background-color: #fff;
+}
+
+.menu-wrapper .logo .logo-img {
+    width: 50% !important;
+}
+
+.action-primary, .abs-action-primary, button.primary {
+    background-color: $dark-green !important;
+    border-color: $dark-green !important;
+    color: #fff !important;
+    text-shadow: none !important;
+}
+
+.page-actions {
+    > button.action-primary {
+        background-color: $dark-green !important;
+        border-color: $dark-green !important;
+        color: #fff !important;
+        text-shadow: none !important;
+    }
+
+    .page-actions-buttons {
+        > button.action-primary, > button.primary {
+            background-color: $dark-green !important;
+            border-color: $dark-green !important;
+            color: #fff !important;
+            text-shadow: none !important;
+        }
+    }
+
+    > button.primary {
+        background-color: $dark-green !important;
+        border-color: $dark-green !important;
+        color: #fff !important;
+        text-shadow: none !important;
+    }
+}
+
+.block-footer .action-add.primary {
+    background-color: $dark-green !important;
+    border-color: $dark-green !important;
+    color: #fff !important;
+    text-shadow: none !important;
+}
+
+.page-actions {
+    > .block-footer .action-add.action-primary {
+        background-color: $dark-green !important;
+        border-color: $dark-green !important;
+        color: #fff !important;
+        text-shadow: none !important;
+    }
+
+    .page-actions-buttons {
+        > .block-footer .action-add.action-primary, > .block-footer .action-add.primary {
+            background-color: $dark-green !important;
+            border-color: $dark-green !important;
+            color: #fff !important;
+            text-shadow: none !important;
+        }
+    }
+
+    > .block-footer .action-add.primary {
+        background-color: $dark-green !important;
+        border-color: $dark-green !important;
+        color: #fff !important;
+        text-shadow: none !important;
+    }
+}
+
+.page-actions-buttons button.ordersuccess-current {
+    background-color: $dark-green !important;
+    border-color: $dark-green !important;
+    color: #fff !important;
+    text-shadow: none !important;
+}
+
+.action-primary {
+    &:hover, &:active, &:focus {
+        background-color: $sub-title !important;
+        border-color: $sub-title !important;
+    }
+}
+
+.abs-action-primary {
+    &:hover, &:active, &:focus {
+        background-color: $sub-title !important;
+        border-color: $sub-title !important;
+    }
+}
+
+button.primary {
+    &:hover, &:active, &:focus {
+        background-color: $sub-title !important;
+        border-color: $sub-title !important;
+    }
+}
+
+.page-actions {
+    > button.action-primary {
+        &:hover, &:active, &:focus {
+            background-color: $sub-title !important;
+            border-color: $sub-title !important;
+        }
+    }
+
+    .page-actions-buttons {
+        > button.action-primary {
+            &:hover, &:active, &:focus {
+                background-color: $sub-title !important;
+                border-color: $sub-title !important;
+            }
+        }
+
+        > button.primary {
+            &:hover, &:active, &:focus {
+                background-color: $sub-title !important;
+                border-color: $sub-title !important;
+            }
+        }
+    }
+
+    > button.primary {
+        &:hover, &:active, &:focus {
+            background-color: $sub-title !important;
+            border-color: $sub-title !important;
+        }
+    }
+}
+
+.block-footer .action-add.primary {
+    &:hover, &:active, &:focus {
+        background-color: $sub-title !important;
+        border-color: $sub-title !important;
+    }
+}
+
+.page-actions {
+    > .block-footer .action-add.action-primary {
+        &:hover, &:active, &:focus {
+            background-color: $sub-title !important;
+            border-color: $sub-title !important;
+        }
+    }
+
+    .page-actions-buttons {
+        > .block-footer .action-add.action-primary {
+            &:hover, &:active, &:focus {
+                background-color: $sub-title !important;
+                border-color: $sub-title !important;
+            }
+        }
+
+        > .block-footer .action-add.primary {
+            &:hover, &:active, &:focus {
+                background-color: $sub-title !important;
+                border-color: $sub-title !important;
+            }
+        }
+    }
+
+    > .block-footer .action-add.primary {
+        &:hover, &:active, &:focus {
+            background-color: $sub-title !important;
+            border-color: $sub-title !important;
+        }
+    }
+}
+
+.page-layout-admin-login .admin__legend, .dashboard-totals-item:first-child .price, .dashboard-item-primary:first-child .dashboard-sales-value {
+    color: $dark-green !important;
+}
+
+.menu-wrapper:before, .data-grid th {
+    background-color: $sub-title !important;
+}
+
+.admin__menu {
+    [class*='level-']:not(.level-0) a:hover {
+        background-color: $sub-title !important;
+    }
+
+    .level-0 {
+        > a {
+            color: #fff !important;
+        }
+
+        &:hover > a, > .submenu, &._active > a {
+            background-color: $dark-green !important;
+        }
+
+        > .submenu {
+            box-shadow: none !important;
+        }
+    }
+
+    .submenu .parent .submenu-group-title {
+        color: #fff !important;
+    }
+
+    .action-close:before {
+        color: #fff;
+    }
+}
+
+.tabs-horiz .ui-state-active .ui-tabs-anchor {
+    border-top: .4rem solid $dark-green !important;
+}

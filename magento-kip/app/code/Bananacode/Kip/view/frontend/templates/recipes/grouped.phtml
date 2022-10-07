@@ -1,0 +1,48 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+
+/**
+ * Product view template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View
+ */
+?>
+
+<?php $_product = $block->getProduct(); ?>
+<?php $_isRecipe = $_product->getCustomAttribute('is_recipe') ?>
+<?php if ($_isRecipe): ?>
+    <?php if ($_isRecipe->getValue()): ?>
+        <script>
+            let body = document.querySelector('body')
+            body ? body.classList.add('recipe-product-page') : ''
+        </script>
+        <div class="kip-recipe-actions">
+            <a href="javascript:if(window.print)window.print()"
+               class="action print"></a>
+            <?php
+            /**
+             * Copyright © Magento, Inc. All rights reserved.
+             * See COPYING.txt for license details.
+             */
+
+            /** @var \Magento\Wishlist\Block\Catalog\Product\View\AddTo\Wishlist $wish */
+            $wish = $block->getLayout()->createBlock('\Magento\Wishlist\Block\Catalog\Product\View\AddTo\Wishlist');
+            ?>
+            <?php if ($wish->isWishListAllowed()) : ?>
+                <a href="#"
+                   class="action towishlist <?= $block->getProduct()->getTypeId() ?>"
+                   title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>"
+                   aria-label="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>"
+                   role="button"
+                   data-product="<?= $block->getProduct()->getEntityId() ?>"
+                   data-name="<?= $block->getProduct()->getName() ?>"
+                ></a>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

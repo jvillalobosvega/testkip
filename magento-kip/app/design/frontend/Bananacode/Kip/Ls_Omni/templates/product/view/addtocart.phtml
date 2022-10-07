@@ -1,0 +1,80 @@
+<?php
+// @codingStandardsIgnoreFile
+use Ls\Omni\Block\Product\View\View;
+
+/** @var $block View */
+?>
+<?php $_product = $block->getProduct(); ?>
+<?php $isEnableCheck = $block->isValid(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+$isRecipe = $kip->getIsRecipe($_product);
+?>
+
+<?php if ($_product->isSaleable()): ?>
+    <div class="box-tocart">
+        <div class="fieldset">
+            <?php if ($block->shouldRenderQuantity() && ($_product->getPrice() > 0 || $_product->getTypeId() === 'configurable')): ?>
+                <div class="field qty">
+                    <label class="label" for="qty"><span><?= /* @escapeNotVerified */
+                            __('Qty') ?></span></label>
+                    <div class="control">
+                        <span class="minus"></span>
+                        <input type="number"
+                               name="qty"
+                               id="qty"
+                               value="<?= $kip->getMinSale($_product) ?>"
+                               data-min="<?= $kip->getMinSale($_product) ?>"
+                               title="<?= /* @escapeNotVerified */ __('Qty') ?>"
+                               class="input-text qty"
+                               data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+                        />
+                        <span class="add"></span>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!$isRecipe): ?>
+                <div class="kip-stock-status">
+                    <span class="stock"><?= $block->escapeHtml('En inventario') ?></span>
+                </div>
+            <?php endif; ?>
+
+            <div class="actions">
+                <?php if ($isEnableCheck) : ?>
+                    <?= $block->getBlockHtml('ls.omni.product.availability'); ?>
+                <?php endif; ?>
+                <?php if ($_product->getPrice() > 0 || $_product->getTypeId() === 'configurable' || $_product->getSku() === 'EXENTOIVA'): ?>
+                    <button type="submit"
+                            title="<?= /* @escapeNotVerified */
+                            $buttonTitle ?>"
+                            class="action primary tocart"
+                            id="product-addtocart-button">
+                        <span><?= /* @escapeNotVerified */
+                            $buttonTitle ?></span>
+                    </button>
+                    <?= $block->getChildHtml('', true) ?>
+                <?php endif; ?>
+            </div>
+            <?= /* @noEscape */ $kip->getInfoPesoVar($_product) ?>
+        </div>
+    </div>
+<?php else: ?>
+    <?php if (!$isRecipe): ?>
+        <div class="kip-stock-status">
+            <span class="out"><?= $block->escapeHtml('Agotado') ?></span>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
+
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>

@@ -1,0 +1,10 @@
+<?php
+/**
+ * Copyright © 2021 Bananacode. All rights reserved.
+ */
+
+/**
+ * @var \Bananacode\Kip\Block\CustomBlocks $block
+ */
+?>
+<?= '<div id="nav-menu-categories"> <button id="nav-menu-categories-back">Volver</button>' . $block->_kipMain->getCategoryTreeHtml(json_decode($block->_kipMain->getCategoryConfigJSON(true), true)) . '</div>' ?>

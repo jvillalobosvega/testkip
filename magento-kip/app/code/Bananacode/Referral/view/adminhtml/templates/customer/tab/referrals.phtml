@@ -1,0 +1,92 @@
+<?php
+/** @var \Bananacode\Referral\Block\Adminhtml\CustomerEdit\Tab\Referrals $block */
+?>
+<div class="fieldset-wrapper customer-information">
+    <div>
+        <div class="fieldset-wrapper-title">
+            <span class="title"><?= $block->escapeHtml(__('Referrals')) ?></span>
+        </div>
+        <div style="display: flex; margin: 15px">
+            <p><strong>Código:&nbsp;</strong></p>
+            <p id="referrals-code"></p>
+        </div>
+        <div style="display: flex; margin: 15px">
+            <p><strong>Veces usado:&nbsp;</strong></p>
+            <p id="referrals-times"></p>
+        </div>
+        <div style="display: flex; margin: 15px">
+            <p><strong>Total ganado:&nbsp;</strong></p>
+            <p id="referrals-earned"></p>
+        </div>
+        <div style="display: flex; margin: 15px">
+            <p><strong>Total gastado:&nbsp;</strong></p>
+            <p id="referrals-spent"></p>
+        </div>
+        <div style="display: flex; margin: 15px">
+            <label for="referrals-cash" style="margin-right: 5px"><strong>Cash:&nbsp;</strong>$</label>
+            <input type="number" id="referrals-cash">
+            <button
+                id="update-referral-cash" title="Update Referral Cash" type="button"
+                class="action- scalable save primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                role="button" aria-disabled="false">
+            <span class="ui-button-text">
+                <span>Actualizar</span>
+            </span>
+            </button>
+        </div>
+        <div style="display: flex; margin: 15px">
+            <p><strong>Última orden:&nbsp;</strong></p>
+            <p id="referrals-lastorder"></p>
+        </div>
+        <div style="display: flex; margin: 15px">
+            <p><strong>Días para expiración:&nbsp;</strong></p>
+            <p id="referrals-expiration"></p>
+        </div>
+    </div>
+</div>
+<script>
+    let btn = document.getElementById('update-referral-cash');
+    btn ? btn.addEventListener('click', function () {
+        let input = document.getElementById('referrals-cash')
+        btn.style.opacity = '0.5';
+        btn.disabled = true;
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                btn.style.opacity = '1';
+                btn.disabled = false;
+                window.location.reload();
+            }
+        };
+        xmlHttp.open("GET", `/rest/V1/referral/customer-cash/` + <?= $block->getCustomerId() ?> + `/${input.value}`, true);
+        xmlHttp.setRequestHeader('Authorization', '<?= 'Bearer ' . $block->adminToken() ?>')
+        xmlHttp.send(null);
+    }) : '';
+
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            let referral = JSON.parse(xmlHttp.responseText);
+            if(referral.output) {
+                referral = referral.output;
+                let code = document.getElementById('referrals-code'),
+                    times = document.getElementById('referrals-times'),
+                    earned = document.getElementById('referrals-earned'),
+                    spent = document.getElementById('referrals-spent'),
+                    cash = document.getElementById('referrals-cash'),
+                    last = document.getElementById('referrals-lastorder'),
+                    exp = document.getElementById('referrals-expiration');
+                code.innerHTML = referral.referral_code;
+                times.innerHTML = referral.times_used;
+                earned.innerHTML = '$' + referral.total_earned;
+                spent.innerHTML = '$' + referral.total_spent;
+                cash.value = referral.total_left;
+                last.innerHTML = referral.last_order;
+                exp.innerHTML = referral.days_left;
+            }
+        }
+    };
+    xmlHttp.open("GET", `/rest/V1/referral/customer/` + <?= $block->getCustomerId() ?>, true);
+    xmlHttp.setRequestHeader('Authorization', '<?= 'Bearer ' . $block->adminToken() ?>')
+    xmlHttp.send(null);
+</script>

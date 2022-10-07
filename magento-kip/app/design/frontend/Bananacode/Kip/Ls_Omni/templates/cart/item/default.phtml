@@ -1,0 +1,202 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/** @var $block \Ls\Omni\Block\Cart\Item\Renderer */
+
+$_item            = $block->getItem();
+$product          = $_item->getProduct();
+$isVisibleProduct = $product->isVisibleInSiteVisibility();
+$basketdata       = $block->getOneListCalculateData($_item);
+/** @var \Magento\Msrp\Helper\Data $helper */
+$helper              = $this->helper('Magento\Msrp\Helper\Data');
+$canApplyMsrp        = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinimalPriceLessMsrp($product);
+$this->priceCurrency = $block->getPriceCurrency();
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+
+$productId = $_item->getProduct()->getId();
+if ($option = $_item->getOptionByCode('simple_product')) {
+    $productId = $option->getProduct()->getId();
+}
+
+?>
+<tbody class="cart item kiptem-id-<?= $productId ?>">
+    <tr class="item-info">
+        <td data-th="<?= $block->escapeHtml(__('Item')) ?>" class="col item">
+            <?php if ($block->hasProductUrl()): ?>
+            <a href="<?= /* @escapeNotVerified */
+            $block->getProductUrl() ?>"
+               title="<?= $block->escapeHtml($block->getProductName()) ?>"
+               tabindex="-1"
+               class="product-item-photo-kip">
+                <?php else: ?>
+                <span class="product-item-photo-kip">
+                <?php endif; ?>
+
+                <?php $productImage = $block->getImage($block->getProductForThumbnail(), 'cart_page_product_thumbnail'); ?>
+                <?= $kip->getProductImageHtml($productImage, $block->getProduct()) ?>
+
+                <?= ''//$block->getImage($block->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml() ?>
+
+                <?php if ($block->hasProductUrl()): ?>
+            </a>
+        <?php else: ?>
+            </span>
+        <?php endif; ?>
+            <div class="product-item-details">
+                <div class="product-item-name">
+                    <?php if ($block->hasProductUrl()): ?>
+                        <a href="<?= /* @escapeNotVerified */ $block->getProductUrl() ?>">
+                            <?= $block->escapeHtml($block->getProductName()) ?>
+                        </a>
+                    <?php else: ?>
+                        <?= $block->escapeHtml($block->getProductName()) ?>
+                    <?php endif; ?>
+                </div>
+                <p>
+                    <?php $presentation = $kip->getPresentacion($block->getProduct(), false, [], false, true) ?>
+                    <?= is_string($presentation) ? $presentation : '' ?>
+                </p>
+                <?php if ($_options = $block->getOptionList()): ?>
+                    <dl class="item-options">
+                        <?php foreach ($_options as $_option) : ?>
+                            <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+                            <dt><?= $block->escapeHtml($_option['label']) ?></dt>
+                            <dd>
+                                <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                                    <?= /* @escapeNotVerified */
+                                    $_formatedOptionValue['full_view'] ?>
+                                <?php else: ?>
+                                    <?= /* @escapeNotVerified */
+                                    $_formatedOptionValue['value'] ?>
+                                <?php endif; ?>
+                            </dd>
+                        <?php endforeach; ?>
+                    </dl>
+                <?php endif; ?>
+                <?php if (!empty($basketdata)) { ?>
+                    <p><strong><?php echo $basketdata[0]; ?></strong></p>
+                    <?php
+                }
+                ?>
+                <?php if ($messages = $block->getMessages()): ?>
+                    <?php foreach ($messages as $message): ?>
+                        <div class="cart item message <?= /* @escapeNotVerified */
+                        $message['type'] ?>">
+                            <div><?= $block->escapeHtml($message['text']) ?></div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <?php $addInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+                <?php if ($addInfoBlock): ?>
+                    <?= $addInfoBlock->setItem($_item)->toHtml() ?>
+                <?php endif; ?>
+            </div>
+        </td>
+
+        <?php if ($canApplyMsrp): ?>
+            <td class="col msrp" data-th="<?= $block->escapeHtml(__('Price')) ?>">
+                    <span class="pricing msrp">
+                        <span class="msrp notice"><?= /* @escapeNotVerified */
+                            __('See price before order confirmation.') ?></span>
+                        <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
+                        <a href="#" class="action help map" id="<?= /* @escapeNotVerified */
+                        ($helpLinkId) ?>" data-mage-init='{"addToCart":{"helpLinkId": "#<?= /* @escapeNotVerified */
+                        $helpLinkId ?>","productName": "<?= /* @escapeNotVerified */
+                        $product->getName() ?>","showAddToCart": false}}'>
+                            <span><?= /* @escapeNotVerified */
+                                __("What's this?") ?></span>
+                        </a>
+                    </span>
+            </td>
+        <?php else: ?>
+            <td class="col price" data-th="<?= $block->escapeHtml(__('Price')) ?>">
+                <?php if (!empty($basketdata)) { ?>
+                    <span class="price-excluding-tax" data-label="Excl. Tax">
+                        <span class="cart-price">
+                            <?php echo $this->priceCurrency->format($_item->getPriceInclTax(), true); ?><br/>
+                            <?php if ($_item->getDiscountAmount() > 0) { ?>
+                                <div class="lsdiscountprice2">
+                                <strike>
+                                    <?php echo $this->priceCurrency->format($_item->getProduct()->getPrice(), true); ?>
+                                </strike>
+                            </div>
+                            <?php } ?>
+                        </span>
+                    </span>
+                    <?php if ($_item->getDiscountAmount() > 0) {
+                        ?>
+                        <div class="lsdiscountamount">
+                            <?php
+                            echo '(' . __($basketdata[1]) . ' ' . $this->priceCurrency->format($_item->getDiscountAmount()) . ')';
+                            ?>
+                        </div>
+                        <?php
+                    }
+                } else { ?>
+                    <?= $block->getUnitPriceHtml($_item);
+                }
+                ?>
+            </td>
+        <?php endif; ?>
+        <td class="col qty" data-th="<?= $block->escapeHtml(__('Qty')) ?>">
+            <div class="field qty">
+                <label class="label" for="cart-<?= /* @escapeNotVerified */
+                $_item->getId() ?>-qty">
+                    <span><?= /* @escapeNotVerified */
+                        __('Qty') ?></span>
+                </label>
+                <div class="control qty">
+                    <div class="qty-controls">
+                        <span class="minus">
+                            <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use xlink:href="#img-minus"></use></svg>
+                        </span>
+                        <input id="cart-<?= /* @escapeNotVerified */ $_item->getId() ?>-qty"
+                               name="cart[<?= /* @escapeNotVerified */ $_item->getId() ?>][qty]"
+                               data-cart-item-id="<?= $block->escapeHtml($_item->getSku()) ?>"
+                               data-cart-item="<?= $block->escapeHtml($productId) ?>"
+                               value="<?= /* @escapeNotVerified */ $block->getQty() ?>"
+                               data-min="<?= $kip->getMinSale($_item->getProduct()); ?>"
+                               type="number"
+                               size="4"
+                               title="<?= $block->escapeHtml(__('Qty')) ?>"
+                               class="input-text qty"
+                               data-validate="{required:true,'validate-greater-than-zero':true}"
+                               data-role="cart-item-qty"
+                        />
+                        <span class="add">
+                            <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use xlink:href="#img-add"></use></svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </td>
+
+        <td class="col subtotal" data-th="<?= $block->escapeHtml(__('Subtotal')) ?>">
+            <?php if ($canApplyMsrp): ?>
+                <span class="cart msrp subtotal">--</span>
+            <?php else: ?>
+                <?php if (!empty($basketdata)) { ?>
+                    <span class="price-excluding-tax" data-label="Excl. Tax">
+                        <span class="cart-price">
+                            <?php echo $this->priceCurrency->format($block->getItemRowTotal($_item), true); ?>
+                        </span>
+                    </span>
+                <?php } else { ?>
+                    <?= $block->getRowTotalHtml($_item) ?>
+                <?php } ?>
+            <?php endif; ?>
+        </td>
+    </tr>
+    <tr class="item-actions">
+        <td colspan="100">
+            <div class="actions-toolbar">
+                <?= /* @escapeNotVerified */
+                $block->getActions($_item) ?>
+            </div>
+        </td>
+    </tr>
+</tbody>

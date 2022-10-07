@@ -1,0 +1,17 @@
+<!--@subject {{trans "%subject" subject=$subject}}  @-->
+
+{{template config_path="design/email/header_template"}}
+
+<div>
+    <p>
+        {{trans 'Hola %name,' name=$name }}
+    </p>
+    <p>
+        {{trans 'El documento fiscal %doc' doc=$doc }}
+    </p>
+    <p>
+        {{trans 'Ha sido actualizado a: <strong style="color:%status_color">%status</strong>' status=$status status_color=$status_color|raw }}
+    </p>
+</div>
+
+{{template config_path="design/email/footer_template"}}

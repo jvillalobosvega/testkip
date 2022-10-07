@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="bananacode" translate="label" sortOrder="450">
+            <label>Bananacode</label>
+        </tab>
+        <section id="bananacode" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Kip Settings</label>
+            <tab>bananacode</tab>
+            <resource>Bananacode_Base::config</resource>
+            <group id="google" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Google</label>
+                <field id="map_country" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Map Country</label>
+                </field>
+                <field id="map_key" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Map API Key</label>
+                </field>
+                <field id="map_center" translate="label" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Map Center Coords</label>
+                    <comment>Get it here: http://apps.headwallphotonics.com/</comment>
+                </field>
+                <field id="map_polygon" translate="label" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Map Polygon Coords</label>
+                    <comment>Generate them here: http://apps.headwallphotonics.com/</comment>
+                </field>
+                <field id="map_polygon_restricted" translate="label" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Map Polygon Restricted Coords</label>
+                    <comment>Generate them here: http://apps.headwallphotonics.com/</comment>
+                </field>
+            </group>
+            <group id="recipes" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Recetas</label>
+                <field id="category_id" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Categoría (ID)</label>
+                </field>
+            </group>
+            <group id="beta" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Beta</label>
+                <field id="emails" translate="label" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Emails</label>
+                </field>
+            </group>
+            <group id="categories" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Categorías</label>
+                <field id="main_json" translate="label" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Principal</label>
+                </field>
+                <field id="recipes_json" translate="label" type="textarea" sortOrder="101" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Recetas</label>
+                </field>
+                <field id="recipes_ids" translate="label" type="textarea" sortOrder="102" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>IDs Recetas</label>
+                </field>
+                <field id="generate" translate="label" sortOrder="103" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label/>
+                    <button_label>Generar Arboles</button_label>
+                    <button_url>kip/category/tree</button_url>
+                    <frontend_model>Bananacode\Kip\Block\Adminhtml\System\Config\Button</frontend_model>
+                </field>
+            </group>
+            <group id="checkout" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Checkout</label>
+                <field id="departments" translate="label" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Deparamentos</label>
+                    <comment>
+                        Separados por coma: San Salvador,La Libertad
+                    </comment>
+                </field>
+                <field id="cities" translate="label" type="textarea" sortOrder="101" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Ciudades</label>
+                    <comment>
+                        Separadas por coma: San Salvador,Antiguo Cuscatlán,Santa Tecla,Nuevo Cuscatlán,San José Villanueva
+                    </comment>
+                </field>
+            </group>
+            <group id="reports" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Reportes</label>
+                <field id="logo" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Logo</label>
+                </field>
+            </group>
+            <group id="discord" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Discord</label>
+                <field id="sales" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sales Hook URL</label>
+                </field>
+                <field id="errors" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Errors Hook URL</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

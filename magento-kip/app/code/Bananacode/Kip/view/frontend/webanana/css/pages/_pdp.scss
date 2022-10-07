@@ -1,0 +1,1070 @@
+body[class*="catalog-product-view"] {
+    .fotorama__thumb-border {
+        border: $dark-green solid 3px !important;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .loader {
+        img {
+            max-width: 50px;
+        }
+    }
+
+    .page-wrapper {
+        main#maincontent {
+            .columns {
+                > .column.main {
+                    @include flex;
+                    padding-top: 25px;
+                    border-top: $input solid 1px;
+
+                    //----------------
+
+                    > .product.media {
+                        flex-basis: 57%;
+                        max-width: 57%;
+                        order: 1;
+                        @include break-max(mobile) {
+                            flex-basis: 100%;
+                            max-width: 100%;
+                        }
+
+                        position: relative;
+                        margin-bottom: 0;
+
+                        .fotorama__wrap {
+                            display: flex;
+                            @include break-max(mobile) {
+                                display: block;
+                            }
+
+                            .fotorama__stage {
+                                flex-basis: 85%;
+                                max-width: 85%;
+                                display: block;
+                                order: 1;
+                                max-height: 500px;
+                                @include break-max(mobile) {
+                                    max-width: 100%;
+                                    flex-basis: 100%;
+                                    order: 0;
+                                }
+
+                                .fotorama__stage__shaft {
+                                    width: 100% !important;
+
+                                    img {
+                                        object-fit: cover;
+                                        border-radius: 10px;
+                                    }
+                                }
+                            }
+
+                            .fotorama__nav-wrap {
+                                flex-basis: 15%;
+                                max-width: 15%;
+                                order: 0;
+                                @include break-max(mobile) {
+                                    max-width: 100%;
+                                    flex-basis: 100%;
+                                    order: 1;
+                                }
+
+                                .fotorama__nav {
+                                    overflow: visible;
+
+                                    .fotorama__thumb-border {
+                                        display: none;
+                                    }
+
+                                    .fotorama__nav__frame:not(.fotorama__nav__frame--dot) {
+                                        position: initial;
+                                        display: block;
+                                        overflow: hidden;
+                                        width: 89px !important;
+                                        height: 76px !important;
+                                        margin-bottom: 25px;
+                                        @include break-max(mobile) {
+                                            display: none;
+                                            margin-bottom: 0;
+                                        }
+
+                                        .fotorama__thumb {
+                                            border-radius: 10px;
+
+                                            img {
+                                                border-radius: 10px;
+                                                position: initial;
+                                                transform: none;
+                                                height: 100%;
+                                                width: 100%;
+                                                object-fit: cover;
+                                            }
+                                        }
+                                    }
+
+                                    .fotorama__nav__frame.fotorama__active {
+                                        img {
+                                            border: $dark-green solid 3px !important;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        @include kip-labels;
+
+                        .kip-labels {
+                            left: 116px;
+                            @include break-max(mobile) {
+                                left: 0;
+                            }
+                        }
+                    }
+
+                    > .product-info-main {
+                        flex-basis: 43%;
+                        max-width: 43%;
+                        order: 2;
+                        height: max-content;
+                        @include break-max(mobile) {
+                            flex-basis: 100%;
+                            max-width: 100%;
+                            margin-top: 15px;
+                        }
+
+                        @include flex;
+
+                        > div {
+                            flex-basis: 100%;
+                            max-width: 100%;
+                        }
+
+                        .social-media-icons {
+                            order: -1;
+                            text-align: right;
+                            margin-bottom: 15px;
+                            display: flex;
+                            justify-content: flex-end;
+
+                            a {
+                                margin-left: 10px;
+                                text-decoration: none;
+                                svg {
+                                    width: 20px;
+                                    height: 20px;
+
+                                    path {
+                                        fill: $green;
+                                        &:hover {
+                                            fill: $dark-green
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .page-title-wrapper {
+                            flex-basis: 70%;
+                            max-width: 70%;
+                            order: 0;
+                            padding-right: 15px;
+
+                            .page-title {
+                                span {
+                                    @include medium-24;
+                                    color: $sub-title;
+                                }
+                            }
+                        }
+
+                        .product-info-price {
+                            flex-basis: 30%;
+                            max-width: 30%;
+                            order: 1;
+                            margin: 0;
+                            border: none;
+
+                            .price-box {
+                                padding: 0;
+                                position: relative;
+                            }
+
+                            span, p, strong {
+                                @include bold-24;
+                                color: $text;
+                            }
+
+                            .product-info-stock-sku {
+                                display: none;
+                            }
+
+                            .old-price {
+                                .price-container {
+                                    .price-label {
+                                        display: none;
+                                    }
+
+                                    .price-wrapper {
+                                        span {
+                                            @include medium-16;
+                                            color: $red;
+                                            text-decoration: line-through;
+                                        }
+                                    }
+                                }
+                            }
+
+                            span.price-label {
+                                @include medium-14;
+                            }
+
+                            .kip-um {
+                                @include medium-14;
+                                color: $text;
+                                text-transform: uppercase;
+                                position: absolute;
+                                bottom: 10px;
+                                right: -40px;
+                            }
+                        }
+
+                        .yotpoBottomLine {
+                            order: 3;
+                            margin-top: 15px;
+                            max-height: 20px;
+                        }
+
+                        .product.attribute.overview {
+                            order: 2;
+                            margin-top: 0;
+
+                            .value {
+                                @include medium-16;
+                                color: $text;
+
+                                p {
+                                    @include medium-16;
+                                    color: $text;
+                                }
+                            }
+                        }
+
+                        .product-reviews-summary {
+                            order: 3;
+                            float: none;
+                        }
+
+                        .product-social-links {
+                            display: none;
+                        }
+
+                        .product-add-form {
+                            order: 4;
+
+                            .availability-link-container {
+                                display: none;
+                            }
+
+                            select, input {
+                                max-width: 332px;
+                            }
+
+                            #product-addtocart-button {
+                                width: 100%;
+                                max-width: 450px;
+                                display: flex;
+                                justify-content: center;
+                                @include icon-before('assets/icons/cart-white.svg', 20px, 20px);
+                                &:before {
+                                    margin-right: 5px;
+                                }
+                            }
+
+                            #product-addtocart-button.animate {
+                                animation: atc 1s infinite;
+                            }
+
+                            .qty {
+                                max-width: 245px;
+                                border: $input solid 1px;
+                                border-radius: $border-radius;
+                                height: 50px;
+                                overflow: hidden;
+                                margin-bottom: 5px !important;
+                                padding: 0;
+
+                                .control {
+                                    display: flex;
+                                    height: 45px;
+                                    overflow: hidden !important;
+
+                                    span {
+                                        text-align: center;
+                                        max-width: 33%;
+                                        flex-basis: 33%;
+                                        cursor: pointer;
+                                    }
+
+                                    input {
+                                        max-width: 33%;
+                                        flex-basis: 33%;
+                                        border: none;
+                                    }
+
+                                    span.add {
+                                        padding: 14px 0;
+                                        @include icon-before('assets/icons/add.svg', 20px, 20px)
+                                    }
+
+                                    span.minus {
+                                        padding: 14px 0;
+                                        @include icon-before('assets/icons/minus.svg', 20px, 20px)
+                                    }
+
+                                    .input-floating-label.show {
+                                        display: none;
+                                    }
+                                }
+                            }
+
+                            .kip-stock-status {
+                                margin-bottom: 20px;
+
+                                span {
+                                    @include medium-12;
+                                    color: $dark-green;
+                                }
+
+                                span.out {
+                                    color: $red;
+                                }
+                            }
+
+                            .kip-ipv {
+                                margin-top: 25px;
+                                max-width: 450px;
+                            }
+
+                            #product_addtocart_form {
+                                label.configurable {
+                                    margin-bottom: 15px;
+                                    display: block;
+                                }
+
+                                .note {
+                                    text-align: right;
+                                }
+
+                                #product-options-wrapper {
+                                    label.label {
+                                        //display: block;
+                                    }
+                                }
+                            }
+                        }
+
+                        #ls-discounts {
+                            order: 4;
+                            display: none;
+                        }
+                    }
+
+                    > .product.info.detailed {
+                        flex-basis: 100%;
+                        max-width: 100%;
+                        order: 3;
+
+                        margin: 0 0 38px 0;
+                        padding: 0 0 38px 0;
+                        overflow: hidden;
+                        @include break-max(mobile) {
+                            margin: 0 0 16px 0;
+                            padding: 0 0 16px 0;
+                        }
+
+                        #product-details-fresh {
+                            border-bottom: $input solid 1px;
+                            margin: 0 0 38px 0;
+                            padding: 0 0 38px 0;
+                            width: 100%;
+                            text-align: center;
+                            @include break-max(mobile) {
+                                margin: 0 0 16px 0;
+                                padding: 0 0 16px 0;
+                            }
+
+                            .content {
+                                max-width: 510px;
+                                background-color: rgba(181, 238, 212, 0.3);
+                                padding: 20px;
+                                text-align: center;
+                                margin: auto;
+
+                                @include icon-before('assets/icons/leaf-sharp.svg', 20px, 20px);
+
+                                &:before {
+                                    position: relative;
+                                    top: 2px;
+                                    margin-right: 10px;
+                                }
+                            }
+                        }
+
+                        .product.data.items {
+                            margin: 0;
+                            padding: 0;
+                            border: none;
+                            @include flex;
+
+                            > div {
+                                flex-basis: 50%;
+                                max-width: 50%;
+                                height: max-content;
+                                padding: 15px 0;
+                                @include break-max(mobile) {
+                                    flex-basis: 100%;
+                                    max-width: 100%;
+                                }
+
+                                #report-pdp-issue {
+                                    color: $sub-title;
+                                    background-color: transparent;
+                                    border: none;
+                                    text-decoration: underline;
+                                    padding: 0;
+                                    margin-top: 30px;
+                                    text-align: left;
+                                    @include icon-before('assets/icons/chatbubble.svg', 20px, 20px);
+
+                                    &:before {
+                                        position: relative;
+                                        top: 5px;
+                                        margin-right: 5px;
+                                    }
+                                }
+                            }
+
+                            #pdp-details-additional {
+                                display: none;
+                            }
+
+                            #product-details-nutritional {
+                                text-align: center;
+
+                                img {
+                                    max-width: 574px;
+                                    max-height: 600px;
+                                    margin: auto;
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+                        }
+                    }
+
+                    > .recirculation-section {
+                        flex-basis: 100%;
+                        max-width: 100%;
+                        order: 4;
+
+                        margin: 38px 0;
+                        padding: 38px 0;
+                        border-top: $input solid 1px;
+                        @include hide-scroll;
+                        @include break-max(mobile) {
+                            margin: 16px 0;
+                            padding: 16px 0;
+                        }
+
+                        .block-title {
+                            strong {
+                                @include bold-18;
+                            }
+                        }
+
+                        .products.list.items.product-items {
+                            display: flex;
+                            margin: 0;
+                            overflow: scroll;
+                            padding-bottom: 30px;
+                            -ms-overflow-style: initial !important;
+                            scrollbar-width: initial !important;
+                            &::-webkit-scrollbar {
+                                display: block !important;
+                            }
+                        }
+                    }
+
+                    > .yotpo.yotpo-main-widget {
+                        flex-basis: 100%;
+                        max-width: 100%;
+                        order: 5;
+
+                        margin: 38px auto;
+                        padding: 38px 0;
+                        border-top: $input solid 1px;
+                        @include break-max(mobile) {
+                            margin: 16px auto;
+                            padding: 16px 0;
+                        }
+
+                        .main-widget.yotpo-display-wrapper {
+                            max-width: 920px;
+                            margin: auto;
+
+                            .yotpo-regular-box,
+                            .yotpo-small-box,
+                            .yotpo-regular-small-box,
+                            .yotpo-popup-box-medium {
+                                border: none;
+                                height: 100%;
+                            }
+
+                            label {
+                                display: inline-block !important;
+                            }
+
+                            .yotpo-default-button {
+                                @include btn;
+                                padding: 13px;
+                                text-transform: capitalize;
+
+                                &:hover {
+                                    background: $gradient-background-hover !important;
+                                }
+
+                                span {
+                                    padding: 0;
+                                    text-transform: capitalize;
+                                }
+                            }
+
+                            textarea {
+                                border-radius: $border-radius;
+                                height: 154px;
+                                border-color: $input;
+
+                                &:active, &:focus {
+                                    border-color: $green;
+                                    box-shadow: none !important;
+                                }
+                            }
+                        }
+                    }
+
+                    //----------------
+
+                    .action.towishlist {
+                        @include icon-before('assets/icons/heart-empty.svg', 20px, 20px);
+                        position: absolute;
+                        z-index: 1;
+                        right: 15px;
+                        top: 15px;
+
+                        &:before {
+                            @include transition(all, 0.3s, ease)
+                        }
+
+                        &:hover {
+                            @include icon-before('assets/icons/heart.svg', 20px, 20px);
+                        }
+                    }
+
+                    .action.towishlist.wished {
+                        @include icon-before('assets/icons/heart.svg', 20px, 20px);
+                    }
+
+                    .modal-container#report-error {
+                        .modal {
+                            max-width: 795px;
+                            max-height: 90vh;
+
+                            .header {
+                                .header-img {
+                                    background-image: url('assets/backgrounds/reporterror-modal.png');
+                                    width: 85%;
+                                    @include break-max(mobile) {
+                                        width: 75%;
+                                    }
+                                }
+                            }
+
+                            .content {
+                                width: 70%;
+                                text-align: center;
+                                @include break-max(mobile) {
+                                    width: 90%;
+                                }
+
+                                .medium-14 {
+                                    margin-top: 25px;
+                                }
+
+                                form {
+                                    margin-top: 25px;
+                                    text-align: center;
+
+                                    textarea {
+                                        margin-top: 0 !important;
+                                        //max-width: 332px;
+                                    }
+                                }
+                            }
+
+                            .content.content-success {
+                                .medium-14 {
+                                    text-align: center !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+body[class*="recipe-product-page"] {
+    .page-wrapper {
+        main#maincontent {
+            .columns {
+                .column.main {
+                    max-width: 1045px;
+                    margin: auto;
+                    position: relative;
+
+                    .kip-recipe-actions {
+                        position: absolute;
+                        display: flex;
+                        right: 0;
+
+                        > a {
+                            margin-left: 25px;
+                        }
+
+                        .action.towishlist {
+                            position: initial !important;
+                        }
+
+                        .action.print {
+                            @include icon-before('assets/icons/print-sharp.svg', 20px, 20px);
+                        }
+                    }
+
+                    .product-info-main {
+                        width: 100%;
+                        flex-basis: 100%;
+                        max-width: 100%;
+                        max-height: 100%;
+
+                        .product-info-price {
+                            display: none;
+                        }
+
+                        .yotpoBottomLine {
+                            order: 0;
+                        }
+
+                        .social-media-icons {
+                            justify-content: flex-start;
+                        }
+
+                        .page-title-wrapper {
+                            h1.page-title {
+                                span {
+                                    @include bold-36;
+                                }
+                            }
+                        }
+
+                        .product.attribute.overview {
+                            @include break-max(mobile) {
+                                margin-bottom: 0;
+                            }
+
+                            table, td, tr, th {
+                                border: white solid 1px;
+                                position: relative;
+
+                                tr {
+                                    @include flex;
+                                    @include break-max(mobile) {
+                                        td {
+                                            width: 100% !important;
+                                        }
+                                    }
+                                }
+
+                                img {
+                                    object-fit: cover;
+                                    max-height: 400px;
+                                    width: 100%;
+                                    border-radius: 0 0 $border-corner 0;
+                                }
+
+                                ul {
+                                    list-style: none;
+                                    position: absolute;
+                                    width: 100%;
+                                    top: 50%;
+                                    transform: translate(0, -50%);
+                                    @include break-max(mobile) {
+                                        position: initial;
+                                        transform: none;
+                                    }
+
+                                    li {
+                                        color: $sub-title;
+                                        margin-bottom: 30px;
+                                        border-bottom: $input solid 1px;
+                                        padding-bottom: 12px;
+                                        width: 70%;
+                                        display: flex;
+                                        font-size: 16px;
+                                        @include break-max(mobile) {
+                                            margin-bottom: 25px;
+                                        }
+
+                                        /*strong {
+                                            margin-right: 13px;
+                                            color: $white;
+                                            background-color: $green;
+                                            border-radius: $border-radius;
+                                            width: 20px;
+                                            height: 20px;
+                                            display: inline-block;
+                                            text-align: center;
+                                        }*/
+
+                                        strong {
+                                            font-weight: initial;
+                                            margin-right: 5px;
+                                        }
+
+                                        &:before {
+                                            margin-right: 13px;
+                                        }
+                                    }
+
+                                    li:nth-child(1) {
+                                        @include icon-before('assets/icons/person/sharp.svg', 20px, 20px);
+                                    }
+
+                                    li:nth-child(2) {
+                                        @include icon-before('assets/icons/timer.svg', 20px, 20px);
+                                    }
+
+                                    li:nth-child(3) {
+                                        @include icon-before('assets/icons/fruit-green.svg', 16px, 20px);
+                                    }
+
+                                    li:last-child {
+                                        @include break-max(mobile) {
+                                            margin-bottom: 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .product-add-form {
+                            padding-top: 0;
+
+                            #product_addtocart_form {
+                                > .row {
+                                    margin-bottom: 30px;
+
+                                    #recipe-instructions {
+                                        padding-left: 45px;
+                                        flex-basis: calc(100% - 450px);
+                                        max-width: 575px;
+                                        @include break-max(mobile) {
+                                            padding: 0;
+                                            flex-basis: 100%;
+                                            max-width: 100%;
+                                            order: 1;
+                                            margin-bottom: 30px;
+                                        }
+
+                                        h1, h2, h3 {
+                                            @include bold-24;
+                                            color: $sub-title;
+                                            margin: 0;
+                                        }
+
+                                        ul {
+                                            list-style: none;
+
+                                            li {
+                                                @include medium-14;
+                                                color: $sub-title;
+
+                                                strong {
+                                                    @include bold-18;
+                                                    display: block;
+                                                    color: $white;
+                                                    background: $green;
+                                                    border-radius: $border-radius;
+                                                    text-align: center;
+                                                    width: 85px;
+                                                    padding: 5px;
+                                                    height: auto;
+                                                    margin: 30px 0 20px 0;
+                                                    position: relative;
+                                                    left: 17px;
+
+                                                    &:before {
+                                                        content: '';
+                                                        display: block;
+                                                        width: 0;
+                                                        height: 0;
+                                                        border-top: 8px solid transparent;
+                                                        border-bottom: 8px solid transparent;
+                                                        border-right: 8px solid $green;
+                                                        position: absolute;
+                                                        left: -8px;
+                                                        top: 8px;
+                                                    }
+
+                                                    &:after {
+                                                        content: '';
+                                                        width: 1px;
+                                                        height: 33px;
+                                                        position: absolute;
+                                                        background-color: $input;
+                                                        top: 0;
+                                                        left: -16px;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    #recipe-ingredients {
+                                        max-width: 450px;
+                                        flex-basis: 450px;
+                                        position: relative;
+                                        overflow: hidden;
+                                        @include break-max(mobile) {
+                                            padding: 0;
+                                            flex-basis: 100%;
+                                            max-width: 100%;
+                                            order: 0;
+                                            margin-bottom: 30px;
+                                        }
+
+                                        .scroller {
+                                            width: 100%;
+                                            position: absolute;
+                                            border: $input solid 1px;
+                                            border-radius: $border-radius;
+                                            padding: 27px;
+                                            left: 0;
+                                            top: 0;
+                                            @include transition(top, 0.1s, ease);
+                                            @include break-max(mobile) {
+                                                position: initial;
+                                            }
+
+                                            .tabs {
+                                                @include tabs;
+
+                                                button {
+                                                    display: none;
+                                                }
+                                                button.ready {
+                                                    display: block;
+                                                }
+                                            }
+
+                                            .tab {
+                                                opacity: 0;
+                                                position: absolute;
+                                                left: -999999px;
+
+                                                h3 {
+                                                    margin-top: 35px;
+                                                }
+
+                                                ul {
+                                                    list-style: none;
+
+                                                    li {
+                                                        margin: 40px 0;
+                                                        @include medium-14;
+                                                        color: $sub-title;
+                                                    }
+                                                }
+                                            }
+
+                                            .tab.active {
+                                                opacity: 1;
+                                                position: initial;
+                                            }
+
+                                            .table-wrapper.grouped {
+                                                margin-top: 35px;
+                                                border: none;
+                                                @include break-max(mobile) {
+                                                    margin: 20px 0;
+                                                }
+
+                                                table {
+                                                    display: grid;
+
+                                                    tbody {
+                                                        display: table-column-group;
+                                                        border: none;
+
+                                                        tr {
+                                                            display: table-row;
+
+                                                            td {
+                                                                border: none;
+                                                                padding: 0 0 25px 0;
+                                                                @include break-max(mobile) {
+                                                                    display: table-cell;
+                                                                }
+                                                            }
+
+                                                            td.img {
+                                                                width: 15%;
+                                                                position: relative;
+
+                                                                img {
+                                                                    position: absolute;
+                                                                    top: 50%;
+                                                                    left: 50%;
+                                                                    transform: translate(-50%, -50%);
+                                                                    border-radius: $border-radius;
+                                                                    width: 90%;
+                                                                }
+                                                            }
+
+                                                            td.qty {
+                                                                width: 20%;
+                                                                position: relative;
+                                                                border: none;
+
+                                                                > div {
+                                                                    border: none;
+                                                                    position: absolute !important;
+                                                                    top: 50%;
+                                                                    left: 50%;
+                                                                    width: 70%;
+                                                                    transform: translate(-50%, -50%);
+                                                                    @include break-max(mobile) {
+                                                                        width: 90%;
+                                                                    }
+
+                                                                    @include qty-controls;
+
+                                                                    .qty-controls {
+                                                                        border: none;
+                                                                    }
+
+                                                                    input {
+                                                                        padding: 0;
+                                                                        max-width: 100%;
+                                                                        flex-basis: 100%;
+                                                                        border: none;
+                                                                    }
+
+                                                                    .input-floating-label.show {
+                                                                        display: none;
+                                                                    }
+                                                                }
+
+                                                                .stock.unavailable {
+                                                                    color: $red;
+                                                                    text-align: center;
+                                                                }
+                                                            }
+
+                                                            td.item {
+                                                                width: 25%;
+                                                                padding-left: 20px;
+                                                                @include break-max(mobile) {
+                                                                    padding-left: 5px;
+                                                                }
+
+                                                                span.price {
+                                                                    @include bold-18;
+                                                                    color: $dark-green;
+                                                                }
+                                                            }
+
+                                                            td.atc {
+                                                                width: 15%;
+                                                                position: relative;
+
+                                                                .action.tocart {
+                                                                    min-width: 50px;
+                                                                    @include icon-before('assets/icons/cart-white.svg', 20px, 20px);
+                                                                    position: absolute;
+                                                                    top: 50%;
+                                                                    left: 50%;
+                                                                    width: 50px;
+                                                                    transform: translate(-50%, -50%);
+                                                                    padding: 14px;
+                                                                }
+
+                                                                .action.tocart.animate {
+                                                                    animation: atc 1s infinite;
+                                                                }
+
+                                                                .action.tocart.out {
+                                                                    background: $input;
+                                                                    border-color: $input;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            #ingredients-container {
+                                                br {
+                                                    display: block;
+                                                    margin: 5px 0;
+                                                }
+                                            }
+
+                                            .ingredients-footer {
+                                                text-align: center;
+
+                                                p {
+                                                    margin-top: 15px;
+                                                    color: $text;
+                                                }
+
+                                                #order-recipe.animate {
+                                                    animation: atc 1s infinite;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .box-tocart {
+                                    display: none;
+                                }
+                            }
+                        }
+
+                        .product-reviews-summary {
+                            display: none;
+                        }
+                    }
+
+                    .product.media,
+                    .product.info.detailed {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

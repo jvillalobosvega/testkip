@@ -1,0 +1,25 @@
+<?php
+
+/** @var \Bananacode\Referral\Block\Index $block */
+?>
+
+<?php
+
+$referral = $block->getReferralModel();
+
+?>
+
+<?php if($referral): ?>
+    <?php if(isset($referral['referral_code'])): ?>
+        <h3>Compartir codigo: <?= $referral['referral_code'] ?></h3>
+        <h3>Tu código se ha utilizado <?= isset($referral['times_used']) ? $referral['times_used'] : 0 ?> vez</h3>
+        <h3>Total ganado: $<?= isset($referral['total_earned']) ? $referral['total_earned'] : 0 ?></h3>
+        <h3>Total usado: $<?= isset($referral['total_spent']) ? $referral['total_spent'] : 0 ?></h3>
+
+        <?php if(isset($referral['total_earned']) && isset($referral['total_spent'])): ?>
+            <h3>Saldo actual: $<?= $referral['total_earned'] - $referral['total_spent'] ?></h3>
+        <?php else: ?>
+            <h3>Saldo actual: $0.00</h3>
+        <?php endif ?>
+    <?php endif ?>
+<?php endif ?>

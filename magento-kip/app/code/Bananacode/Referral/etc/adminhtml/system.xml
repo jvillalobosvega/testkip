@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="referrals" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Referrals</label>
+            <tab>bananacode</tab>
+            <resource>Bananacode_Base::config</resource>
+            <group id="settings" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Referrals</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Select Yes to enable this module</comment>
+                </field>
+                <field id="coupon_type" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Tipo de cupón</label>
+                    <comment>Opciones: by_percent, cart_fixed</comment>
+                </field>
+                <field id="coupon_amount" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Monto de cupón</label>
+                </field>
+                <field id="coupon_max_amount" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Monto de cupón máximo</label>
+                </field>
+                <field id="dollars_earned" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Dólares ganados por orden</label>
+                </field>
+                <field id="expiration_days" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Días de expiración</label>
+                </field>
+                <field id="copy_share" translate="label" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Copiar</label>
+                    <comment>%1 para reemplazar por el código, ejemplo: Te comparto mí código %1 para que obtengas un des...</comment>
+                </field>
+                <field id="facebook_share" translate="label" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Facebook</label>
+                    <comment>%1 para reemplazar por el código, ejemplo: Te comparto mí código %1 para que obtengas un des...</comment>
+                </field>
+                <field id="whatsapp_share" translate="label" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Whatsapp</label>
+                    <comment>%1 para reemplazar por el código, ejemplo: Te comparto mí código %1 para que obtengas un des...</comment>
+                </field>
+                <field id="email_share_subject" translate="label" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Email: Subject</label>
+                    <comment>%1 para reemplazar por el código, ejemplo: Te comparto mí código %1 para que obtengas un des...</comment>
+                </field>
+                <field id="email_share_body" translate="label" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Email: Body</label>
+                    <comment>%1 para reemplazar por el código, ejemplo: Te comparto mí código %1 para que obtengas un des...</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

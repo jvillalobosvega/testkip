@@ -1,0 +1,514 @@
+/*------------------------------------*\
+      Modals, Dialogs Basic Styles
+\*------------------------------------*/
+.modal-container {
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgba(1, 1, 1, 0.5);
+    z-index: 9999999;
+
+    .modal {
+        @include shadow-container(auto, 90vw, 1300px, auto, 942px);
+        background-color: $white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        @include hide-scroll;
+        max-height: 90vh;
+        @include hide-scroll;
+        @include break-max(mobile) {
+            max-height: 80vh;
+        }
+
+        .header {
+            .header-img {
+                background-image: url('assets/backgrounds/experience-modal.png');
+                background-position: center;
+                background-size: cover;
+                width: 85%;
+                height: 121px;
+                border-radius: 0 0 $border-corner 0;
+                @include break-max(mobile) {
+                    width: 75%;
+                    height: 80px;
+                }
+
+                @include icon-before('assets/logo-kip.svg', 91px, 91px, 61px, 61px);
+
+                &:before {
+                    position: absolute;
+                    top: 0;
+                    left: 30px;
+                    @include break-max(mobile) {
+                        left: 15px;
+                    }
+                }
+            }
+
+            .close-modal {
+                cursor: pointer;
+                background-color: transparent;
+                border-color: transparent;
+                box-shadow: none;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                @include break-max(mobile) {
+                    right: 5px;
+                    top: 5px;
+                    border-radius: 50%;
+                    height: 33px;
+                }
+
+                @include icon-before('assets/icons/close.svg', 30px, 30px);
+
+            }
+        }
+
+        .content {
+            width: 90%;
+            //position: absolute;
+            //left: 50%;
+            //top: 50%;
+            //transform: translate(-50%, -50%);
+            max-width: 910px;
+            margin: 30px auto;
+            background: white;
+            padding: 0 15px;
+            @include break-max(mobile) {
+                display: block;
+                border: none;
+                margin: 15px auto;
+            }
+
+            > h1 {
+                text-align: center;
+                margin: 30px auto;
+                @include break-max(mobile) {
+                    margin: 20px auto;
+                }
+            }
+
+            > p {
+                text-align: center;
+            }
+
+            form {
+                margin: 15px auto 0 auto;
+
+                .section {
+                    margin-bottom: 25px;
+                }
+
+                .row.section {
+                    select, input {
+                        width: calc(33.3333% - 20px);
+                        margin: 10px;
+                        @include break-max(mobile) {
+                            margin: 5px auto;
+                            width: 100%;
+                        }
+                    }
+                }
+
+                .row {
+                    .col {
+                        margin: 5px 0;
+                        text-align: left;
+                    }
+                }
+            }
+
+            > .row {
+                margin-top: 30px;
+                justify-content: center;
+                @include break-max(mobile) {
+                    margin-top: 20px;
+                }
+
+                button {
+                    width: 40%;
+                    max-width: 250px;
+                    margin: auto 5%;
+                    @include break-max(mobile) {
+                        width: 50%;
+                        max-width: 48%;
+                        margin: 1%;
+                    }
+                }
+            }
+
+            .medium-14 {
+                text-align: left;
+
+                strong {
+                    color: $dark-green;
+                }
+            }
+        }
+
+        .content.hide {
+            display: none;
+        }
+
+        .footer {
+            max-width: 910px;
+            margin: auto;
+            background: white;
+            padding: 0 15px;
+            @include break-max(mobile) {
+                padding-bottom: 50px;
+            }
+
+            .row {
+                margin-top: 30px;
+                justify-content: center;
+                @include break-max(mobile) {
+                    margin-top: 20px;
+                }
+
+                button {
+                    width: 100%;
+                    max-width: 250px;
+                    margin: auto 5%;
+                    @include break-max(mobile) {
+                        max-width: 48%;
+                        margin: 1%;
+                    }
+                }
+            }
+        }
+
+        .footer.hide {
+            display: none;
+        }
+    }
+
+    .modal.loader-kip {
+        background: none;
+        width: auto;
+        height: auto;
+        border-radius: 0;
+        box-shadow: none;
+
+        @include icon-after('assets/loader-1.gif', 91px, 91px, 61px, 61px);
+        &:after {
+            width: 75px;
+            height: 105px;
+        }
+    }
+
+    .modal.loader-kip.copy {
+        text-align: center;
+        background-color: $white;
+        box-shadow: $box-shadow;
+        border-radius: $border-radius;
+        padding: 30px;
+
+        p {
+            margin-bottom: 20px;
+            max-width: 370px;
+        }
+    }
+}
+
+.modal-container.active {
+    display: block;
+}
+
+.page.messages {
+    display: none;
+}
+
+.modal-container#shipping-zone {
+    .modal {
+        @include hide-scroll;
+
+        .header {
+            .header-img {
+                background-image: url('assets/backgrounds/shippingzone-modal.jpg');
+                width: 85%;
+                @include break-max(mobile) {
+                    width: 75%;
+                }
+            }
+        }
+
+        .content {
+            width: 100%;
+            max-width: 100%;
+            padding: 0;
+            @include break-max(mobile) {
+                padding-bottom: 30px;
+            }
+
+            .medium-16 {
+                text-align: center;
+                color: $text;
+                @include break-max(mobile) {
+                    padding: 0 30px;
+                }
+            }
+
+            .map-container {
+                margin-top: 30px;
+                position: relative;
+
+                #google-map {
+                    width: 100%;
+                    height: 485px;
+                }
+            }
+        }
+    }
+}
+
+#kip-ajax-loader-modal {
+    z-index: 9999999999;
+}
+
+#login-popup,
+#wishlist-popup {
+    .modal {
+        max-width: 500px;
+        max-height: 465px;
+        @include hide-scroll;
+
+        .header {
+            position: relative;
+            z-index: 1;
+        }
+
+        .mode {
+            display: none;
+        }
+
+        .mode.active {
+            display: block;
+        }
+
+        .logout.mode {
+            text-align: center;
+
+            p {
+                text-align: center;
+            }
+
+            a {
+                padding-top: 13px;
+                display: block;
+                color: $white;
+                text-decoration: none;
+                margin: 25px auto;
+                max-width: 150px;
+            }
+
+            a.secondary-btn {
+                color: $dark-green;
+
+                &:hover {
+                    color: $white;
+                }
+            }
+        }
+
+        .logged.mode {
+            width: 90%;
+            padding: 30px 0;
+
+            .bold-18 {
+                text-align: center;
+                max-width: 375px;
+                margin: auto;
+
+                span {
+                    color: $dark-green;
+                }
+            }
+
+            form.search {
+                position: relative;
+                margin-bottom: 30px;
+                @include icon-before('assets/icons/search.svg', 20px, 20px);
+
+                &:before {
+                    position: absolute;
+                    top: 16px;
+                    left: 10px;
+                    z-index: 1;
+                }
+
+                input {
+                    padding-left: 40px;
+                    width: 100%;
+                }
+            }
+
+            p {
+                margin-bottom: 20px;
+            }
+
+            #wish-lists {
+                ul {
+                    max-height: 120px;
+                    @include hide-scroll;
+                    list-style: none;
+
+                    li {
+                        display: flex;
+                        padding: 10px 5px;
+                        margin: 0;
+                        cursor: pointer;
+                        @include icon-before('assets/icons/fruit.svg', 15px, 19px);
+                        &:before {
+                            margin-right: 5px;
+                        }
+
+                        img {
+                            border-radius: $border-radius;
+                            width: 25px;
+                            margin-right: 5px;
+                        }
+
+                        &:hover {
+                            background-color: $input;
+                        }
+                    }
+
+                    li.added {
+                        position: relative;
+                        @include icon-after('assets/icons/heart.svg', 20px, 20px);
+
+                        &:after {
+                            position: absolute;
+                            right: 5px;
+                        }
+                    }
+
+                    li.hide {
+                        display: none;
+                    }
+                }
+            }
+
+            #create-wish-lists {
+                text-align: center;
+                padding-top: 30px;
+                border-top: $input solid 1px;
+
+                button {
+                    padding-left: 40px;
+                    position: relative;
+                    border: none;
+                    box-shadow: none;
+                    background-color: transparent;
+
+                    @include icon-before('assets/icons/add-circle.svg', 25px, 25px);
+
+                    &:before {
+                        position: absolute;
+                        top: 5px;
+                        left: 10px;
+                        z-index: 1;
+                    }
+                }
+            }
+
+            .sub-content {
+                display: none;
+            }
+
+            .sub-content.active {
+                display: block;
+            }
+
+            .sub-content.new {
+                text-align: center;
+
+                p {
+                    text-align: center;
+                }
+
+                form {
+                    margin: 30px 0;
+
+                    input {
+                        width: 100%;
+                    }
+                }
+
+                button {
+                    width: 45%;
+                }
+            }
+        }
+    }
+}
+
+.page.messages {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+//Magento Core Modals
+body {
+    .modal-popup {
+        .modal-inner-wrap {
+            position: absolute;
+            top: 0;
+            padding: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            @include shadow-container(0, auto, 695px);
+            @include transition(top, 0.3s, ease);
+
+            .modal-content {
+                text-align: center;
+
+                a.action.primary {
+                    @include btn-gradient;
+                }
+                a.action.secondary {
+                    @include btn;
+                }
+            }
+
+            .modal-footer {
+                text-align: center;
+
+                button {
+                    min-width: 40%;
+                }
+
+                .action-primary {
+                    @include btn-gradient;
+                }
+            }
+        }
+    }
+
+    .modal-popup._show {
+        .modal-inner-wrap {
+            top: 50%;
+            @include transition(top, 0.3s, ease);
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            @include break-max(mobile) {
+                width: 90%;
+            }
+        }
+    }
+
+    .modals-overlay {
+        background: rgba(1, 1, 1, 0.5);
+    }
+}
+

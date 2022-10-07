@@ -1,0 +1,260 @@
+<?php
+
+/** @var Offers $this */
+
+use Ls\Customer\Block\Loyalty\Offers;
+use Magento\Framework\App\Action\Action;
+
+$type = 'General';
+$offers = $this->getOffers();
+$total = is_array($offers) ? count($offers) : 0;
+$c = 0;
+
+/** @var $kipBlocks \Bananacode\Kip\Block\CustomBlocks */
+$kipBlocks = $block->getLayout()->createBlock('Bananacode\Kip\Block\CustomBlocks');
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+
+/**
+ * @var \Magento\Catalog\Block\Product\ListProduct $_productListBlock
+ */
+$_productListBlock = $block->getLayout()->createBlock('\Magento\Catalog\Block\Product\ListProduct');
+
+?>
+
+<?= $kipBlocks->getHtmlBlock('offers') ?>
+
+<h1 class="bold-24">
+    <?= __('Ofertas'); ?>
+</h1>
+
+<div class="coupons-view-kip">
+    <?php if (is_array($offers) && $total > 0) : ?>
+        <ol class="products list items product-items row">
+            <?php foreach ($offers as $offer) : ?>
+                <?php
+                if ($offer->getType() != $type) {
+                    continue;
+                }
+
+                $offerEntity = $this->getOfferProductCategoryLink($offer->getOfferLines()->getPublishedOfferLine());
+                if ($offerEntity[0]) {
+                    $c++;
+                    $images = $this->fetchImages($offer); ?>
+                    <li class="offer product product-item col-sm-3 col-md-3 col-lg-3">
+                        <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+                        <?php $_product = $offerEntity[0]; ?>
+
+                        <div class="product-item-info"
+                             id="product-item-info_<?= $_product ? $_product->getId() : '' ?>"
+                        >
+                            <?php
+                            // @codingStandardsIgnoreStart
+                            if (count($images) && !empty($images[0])) :
+                                // @codingStandardsIgnoreEnd
+                                ?>
+                                <div class="product photo product-item-photo">
+                                    <a href="<?= $offerEntity[2] ?? '' ?>">
+                                        <img id="coupon-collection-image-<?= $c ?>"
+                                             src="<?= $this->getMediaPathToLoad() . $images[0] ?>" alt="<?= $offer->getDescription() ?> ">
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
+                            <!-- Details -->
+                            <div class="product details product-item-details">
+                                <strong class="product name product-item-name">
+                                    <a class="product-item-link" href="<?= $offerEntity[2] ?? '' ?>">
+                                        <?= $offer->getDescription(); ?>
+                                    </a>
+                                </strong>
+
+                                <div class="product description">
+                                    <?php if ($offer->getCode() == 'Coupon') : ?>
+                                        <p>
+                                            <strong><?= __("Code: "); ?></strong>
+                                            <?= $offer->getOfferId(); ?>
+                                        </p>
+                                    <?php endif; ?>
+
+                                    <p style="display: none">
+                                        <strong><?= __("Offer Type: "); ?></strong>
+                                        <?= $offer->getCode(); ?>
+                                    </p>
+
+                                    <?php if (!empty($offer->getExpirationDate())) : ?>
+                                        <?php $expiryDate = $this->getOfferExpiryDate($offer->getExpirationDate()); ?>
+                                        <?php if (!empty($expiryDate)) : ?>
+                                            <p style="display: none">
+                                                <strong><?= __("Expiry: "); ?></strong>
+                                                <?= $this->getOfferExpiryDate($offer->getExpirationDate()); ?>
+                                            </p>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+
+                                    <p><?= $offer->getDetails(); ?></p>
+                                </div>
+
+                                <?php if ($offerEntity[1] === 'product') : ?>
+                                    <?php if ($_product) : ?>
+                                        <?= /* @noEscape */ $_productListBlock->getProductPrice($_product) ?>
+
+                                        <div class="product-item-inner">
+                                            <div class="product actions product-item-actions">
+                                                <div class="actions-primary">
+                                                    <?php $postParams = $_productListBlock->getAddToCartPostParams($_product); ?>
+                                                    <?php if ($_product->isSaleable()): ?>
+                                                        <form data-role="tocart-form"
+                                                              data-product-sku="<?= $block->escapeHtml($_product->getSku()) ?>"
+                                                              action="<?= $block->escapeUrl($postParams['action']) ?>"
+                                                              method="post">
+                                                            <input name="<?= Action::PARAM_NAME_URL_ENCODED ?>"
+                                                                   type="hidden"
+                                                                   value="<?= $postParams['data'][Action::PARAM_NAME_URL_ENCODED] ?>">
+
+                                                            <?= $block->getBlockHtml('formkey') ?>
+
+                                                            <?php if (($_product->getTypeId() == 'simple' || $_product->getTypeId() == 'virtual') && $_product->getFinalPrice() > 0): ?>
+                                                                <div class="hover-atc">
+                                                                    <input type="hidden"
+                                                                           name="product"
+                                                                           value="<?= /* @noEscape */
+                                                                           $postParams['data']['product'] ?>">
+                                                                    <button type="submit"
+                                                                            title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>"
+                                                                            class="action tocart primary">
+                                                                        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                                                                    </button>
+                                                                    <div class="qty-controls">
+                                                                        <span class="minus">
+                                                                            <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
+                                                                                <use xlink:href="#img-minus"></use>
+                                                                            </svg>
+                                                                        </span>
+                                                                        <input name="qty" id="qty" type="number"
+                                                                               value="<?= $kip->getMinSale($_product); ?>"
+                                                                               data-min="<?= $kip->getMinSale($_product); ?>"
+                                                                        >
+                                                                        <span class="add">
+                                                                            <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use xlink:href="#img-add"></use></svg>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            <?php else: ?>
+                                                                <div>
+                                                                    <input type="hidden"
+                                                                           name="product"
+                                                                           value="<?= /* @noEscape */
+                                                                           $postParams['data']['product'] ?>">
+                                                                    <a href="<?= $block->escapeUrl($_product->getProductUrl()) ?>"
+                                                                       title="<?= $block->escapeHtmlAttr(__('Elegir')) ?>"
+                                                                       class="action togo primary">
+                                                                        <span><?= $block->escapeHtml(__('Elegir')) ?></span>
+                                                                    </a>
+                                                                </div>
+                                                            <?php endif; ?>
+                                                        </form>
+                                                    <?php else: ?>
+                                                        <?php if ($_product->isAvailable()): ?>
+
+                                                        <?php else: ?>
+                                                            <div class="out-of-stock">
+                                                                <input type="hidden"
+                                                                       name="product"
+                                                                       value="<?= /* @noEscape */
+                                                                       $postParams['data']['product'] ?>">
+                                                                <button disabled
+                                                                        title="<?= $block->escapeHtmlAttr(__('Out of Stock')) ?>"
+                                                                        class="action tocart primary">
+                                                                    <span><?= $block->escapeHtml(__('Out of Stock')) ?></span>
+                                                                </button>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    <?php endif; ?>
+                                                </div>
+
+                                                <div data-role="add-to-links" class="actions-secondary <?= 0 > 0 ? 'is-wished' : '' ?>">
+                                                    <?php if ($addToBlock = $block->getChildBlock('addto')): ?>
+                                                        <?= $addToBlock->setProduct($_product)->getChildHtml() ?>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <div class="product-item-inner">
+                                    <div class="product actions product-item-actions">
+                                        <div class="actions-primary">
+                                            <a class="primary-btn" href="<?= $offerEntity[2] ?? '' ?>">
+                                                <?= __('Ver'); ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </li>
+                <?php } else {
+                    if(!empty($offer->getDetails())) {
+                        $c++;
+                        $images = $this->fetchImages($offer); ?>
+                        <li class="offer product product-item col-sm-3 col-md-3 col-lg-3">
+                            <div class="product-item-info">
+                                <?php
+                                // @codingStandardsIgnoreStart
+                                if (count($images) && !empty($images[0])) :
+                                    // @codingStandardsIgnoreEnd
+                                    ?>
+                                    <div class="product photo product-item-photo">
+                                        <img id="coupon-collection-image-<?= $c ?>"
+                                             src="<?= $this->getMediaPathToLoad() . $images[0] ?>"
+                                             alt="<?= $offer->getDescription() ?> ">
+                                    </div>
+                                <?php endif; ?>
+
+                                <!-- Details -->
+                                <div class="product details product-item-details">
+                                    <strong class="product name product-item-name">
+                                        <?= $offer->getDescription(); ?>
+                                    </strong>
+
+                                    <div class="product description">
+                                        <?php if ($offer->getCode() == 'Coupon') : ?>
+                                            <p>
+                                                <strong><?= __("Code: "); ?></strong>
+                                                <?= $offer->getOfferId(); ?>
+                                            </p>
+                                        <?php endif; ?>
+
+                                        <p><?= $offer->getDetails(); ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                 <?php  }
+                } ?>
+
+            <?php endforeach; ?>
+            <?php if(isset($_product)): ?>
+                <script type="text/x-magento-init">
+                {
+                    "[data-role=tocart-form], .form.map.checkout": {
+                        "catalogAddToCart": {
+                            "product_sku": "<?= $block->escapeJs($_product->getSku()); ?>"
+                        }
+                    }
+                }
+                </script>
+            <?php endif; ?>
+        </ol>
+    <?php endif; ?>
+    <?php if ($c < 1) : ?>
+        <div class="no-offers">
+            <?= __('No hay ofertas por el momento, puedes volver más tarde.'); ?>
+        </div>
+    <?php endif; ?>
+</div>

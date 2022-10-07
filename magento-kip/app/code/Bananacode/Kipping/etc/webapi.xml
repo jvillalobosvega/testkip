@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/kipping/schedules" method="GET">
+        <service class="Bananacode\Kipping\Api\KippingInterface" method="schedules"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kipping/app/schedules" method="GET">
+        <service class="Bananacode\Kipping\Api\KippingInterface" method="schedules"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kipping/session" method="POST">
+        <service class="Bananacode\Kipping\Api\KippingInterface" method="session"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/kipping/comment" method="POST">
+        <service class="Bananacode\Kipping\Api\KippingInterface" method="comment"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

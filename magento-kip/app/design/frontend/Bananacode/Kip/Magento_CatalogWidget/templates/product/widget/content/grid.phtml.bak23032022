@@ -1,0 +1,202 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\ActionInterface;
+
+/** @var \Magento\CatalogWidget\Block\Product\ProductsList $block */
+
+/** @var \Magento\Catalog\Helper\Output $_helper */
+$_helper = $this->helper('\Magento\Catalog\Helper\Output');
+$_productListBlock = $block->getLayout()->createBlock('\Magento\Catalog\Block\Product\ListProduct');
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+?>
+<?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())) : ?>
+    <?php
+    $type = 'widget-product-grid';
+
+    $mode = 'grid';
+
+    $image = 'new_products_content_widget_grid';
+    $items = $block->getProductCollection()->getItems();
+
+    $showWishlist = true;
+    $showCompare = true;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    $description = false;
+    ?>
+    <div class="block widget block-products-list <?= /* @noEscape */ $mode ?>">
+        <?php if ($block->getTitle()) : ?>
+            <div class="block-title">
+                <strong><?= $block->escapeHtml(__($block->getTitle())) ?></strong>
+            </div>
+        <?php endif ?>
+        <div class="block-content">
+            <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
+            <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
+                <button class="arrow left"><span>Left</span></button>
+                <ol class="product-items <?= /* @noEscape */ $type ?>">
+                    <?php $iterator = 1; ?>
+                    <?php foreach ($items as $_item) : ?>
+                        <?= /* @noEscape */ ($iterator++ == 1) ? '<li class="product-item product item">' : '</li><li class="product-item product item">' ?>
+
+                        <div class="product-item-info type-<?= $_item->getTypeId() ?>"
+                            id="product-item-info_<?= $_item->getId() ?>">
+                            <!-- Labels -->
+                            <div class="kip-labels">
+                                <?= $kip->getProductLabels($_item) ?>
+                            </div>
+
+                            <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
+                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                               class="product photo product-item-photo">
+                                <?php $productImage = $block->getImage($_item, $image); ?>
+                                <?= $kip->getProductImageHtml($productImage, $_item) ?>
+                            </a>
+                            <div class="product details product-item-details">
+                                <strong class="product name product-item-name"><a
+                                            class="product-item-link"
+                                            title="<?= $block->escapeHtmlAttr($_item->getName()) ?>"
+                                            href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>">
+                                        <?= $block->escapeHtml($_item->getName()) ?></a>
+                                </strong>
+
+                                <?php if ($_item->getTypeId() != 'grouped'): ?>
+                                    <div class="product description">
+                                        <?php $presentacion = $kip->getPresentacion($_item) ?>
+                                        <?php if ($presentacion) :?>
+                                            <?= /* @noEscape */ $presentacion ?>
+                                        <?php else: ?>
+                                            <?= $_helper->productAttribute($_item, $_item->getShortDescription(), 'short_description') ?>
+                                        <?php endif ?>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="grouped-product description">
+                                        <?php $recipeProps = $kip->getRecipeProps($_item) ?>
+                                        <?php if ($recipeProps) :?>
+                                            <?= /* @noEscape */ $recipeProps ?>
+                                        <?php else: ?>
+                                            <?= $_helper->productAttribute($_item, $_item->getShortDescription(), 'short_description') ?>
+                                        <?php endif ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?= /* @noEscape */ $block->getProductPrice($_item) ?>
+
+                                <?php if ($templateType):?>
+                                    <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                                <?php endif; ?>
+
+                                <?php // phpcs:disable?>
+                                <div class="product-item-inner">
+                                    <div class="product actions product-item-actions">
+                                        <?php if ($showCart):?>
+                                            <div class="actions-primary">
+                                                <?php $postArray = $_productListBlock->getAddToCartPostParams($_item); ?>
+                                                <?php if ($_item->isSaleable()):?>
+                                                    <?php if (!$_item->getTypeInstance()->isPossibleBuyFromList($_item)):?>
+                                                        <button
+                                                                class="action tocart primary"
+                                                                data-mage-init='{"redirectUrl": {"url": "<?= $block->escapeUrl($block->getAddToCartUrl($_item)) ?>"}}' type="button" title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>">
+                                                            <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                                                        </button>
+                                                    <?php else :?>
+                                                        <?php $value = $postArray['data'][ActionInterface::PARAM_NAME_URL_ENCODED]; ?>
+                                                        <form data-role="tocart-form"
+                                                              data-product-sku="<?= $block->escapeHtmlAttr($_item->getSku()) ?>"
+                                                              action="<?= $block->escapeUrl($block->getAddToCartUrl($_item)) ?>"
+                                                              method="post">
+                                                            <input type="hidden"
+                                                                   name="product"
+                                                                   value="<?= /* @noEscape */ (int)$_item->getEntityId() ?>">
+                                                            <input type="hidden"
+                                                                   name="<?= /* @noEscape */ ActionInterface::PARAM_NAME_URL_ENCODED?>"
+                                                                   value="<?= /* @noEscape */ $value ?>">
+                                                            <?= $block->getBlockHtml('formkey') ?>
+
+                                                            <?php if (($_item->getTypeId() == 'simple' || $_item->getTypeId() == 'virtual') && $_item->getPrice() > 0): ?>
+                                                                <div class="hover-atc">
+                                                                    <input type="hidden"
+                                                                           name="product"
+                                                                           value="<?= /* @noEscape */ $postArray['data']['product'] ?>">
+                                                                    <button type="submit"
+                                                                            title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>"
+                                                                            class="action tocart primary"> <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                                                                    </button>
+                                                                    <div class="qty-controls">
+                                                                        <span class="minus">
+                                                                            <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use xlink:href="#img-minus"></use></svg>
+                                                                        </span>
+                                                                        <input name="qty" id="qty" type="number"
+                                                                               value="<?= $kip->getMinSale($_item); ?>"
+                                                                               data-min="<?= $kip->getMinSale($_item); ?>"
+                                                                        >
+                                                                        <span class="add">
+                                                                            <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use xlink:href="#img-add"></use></svg>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            <?php else: ?>
+                                                                <div>
+                                                                    <input type="hidden"
+                                                                           name="product"
+                                                                           value="<?= /* @noEscape */ $postArray['data']['product'] ?>">
+                                                                    <a href="<?= $block->escapeUrl($_item->getProductUrl()) ?>"
+                                                                       title="<?= $block->escapeHtmlAttr(__('Elegir')) ?>"
+                                                                       class="action togo primary"> <span><?= $block->escapeHtml(__('Elegir')) ?></span>
+                                                                    </a>
+                                                                </div>
+                                                            <?php endif; ?>
+
+                                                        </form>
+                                                    <?php endif; ?>
+                                                <?php else:?>
+                                                    <?php if ($_item->isAvailable()): ?>
+
+                                                    <?php else: ?>
+                                                        <div class="out-of-stock">
+                                                            <input type="hidden"
+                                                                   name="product"
+                                                                   value="<?= /* @noEscape */ $postArray['data']['product'] ?>">
+                                                            <button disabled
+                                                                    title="<?= $block->escapeHtmlAttr(__('Out of Stock')) ?>"
+                                                                    class="action tocart primary"> <span><?= $block->escapeHtml(__('Out of Stock')) ?></span>
+                                                            </button>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <div class="secondary-addto-links actions-secondary" data-role="add-to-links">
+                                            <a href="#"
+                                               class="action towishlist <?= $_item->getTypeId() ?>"
+                                               title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>"
+                                               aria-label="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>"
+                                               role="button"
+                                               data-product="<?= $_item->getEntityId() ?>"
+                                               data-name="<?= $_item->getName() ?>"
+                                            ></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php // phpcs:enable?>
+                            </div>
+                        </div>
+
+                        <?= ($iterator == count($items) + 1) ? '</li>' : '' ?>
+                    <?php endforeach ?>
+                </ol>
+                <button class="arrow right"><span>Right</span></button>
+            </div>
+            <?= $block->getPagerHtml() ?>
+        </div>
+    </div>
+<?php endif;?>

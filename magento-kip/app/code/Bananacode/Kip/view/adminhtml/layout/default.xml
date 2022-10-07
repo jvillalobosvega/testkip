@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<link src="Bananacode_Kip::js/kip.js"/>
+		<css src="Bananacode_Kip::css/kip.css"/>
+	</head>
+	<body>
+		<referenceBlock name="logo">
+            <arguments>
+            	<argument name="logo_image_src" xsi:type="string">Bananacode_Kip/images/logo.png</argument>
+            </arguments>
+        </referenceBlock>
+	</body>
+</page>

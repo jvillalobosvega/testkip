@@ -1,0 +1,214 @@
+<?php
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Ls\Customer\Block\Order\Info */ ?>
+<?php $_order = $block->getOrder() ?>
+<?php
+$_mapHelper = $this->helper('Bananacode\Kip\Helper\Map');
+$_mapPolygon = $_mapHelper->getPolygon();
+$_mapCenter = $_mapHelper->getCenter();
+$_mapKey = $_mapHelper->getKey();
+$_mapPolygonRestricted = $_mapHelper->getPolygonRestricted();
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+?>
+<div class="block block-order-details-view">
+    <div class="block-title">
+        <strong><?= /* @escapeNotVerified */
+            __('Order Information') ?></strong>
+    </div>
+    <div class="block-content">
+        <?php if (!$block->getOrder()->getClickAndCollectOrder() && !empty($block->getFormattedAddress())) { ?>
+            <div class="box box-order-shipping-address">
+                <strong class="box-title"><span><?= /* @escapeNotVerified */
+                        __('Shipping Address') ?></span></strong>
+                <div class="box-content">
+                    <address><?= /* @escapeNotVerified */
+                        $block->getFormattedAddress() ?></address>
+                </div>
+            </div>
+        <?php }
+        if (true) {
+            ?> <div class="box box-order-kip-data">
+                <?php
+                if(gettype($block->getMagOrder()) !== 'array') {
+                    foreach ($block->getMagOrder()->getStatusHistoryCollection() as $status) {
+                        if ($status->getComment() && $status->getIsVisibleOnFront()) {
+                            echo '<p>' . ucfirst(strtolower($status->getComment())) . '</p>';
+                        }
+                    }
+                } ?>
+                </div>
+            <?php
+        }
+        if (gettype($block->getMagOrder()) !== 'array') {
+            ?> <div class="box box-order-map-data">
+                    <div class="map-container">
+                        <input name="address_latitude" hidden value="<?= $block->getMagOrder()->getAddressLatitude() ?>">
+                        <input name="address_longitude" hidden value="<?= $block->getMagOrder()->getAddressLongitude() ?>">
+                        <input name="map_view_only" hidden value="true">
+                        <input name="map_key" hidden value="<?= $_mapKey ?>">
+                        <input name="map_center" hidden value='<?= $_mapCenter ?>'>
+                        <input name="map_polygon" hidden value='<?= $_mapPolygon ?>'>
+                        <input name="map_polygon_restricted" hidden value='<?= $_mapPolygonRestricted ?>'>
+                    </div>
+                </div>
+            <?php
+        }
+        if (true) { ?>
+            <div class="box box-order-ki-points">
+                <?= $block->getFormattedLoyaltyPoints($_order->getPointsRewarded()); ?>pts
+            </div>
+            <?php
+        }
+        if (!empty($block->getPaymentDescription()[0])) {
+            ?>
+            <div class="box box-order-billing-method">
+                <strong class="box-title">
+                <span><?= /* @escapeNotVerified */
+                    __('Payment Method') ?></span>
+                </strong>
+                <div class="box-content">
+                    <?= $block->escapeHtml($block->getPaymentDescription()[0]) ?>
+                </div>
+            </div>
+            <?php
+        } ?>
+    </div>
+</div>
+
+<div class="block block-order-report">
+    <button class="open-modal" id="report-order-error" data-m="report-error">
+        Reportar problema
+    </button>
+
+    <!-- Report Error Modal -->
+    <div id="report-error" class="modal-container">
+        <div class="modal">
+            <div class="header">
+                <button class="close-modal"></button>
+            </div>
+
+            <div class="content">
+                <h1 class="bold-24"><?= $block->escapeHtml(__('Reportar problema con pedido')) ?></h1>
+                <p class="medium-16"><?= (__('Comentanos acerca del problema')) ?></p>
+                <form id="report-error-form" method="POST" action="/contact/index/post/">
+                    <input hidden name="name" value="<?= $kip->getCustomerName() ?>">
+                    <input hidden name="email" value="<?= $kip->getCustomerEmail() ?>">
+                    <input hidden name="telephone" value="<?= $kip->getCustomerTelephone() ?>">
+                    <?= $block->getBlockHtml('formkey') ?>
+                    <select name="problem">
+                        <option value="">Seleccionar problema</option>
+                        <option value="Mala experiencia de compra">Mala experiencia de compra</option>
+                        <option value="Mala experiencia de entrega">Mala experiencia de entrega</option>
+                        <option value="Orden incorrecta">Orden incorrecta</option>
+                        <option value="Orden no llegó completa">Orden no llegó completa</option>
+                        <option value="Orden llegó tarde">Orden llegó tarde</option>
+                        <option value="Producto con mala calidad">Producto con mala calidad</option>
+                        <option value="Producto dañado">Producto dañado</option>
+                        <option value="Producto equivocado">Producto equivocado</option>
+                        <option value="Producto vencido">Producto vencido</option>
+                        <option value="Otra (Usar comentario)">Otra (Usar comentario)</option>
+                    </select>
+                    <textarea class="medium-14" name="comment" placeholder="Escribe aquí..."></textarea>
+                </form>
+                <div class="row">
+                    <button class="secondary-btn close-modal">
+                        <?= $block->escapeHtml(__('Cancelar')) ?>
+                    </button>
+                    <button class="primary-btn" id="report" onclick="reportError(this)">
+                        <?= $block->escapeHtml(__('Reportar')) ?>
+                    </button>
+                </div>
+            </div>
+
+            <div class="content content-success hide">
+                <h1 class="bold-24"><?= $block->escapeHtml(__('Disculpa de antemano por tu mala experiencia.')) ?></h1>
+                <div class="row">
+                    <button class="secondary-btn close-modal">
+                        <?= $block->escapeHtml(__('De acuerdo')) ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        const ajax = (
+            method,
+            url,
+            data = {},
+            contentType = "application/json",
+            xhttp = null,
+            auth = null
+        ) => {
+            return new Promise((resolve) => {
+                if (!xhttp) {
+                    xhttp = new XMLHttpRequest();
+                }
+                xhttp.onreadystatechange = function () {
+                    if (xhttp.readyState === 4) {
+                        resolve(
+                            JSON.stringify({
+                                status: xhttp.status,
+                                response: xhttp.responseText,
+                            })
+                        );
+                    }
+                };
+
+                xhttp.open(method, url, true);
+                if(auth) {
+                    xhttp.setRequestHeader("Authorization", auth);
+                }
+                if (method === "POST" && data) {
+                    xhttp.setRequestHeader("Content-type", contentType);
+                    xhttp.send(data);
+                } else {
+                    xhttp.send();
+                }
+
+                return xhttp;
+            });
+        };
+
+        function reportError(button) {
+            let f = new FormData(document.querySelector('#report-error-form'));
+            if (f) {
+                let data = '',
+                    problem = '';
+                for (let prop of f.entries()) {
+                    if (prop[0] && prop[1]) {
+                        data += `${prop[0]}=`;
+                        if(prop[0] !== 'comment' && prop[0] !== 'problem') {
+                            data += `${encodeURI(prop[1])}&`;
+                        } else {
+                            problem += `${prop[1]} | `
+                        }
+                    }
+                }
+
+                data += `comment=${encodeURI('Reporte problema con pedido: ' + problem)}`;
+                button.style.opacity = '0.5';
+                ajax('POST',
+                    '/contact/index/post?' + data,
+                    null,
+                    'text/html; charset=UTF-8',
+                ).then(function (response) {
+                    button.style.opacity = '1';
+                    let data = JSON.parse(response);
+                    if (data.status === 200) {
+                        document.querySelector('#report-error .content').classList.add('hide');
+                        document.querySelector('#report-error .content-success').classList.remove('hide');
+                    }
+                })
+            }
+        }
+    </script>
+</div>
+

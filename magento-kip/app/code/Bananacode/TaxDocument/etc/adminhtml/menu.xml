@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add
+            module="Bananacode_Kip"
+            title="Kip"
+            id="Bananacode_Kip::kip"
+            resource="Bananacode_TaxDocument::config"
+            sortOrder="40"
+        />
+        <add
+            parent="Bananacode_Kip::kip"
+            module="Bananacode_TaxDocument"
+            title="Documentos Fiscales"
+            id="Bananacode_TaxDocument::taxdocuments"
+            resource="Bananacode_TaxDocument::config"
+            sortOrder="10"
+            action="bananacode_taxdocument/review"
+        />
+    </menu>
+</config>

@@ -1,0 +1,44 @@
+<?php
+/**
+ * Copyright © 2021 Bananacode. All rights reserved.
+ */
+
+/**
+ * @var \Bananacode\Kip\Block\CustomBlocks $block
+ */
+?>
+
+<?php
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+if(!$data = $kip->getRecipes()) {
+    return;
+}
+?>
+
+<div id="recipes-index">
+    <?php if($data['recipes']['image']): ?>
+        <div class="header">
+            <img class="lazy-load-img" data-src="<?= $data['recipes']['image'] ?>" alt="recipes-hero">
+        </div>
+    <?php endif; ?>
+    <div class="tabs row">
+        <?php foreach ($data['tabs'] as $i => $tab): ?>
+            <button data-target="container-<?= $i ?>" class="<?php if ($i == 0): ?>active<?php endif; ?>">
+                <?= $tab->getName() ?>
+            </button>
+            <div class="row container-<?= $i ?> <?php if ($i == 0): ?>active<?php endif; ?>">
+                <?php foreach ($tab['children'] as $child): ?>
+                    <a href="<?= $child->getUrl() ?>" class="category">
+                        <div class="img">
+                            <img class="lazy-load-img" data-src="<?= $data['media'] . str_replace('/media/','', $child->getIcon()) ?>" alt="<?= $child->getName() ?>">
+                        </div>
+                        <span><?= $child->getName() ?></span>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>

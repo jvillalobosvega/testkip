@@ -1,0 +1,10 @@
+<?php
+/**
+ * @var $block \Bananacode\Kip\Block\Widget\Tile
+ */
+?>
+<div class="card">
+    <h4 class="bold-18"><?= $block->getData('title'); ?></h4>
+    <img class="lazy-load-img" alt="<?= $block->getData('alt'); ?>" data-category="<?= $block->getData('category_id'); ?>" data-src="<?= $block->getMediaFolder() . $block->getData('image') ?>">
+    <a class="medium-14" href="<?= $block->getData('url'); ?>">Ver más</a>
+</div>

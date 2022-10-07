@@ -1,0 +1,492 @@
+body[class*="kip-shopping-lists"] {
+    .page-title-wrapper {
+        @include title-border;
+
+        h1 {
+            margin: 0;
+
+            span {
+                @include bold-24;
+            }
+        }
+    }
+
+    #shopping-lists {
+        margin: 30px auto;
+        text-align: center;
+
+        .tabs {
+            @include tabs;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        .content {
+            max-width: 685px;
+            margin: auto;
+            display: none;
+
+            &-active {
+                display: block;
+            }
+        }
+
+        .empty {
+            display: none;
+
+            &-active {
+                display: block;
+            }
+
+            .fruit-icon {
+                margin: 60px auto 30px auto;
+                display: block;
+                @include icon-before('assets/icons/fruit.svg', 79px, 100px);
+            }
+
+            a:not(.primary-btn) {
+                margin-top: 30px;
+                color: $dark-green;
+            }
+
+            a.primary-btn {
+                margin-top: 60px;
+            }
+
+            p {
+                margin: 15px auto;
+                color: $text;
+            }
+        }
+
+        .content.new-list,
+        .content.edit-list {
+            #go-back {
+                @include goBack();
+            }
+
+            #page {
+                overflow: hidden;
+                margin: 40px auto;
+                width: 100%;
+                //height: 978px;
+                max-width: 685px;
+                box-shadow: $box-shadow;
+                border-radius: 0 2pc 2pc 0;
+                position: relative;
+                text-align: left;
+                border: $input solid 1px;
+
+                @include icon-after('assets/icons/fruit.svg', 147px, 166.82px);
+
+                &:after {
+                    position: absolute;
+                    right: -10px;
+                    bottom: -25px;
+                    opacity: 0.5;
+                }
+
+                .header {
+                    padding: 20px 20px 20px 65px;
+                    height: 64px;
+                    @include break-max(mobile) {
+                        height: 70px;
+                        padding: 15px 0 0 45px;
+                    }
+                    color: $sub-title;
+                    margin: 0;
+                }
+
+                .line {
+                    display: flex;
+                    padding-left: 65px;
+                    height: 58px;
+                    border-top: $input solid 1px;
+                    @include break-max(mobile) {
+                        padding-left: 45px;
+                    }
+
+                    .field:not(.choice) {
+                        width: 100%;
+
+                        input {
+                            width: 90%;
+                            height: 100%;
+                            border: none;
+                        }
+
+                        .input-floating-label.show {
+                            display: none;
+                        }
+                    }
+
+                    .field.choice {
+                        input {
+                            top: 19px;
+                        }
+                    }
+
+                    .field.choice.checked {
+                        opacity: 0.5;
+
+                        &:before {
+                            top: 19px;
+                        }
+                    }
+
+                    .field.choice.checked + .field {
+                        opacity: 0.5;
+
+                        input {
+                            color: $dark-green;
+                            text-decoration: line-through;
+                        }
+                    }
+                }
+
+                .header, .line {
+                    position: relative;
+
+                    &:before {
+                        content: '';
+                        width: 1px;
+                        height: 100%;
+                        background-color: $dark-green;
+                        position: absolute;
+                        top: 0;
+                        left: 35px;
+                    }
+
+                    @include icon-after('assets/icons/line-hole.png', 19px, 15px);
+
+                    &:after {
+                        position: absolute;
+                        top: 25px;
+                        left: -1px;
+                    }
+                }
+            }
+
+            .actions {
+                max-width: 685px;
+                text-align: left;
+                margin: auto;
+                position: relative;
+
+                #delete-list {
+                    width: 50px;
+                    height: 50px;
+                    background: $white;
+                    border: none;
+
+                    @include icon-after('assets/icons/trash.svg', 20px, 20px);
+
+                    &:hover, &:focus, &:active {
+                        box-shadow: none;
+
+                        &:after {
+                            background-image: url("assets/icons/trash-red.svg");
+                        }
+                    }
+                }
+
+                #search-list,
+                #search-unsaved-list
+                {
+                    position: absolute;
+                    right: 0;
+                }
+            }
+        }
+
+        .content.current-lists {
+            margin: 40px auto;
+
+            #customer-lists {
+                max-width: 990px;
+                margin: auto;
+
+                .list-card {
+                    padding: 0 10px;
+                    height: 160px;
+
+                    .card {
+                        position: relative;
+                        max-width: 450px;
+                        margin: auto;
+                        height: 111px;
+                        box-shadow: $box-shadow;
+                        border-radius: $border-radius;
+
+                        .bold-18 {
+                            position: absolute;
+                            top: 30px;
+                            left: 30px;
+                            margin: 0;
+                        }
+
+                        .count {
+                            position: absolute;
+                            top: 60px;
+                            left: 30px;
+                            color: $input;
+                        }
+
+                        button.delete-list {
+                            position: absolute;
+                            top: 30px;
+                            right: 80px;
+                            width: 50px;
+                            height: 50px;
+                            background: $white;
+                            border: none;
+
+                            @include icon-after('assets/icons/trash.svg', 20px, 20px);
+
+                            &:hover, &:focus, &:active {
+                                box-shadow: none;
+
+                                &:after {
+                                    background-image: url("assets/icons/trash-red.svg");
+                                }
+                            }
+                        }
+
+                        button.edit-list {
+                            position: absolute;
+                            top: 30px;
+                            right: 30px;
+                            @include btn-gradient;
+                            padding: 3px 0 0 0;
+                            width: 50px;
+
+                            @include icon-after('assets/icons/arrow-white.svg', 25px, 25px);
+                        }
+                    }
+                }
+            }
+
+            #customer-lists:not(.active) + .empty {
+                display: block;
+            }
+        }
+    }
+
+    #shopping-lists-popup {
+        .modal {
+            max-width: 500px;
+            max-height: 340px;
+
+            .header {
+                position: relative;
+                z-index: 1;
+            }
+
+            .mode {
+                display: none;
+                width: 90%;
+                padding: 30px 0;
+                text-align: center;
+
+                .bold-18 {
+                    text-align: center;
+
+                    span {
+                        color: $dark-green;
+                    }
+                }
+
+                form.search {
+                    position: relative;
+                    margin-bottom: 30px;
+                    @include icon-before('assets/icons/search.svg', 20px, 20px);
+
+                    &:before {
+                        position: absolute;
+                        top: 16px;
+                        left: 10px;
+                        z-index: 1;
+                    }
+
+                    input {
+                        padding-left: 40px;
+                        width: 100%;
+                    }
+                }
+
+                p {
+                    margin-bottom: 20px;
+                }
+
+                p {
+                    text-align: center;
+                }
+
+                form {
+                    margin: 30px 0;
+
+                    input {
+                        width: 100%;
+                    }
+                }
+
+                button {
+                    width: 45%;
+                }
+
+                .icon {
+                    @include icon-before('assets/icons/checkmark-circle.svg', 100px, 100px);
+                }
+            }
+
+            .mode.active {
+                display: block;
+            }
+        }
+    }
+}
+
+body.catalogsearch-result-index:not(.no-shopping) {
+    .page-wrapper {
+        main#maincontent.page-main {
+            > .breadcrumbs,
+            .page-title-wrapper {
+                display: none;
+            }
+
+            #kip-search-shopping-list-algolia,
+            #kip-search-shopping-list {
+                margin-top: 20px;
+
+                > .breadcrumbs {
+                    max-width: 100%;
+                    float: none;
+                    padding-left: 0;
+                    @include break-max(mobile) {
+                        margin-bottom: 30px;
+                    }
+                }
+
+                h2 {
+                    margin: 0 0 20px 0;
+                }
+
+                label {
+                    color: $dark-green;
+                }
+
+                .row {
+                    position: relative;
+                    ul.list-search {
+                        width: calc(100% - 23px);
+                        max-width: calc(100% - 23px);
+                        display: flex;
+                        list-style: none;
+                        margin: 0;
+                        @include hide-scroll;
+                        height: 60px;
+                        position: relative;
+                        padding-left: 30px;
+
+
+                        li {
+                            height: 37px;
+                            margin-bottom: 0;
+                            border-radius: $border-radius;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: center;
+                            align-items: center;
+                            border: $text solid 1px;
+                            margin-right: 15px;
+                            min-width: max-content;
+
+                            a {
+                                color: $text;
+                                text-decoration: none;
+                                display: block;
+                                height: 100%;
+                                padding: 8.5px 10px;
+                            }
+                        }
+
+                        li.checked {
+                            border: $dark-green solid 1px;
+
+                            a {
+                                color: $dark-green;
+                                text-decoration: line-through;
+                            }
+
+                            @include icon-after('assets/icons/ready.svg', 20px, 20px);
+
+                            &:after {
+                                margin-left: 5px;
+                            }
+                        }
+
+                        li.current {
+                            border: $dark-green solid 1px;
+                            background-color: $light-green;
+                            a {
+                                color: $dark-green;
+                            }
+                        }
+                    }
+
+                    span.chevron {
+                        cursor: pointer;
+                        width: 23px;
+                        padding-top: 5px;
+                        display: block;
+                        position: absolute;
+                        background: white;
+                        height: 37px;
+                        z-index: 1;
+                        @include icon-after('assets/icons/chevron.svg', 24px, 24px);
+
+                        &:after {
+                            vertical-align: initial;
+                            transform: rotate(180deg);
+                            position: absolute;
+                        }
+                    }
+                    span.chevron.left {
+                        &:after {
+                            transform: rotate(0);
+                        }
+                    }
+                    span.chevron.right {
+                        right: 0;
+                    }
+                }
+            }
+
+            .search.results {
+                dl.block {
+                    display: none;
+                }
+            }
+
+            .columns {
+                .sidebar.sidebar-main {
+                    //top: 0;
+                    @include break-max(mobile) {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+body.catalogsearch-result-index.no-shopping {
+    .page-wrapper {
+        main#maincontent.page-main {
+            #kip-search-shopping-list-algolia,
+            #kip-search-shopping-list {
+                display: none;
+            }
+        }
+    }
+}

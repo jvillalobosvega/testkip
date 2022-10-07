@@ -1,0 +1,33 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * Top menu for store
+ *
+ * @var $block \Magento\Theme\Block\Html\Topmenu
+ */
+
+$_menuHtml = $block->getHtml('level-top', 'submenu', $block->getColumnsLimit() ?: 0);
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+$jsonTree = $kip->getCategoryConfigJSON();
+?>
+
+<div id="pcp-categories-menu" class="block filter">
+    <button class="block-title filter-title" id="open-categories">
+        <?= __("Categorías") ?>
+    </button>
+    <div class="block-content filter-content" id="menu-categories">
+        <strong role="heading" aria-level="2" class="block-subtitle filter-subtitle"><?= $kip->isRecipe() ? __("Recetas") : __("Categorías")  ?></strong>
+        <div id="narrow-by-list" class="filter-options">
+            <?= $kip->getCategoryTreeHtml(json_decode($jsonTree, true)) ?>
+        </div>
+    </div>
+    <div class="shadow"></div>
+</div>

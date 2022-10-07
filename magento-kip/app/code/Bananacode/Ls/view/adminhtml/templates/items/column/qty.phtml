@@ -1,0 +1,57 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php if ($item = $block->getItem()) : ?>
+    <?php
+    /**
+     * @var \Bananacode\Kip\Block\Main $kip
+     */
+    $kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+    $invoicedItem = $kip->getLsInvoicedItem($item->getOrder()->getDocumentId(), $item->getSku());
+    ?>
+    <table class="qty-table">
+        <tr>
+            <th><?= $block->escapeHtml(__('Ordered')); ?></th>
+            <td><?= (float) $item->getQtyOrdered() ?></td>
+        </tr>
+
+        <?php if ($invoicedItem['qty'] >= 0) : ?>
+            <tr>
+                <th><?= $block->escapeHtml(__('Invoiced')); ?></th>
+                <td><?= (float) $invoicedItem['qty'] ?></td>
+            </tr>
+        <?php endif; ?>
+
+        <?php if ((float)$item->getQtyShipped()) : ?>
+            <?php if ($invoicedItem['qty'] >= 0) : ?>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Shipped')); ?></th>
+                    <td><?= (float) $invoicedItem['qty'] ?></td>
+                </tr>
+            <?php else: ?>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Shipped')); ?></th>
+                    <td><?= (float) $item->getQtyShipped() ?></td>
+                </tr>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if ((float)$item->getQtyRefunded()) : ?>
+            <tr>
+                <th><?= $block->escapeHtml(__('Refunded')); ?></th>
+                <td><?= (float) $item->getQtyRefunded() ?></td>
+            </tr>
+        <?php endif; ?>
+
+        <?php if ((float)$item->getQtyCanceled()) : ?>
+            <tr>
+                <th><?= $block->escapeHtml(__('Canceled')); ?></th>
+                <td><?= (float) $item->getQtyCanceled() ?></td>
+            </tr>
+        <?php endif; ?>
+
+    </table>
+<?php endif; ?>

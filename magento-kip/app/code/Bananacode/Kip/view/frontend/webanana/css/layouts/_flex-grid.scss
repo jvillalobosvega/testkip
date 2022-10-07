@@ -1,0 +1,569 @@
+/*------------------------------------*\
+        FlexBox Version of Grid
+\*------------------------------------*/
+.row {
+  @include flex;
+
+  &-reverse {
+    @include flex-reverse();
+
+    &-col {
+      @include flex-reverse-column();
+    }
+  }
+
+  &-nowrap {
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+  }
+
+  &-center {
+    -ms-flex-pack: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  &-end {
+    -ms-flex-pack: end;
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+    text-align: end;
+  }
+}
+
+.col {
+  box-sizing: border-box;
+  -ms-flex: 0 0 auto;
+  -webkit-box-flex: 0;
+  flex: 0 0 auto;
+  position: relative;
+
+  &-full {
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 100%;
+  }
+
+  &-inset {
+    @include break-min(tablet) {
+      margin: 0 calc(100% * (1 / 12));
+    }
+  }
+
+  &-start {
+    @include break-min(tablet) {
+      -ms-flex-pack: start;
+      -webkit-box-pack: start;
+      justify-content: flex-start;
+      text-align: start;
+    }
+  }
+
+  &-center {
+    -ms-flex-pack: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  &-v-center {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  &-end {
+    @include break-min(tablet) {
+      -ms-flex-pack: end;
+      -webkit-box-pack: end;
+      justify-content: flex-end;
+      text-align: end;
+    }
+  }
+
+  &-offset {
+    padding-left: 12px;
+
+    @include break-min(tablet) {
+      padding-left: 24px;
+    }
+
+    @include break-min(tablet) {
+      padding-left: 28px;
+    }
+
+    @include break-min(desktop) {
+      padding-left: 34px;
+    }
+
+    &:first-of-type {
+      padding-left: 0;
+    }
+
+    div {
+      overflow: hidden;
+    }
+
+    &-even {
+      padding-left: 6px;
+      padding-right: 6px;
+
+      @include break-min(tablet) {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      @include break-min(tablet) {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      @include break-min(desktop) {
+        padding-left: 17px;
+        padding-right: 17px;
+      }
+
+      &:first-of-type {
+        padding-left: 6px;
+
+        @include break-min(tablet) {
+          padding-left: 12px;
+        }
+
+        @include break-min(tablet) {
+          padding-left: 14px;
+        }
+
+        @include break-min(desktop) {
+          padding-left: 17px;
+        }
+      }
+    }
+  }
+
+  &-offset-single {
+    padding-left: 12px;
+
+    @include break-min(tablet) {
+      padding-left: 24px;
+    }
+
+    @include break-min(tablet) {
+      padding-left: 28px;
+    }
+
+    @include break-min(desktop) {
+      padding-left: 34px;
+    }
+
+    div {
+      overflow: hidden;
+    }
+  }
+
+  &-grid-offset {
+    padding: 0 6px;
+
+    @include break-min(tablet) {
+      padding: 0 12px;
+    }
+
+    @include break-min(tablet) {
+      padding: 0 14px;
+    }
+
+    @include break-min(desktop) {
+      padding: 0 25px;
+    }
+
+    div {
+      overflow: hidden;
+    }
+  }
+}
+
+/*------------------------------------*\
+  Small - Mobile
+\*------------------------------------*/
+.col-sm-1 {
+  flex-basis: calc(100% * (1 / 6));
+  max-width: calc(100% * (1 / 6));
+}
+
+.col-sm-2 {
+  flex-basis: calc(100% * (2 / 6));
+  max-width: calc(100% * (2 / 6));
+}
+
+.col-sm-3 {
+  flex-basis: calc(100% * (3 / 6));
+  max-width: calc(100% * (3 / 6));
+}
+
+.col-sm-4 {
+  flex-basis: calc(100% * (4 / 6));
+  max-width: calc(100% * (4 / 6));
+}
+
+.col-sm-5 {
+  flex-basis: calc(100% * (5 / 6));
+  max-width: calc(100% * (5 / 6));
+}
+
+.col-sm-6 {
+  flex-basis: calc(100% * (6 / 6));
+  max-width: calc(100% * (6 / 6));
+
+  &.col--offset {
+    padding-left: 0;
+
+    @include break-min(tablet) {
+      padding-left: 20px;
+    }
+
+    &:first-of-type {
+      padding-left: 0;
+    }
+  }
+}
+
+.col-sm-half {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (1 / 2));
+    max-width: calc(100% * (1 / 2));
+
+    &.col--offset {
+      padding-left: 0;
+
+      @include break-min(tablet) {
+        padding-left: 20px;
+      }
+
+      &:first-of-type {
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+/*------------------------------------*\
+  Medium - Tablet
+\*------------------------------------*/
+.col-md-1 {
+  @include break-min(mobile) {
+    flex-basis: calc(100% * (1 / 9));
+    max-width: calc(100% * (1 / 9));
+
+    &-of-6 {
+      flex-basis: calc(100% * (1 / 6));
+      max-width: calc(100% * (1 / 6));
+    }
+  }
+}
+
+.col-md-2 {
+  @include break-min(mobile) {
+    flex-basis: calc(100% * (2 / 9));
+    max-width: calc(100% * (2 / 9));
+
+    &-of-6 {
+      flex-basis: calc(100% * (2 / 6));
+      max-width: calc(100% * (2 / 6));
+    }
+
+    &-half {
+      flex-basis: calc(100% * (2.5 / 9));
+      max-width: calc(100% * (2.5 / 9));
+    }
+  }
+}
+
+.col-md-3 {
+  @include break-min(mobile) {
+    flex-basis: calc(100% * (3 / 9));
+    max-width: calc(100% * (3 / 9));
+
+    &-of-6 {
+      flex-basis: calc(100% * (3 / 6));
+      max-width: calc(100% * (3 / 6));
+    }
+  }
+}
+
+.col-md-4 {
+  @include break-min(mobile) {
+    flex-basis: calc(100% * (4 / 9));
+    max-width: calc(100% * (4 / 9));
+
+    &-of-6 {
+      flex-basis: calc(100% * (4 / 6));
+      max-width: calc(100% * (4 / 6));
+    }
+  }
+}
+
+.col-md-5 {
+  @include break-min(mobile) {
+    flex-basis: calc(100% * (5 / 9));
+    max-width: calc(100% * (5 / 9));
+
+    &-of-6 {
+      flex-basis: calc(100% * (5 / 6));
+      max-width: calc(100% * (5 / 6));
+    }
+  }
+}
+
+.col-md-6 {
+  @include break-min(mobile) {
+    flex-basis: calc(100% * (6 / 9));
+    max-width: calc(100% * (6 / 9));
+
+    &-of-6 {
+      flex-basis: calc(100% * (6 / 6));
+      max-width: calc(100% * (6 / 6));
+    }
+  }
+}
+
+.col-md-7 {
+  @include break-min(mobile) {
+    flex-basis: calc(100% * (7 / 9));
+    max-width: calc(100% * (7 / 9));
+  }
+}
+
+.col-md-8 {
+  @include break-min(mobile) {
+    flex-basis: calc(100% * (8 / 9));
+    max-width: calc(100% * (8 / 9));
+
+    &.col--offset {
+      padding-left: 0;
+
+      @include break-min(tablet) {
+        padding-left: 30px;
+      }
+
+      &:first-of-type {
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+.col-md-9 {
+  @include break-min(mobile) {
+    flex-basis: calc(100% * (9 / 9));
+    max-width: calc(100% * (9 / 9));
+
+    &.col--offset {
+      padding-left: 0;
+
+      @include break-min(tablet) {
+        padding-left: 30px;
+      }
+
+      &:first-of-type {
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+.col-md-half {
+  @include break-min(mobile) {
+    flex-basis: calc(100% * (1 / 2));
+    max-width: calc(100% * (1 / 2));
+
+    &.col--offset {
+      padding-left: 0;
+
+      @include break-min(tablet) {
+        padding-left: 30px;
+      }
+
+      &:first-of-type {
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+/*------------------------------------*\
+  Large - Desktop
+\*------------------------------------*/
+.col-lg-1 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (1 / 12));
+    max-width: calc(100% * (1 / 12));
+
+    &-of-10 {
+      flex-basis: calc(100% * (1 / 10));
+      max-width: calc(100% * (1 / 10));
+    }
+  }
+}
+
+.col-lg-2 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (2 / 12));
+    max-width: calc(100% * (2 / 12));
+
+    &-of-10 {
+      flex-basis: calc(100% * (2 / 10));
+      max-width: calc(100% * (2 / 10));
+    }
+  }
+}
+
+.col-lg-3 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (3 / 12));
+    max-width: calc(100% * (3 / 12));
+
+    &-of-10 {
+      flex-basis: calc(100% * (3 / 10));
+      max-width: calc(100% * (3 / 10));
+    }
+  }
+}
+
+.col-lg-4 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (4 / 12));
+    max-width: calc(100% * (4 / 12));
+
+    &-of-10 {
+      flex-basis: calc(100% * (4 / 10));
+      max-width: calc(100% * (4 / 10));
+    }
+
+    &-gutter {
+      flex-basis: calc(100% * (4 / 12) - 40px);
+      max-width: calc(100% * (4 / 12) - 40px);
+    }
+  }
+}
+
+.col-lg-5 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (5 / 12));
+    max-width: calc(100% * (5 / 12));
+
+    &-gutter {
+      flex-basis: calc(100% * (5 / 12) - 40px);
+      max-width: calc(100% * (5 / 12) - 40px);
+    }
+
+    &-of-10 {
+      flex-basis: calc(100% * (5 / 10));
+      max-width: calc(100% * (5 / 10));
+    }
+  }
+}
+
+.col-lg-6 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (6 / 12));
+    max-width: calc(100% * (6 / 12));
+
+    &-of-10 {
+      flex-basis: calc(100% * (6 / 10));
+      max-width: calc(100% * (6 / 10));
+    }
+  }
+}
+
+.col-lg-7 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (7 / 12));
+    max-width: calc(100% * (7 / 12));
+
+    &-of-10 {
+      flex-basis: calc(100% * (7 / 10));
+      max-width: calc(100% * (7 / 10));
+    }
+  }
+}
+
+.col-lg-8 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (8 / 12));
+    max-width: calc(100% * (8 / 12));
+
+    &-of-10 {
+      flex-basis: calc(100% * (8 / 10));
+      max-width: calc(100% * (8 / 10));
+    }
+  }
+}
+
+.col-lg-9 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (9 / 12));
+    max-width: calc(100% * (9 / 12));
+
+    &-of-10 {
+      flex-basis: calc(100% * (9 / 10));
+      max-width: calc(100% * (9 / 10));
+    }
+  }
+}
+
+.col-lg-10 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (10 / 12));
+    max-width: calc(100% * (10 / 12));
+
+    &-of-10 {
+      flex-basis: calc(100% * (10 / 10));
+      max-width: calc(100% * (10 / 10));
+    }
+  }
+}
+
+.col-lg-11 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (11 / 12));
+    max-width: calc(100% * (11 / 12));
+  }
+}
+
+.col-lg-12 {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (12 / 12));
+    max-width: calc(100% * (12 / 12));
+  }
+
+  &.col--offset {
+    padding-left: 0;
+
+    &:first-of-type {
+      padding-left: 0;
+    }
+  }
+}
+
+.col-lg-half {
+  @include break-min(tablet) {
+    flex-basis: calc(100% * (1 / 2));
+    max-width: calc(100% * (1 / 2));
+
+    &.col-offset {
+      padding-left: 0;
+
+      @include break-min(tablet) {
+        padding-left: 30px;
+      }
+
+      &:first-of-type {
+        padding-left: 0;
+      }
+    }
+  }
+}

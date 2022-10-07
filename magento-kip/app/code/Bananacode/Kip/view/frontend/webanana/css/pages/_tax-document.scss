@@ -1,0 +1,246 @@
+body[class*="kip-tax-document"] {
+    .page-title-wrapper {
+        @include title-border;
+
+        h1 {
+            margin: 0;
+
+            span {
+                @include bold-24;
+            }
+        }
+    }
+
+    #tax-documents {
+        margin: 30px auto;
+        text-align: center;
+
+        .content {
+            display: none;
+
+            &-active {
+                display: block;
+            }
+        }
+
+        .content.edit-document {
+            margin: auto;
+            position: relative;
+            @include shadow-container(auto, auto, 730px);
+            padding: 40px;
+            @include break-max(mobile) {
+                padding: 20px;
+            }
+
+            #go-back {
+                padding: 0;
+                background-color: transparent;
+                margin-bottom: 20px;
+                @include medium-14;
+                border: none;
+                display: flex;
+                @include break-max(mobile) {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    width: 100%;
+                }
+
+                &:hover, &:focus, &:active {
+                    box-shadow: none;
+                }
+
+                @include icon-before('assets/icons/chevron-grey.svg', 20px, 20px);
+
+                &:before {
+                    position: relative;
+                    top: -1px;
+                    margin-right: 10px;
+                }
+            }
+
+            @include tax-form;
+
+            form.edit {
+                > .col {
+                    padding: 0 10px;
+                    position: relative;
+
+                    button {
+                        position: initial;
+                        width: 100%;
+                        margin-top: 15px;
+                    }
+
+                    #current-doc-img-front,
+                    #current-doc-img-back
+                    {
+                        max-height: 100px;
+                    }
+                }
+            }
+        }
+
+        .content.current-documents {
+            margin: 40px auto;
+
+            #customer-documents {
+                margin: auto;
+                position: relative;
+                @include shadow-container(auto, auto, 730px);
+                padding: 40px;
+                @include break-max(mobile) {
+                    padding: 20px;
+                }
+
+                button.create-document {
+                    position: absolute;
+                    right: 40px;
+                    top: 40px;
+                    @include break-max(mobile) {
+                        margin: 20px auto;
+                        position: initial;
+                        width: 100%;
+                    }
+                }
+
+                .tabs {
+                    @include tabs;
+                    width: 100%;
+                    max-width: 50%;
+                    margin: 0 0 40px;
+                    @include break-max(mobile) {
+                        margin-bottom: 0;
+                        max-width: 100%;
+                    }
+                }
+
+                .list {
+                    width: 100%;
+
+                    .document-card {
+                        display: none;
+                        padding: 0 10px;
+                        height: 160px;
+
+                        .card {
+                            position: relative;
+                            max-width: 450px;
+                            margin: auto;
+                            height: 111px;
+                            box-shadow: $box-shadow;
+                            border-radius: $border-radius;
+
+                            .bold-18 {
+                                position: absolute;
+                                top: 30px;
+                                left: 30px;
+                                margin: 0;
+                                background-color: $white;
+                                z-index: 1;
+                            }
+
+                            .count {
+                                position: absolute;
+                                top: 60px;
+                                left: 30px;
+                                color: $input;
+                            }
+
+                            .id {
+                                &:after {
+                                    margin-left: 5px;
+                                }
+                            }
+
+                            .status-1 {
+                                @include icon-after('assets/icons/info.svg', 15px, 15px);
+                            }
+
+                            .status-2 {
+                                @include icon-after('assets/icons/checkmark-circle.svg', 15px, 15px);
+                            }
+
+                            .status-3 {
+                                @include icon-after('assets/icons/close-circle.svg', 15px, 15px);
+                            }
+
+                            button.delete-document {
+                                background: $white;
+                                border: none;
+                                position: absolute;
+                                top: 55px;
+                                right: 85px;
+                                width: 25px;
+                                height: 25px;
+                                padding: 0;
+
+                                @include icon-after('assets/icons/trash.svg', 20px, 20px);
+
+                                &:hover, &:focus, &:active {
+                                    box-shadow: none;
+
+                                    &:after {
+                                        background-image: url("assets/icons/trash-red.svg");
+                                    }
+                                }
+                            }
+
+                            button.edit-document {
+                                position: absolute;
+                                top: 30px;
+                                right: 30px;
+                                @include btn-gradient;
+                                padding: 3px 0 0 0;
+                                width: 50px;
+
+                                @include icon-after('assets/icons/arrow-white.svg', 25px, 25px);
+                            }
+                        }
+                    }
+
+                    .document-card.active {
+                        display: block;
+                    }
+                }
+
+                .approve-icon {
+                    @include icon-after('assets/icons/checkmark-circle.svg', 15px, 15px);
+                }
+            }
+
+            #customer-documents:not(.active) {
+                display: none;
+            }
+
+            #customer-documents:not(.active) + .empty {
+                display: block;
+            }
+        }
+
+        .empty {
+            display: none;
+            max-width: 400px;
+            margin: auto;
+
+            &-active {
+                display: block;
+            }
+
+            a:not(.primary-btn) {
+                margin-top: 30px;
+                color: $dark-green;
+            }
+
+            a.primary-btn {
+                margin-top: 60px;
+            }
+
+            p {
+                margin: 15px auto;
+                color: $text;
+            }
+        }
+    }
+
+    @include tax-documents-modals();
+}

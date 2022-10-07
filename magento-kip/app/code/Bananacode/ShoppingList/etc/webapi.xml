@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+	<route method="POST" url="/V1/bananacodeShoppingList/add">
+		<service class="Bananacode\ShoppingList\Api\ShoppingListInterface" method="add"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="POST" url="/V1/bananacodeShoppingList/edit">
+		<service class="Bananacode\ShoppingList\Api\ShoppingListInterface" method="edit"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="POST" url="/V1/bananacodeShoppingList/delete/:listId">
+		<service class="Bananacode\ShoppingList\Api\ShoppingListInterface" method="delete"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/bananacodeShoppingList/getListByCustomer">
+		<service class="Bananacode\ShoppingList\Api\ShoppingListInterface" method="getListByCustomer"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/bananacodeShoppingList/:listId">
+		<service class="Bananacode\ShoppingList\Api\ShoppingListInterface" method="get"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+</routes>

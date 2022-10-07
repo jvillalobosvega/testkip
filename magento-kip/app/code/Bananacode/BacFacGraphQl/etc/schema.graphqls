@@ -1,0 +1,21 @@
+# Copyright © Magento, Inc. All rights reserved.
+# See COPYING.txt for license details.
+
+input PaymentMethodInput {
+    bacfac: BacFacInput
+    bacfac_vault: BacFacCcVaultInput
+}
+
+input BacFacInput {
+    is_authorized: Boolean! @doc(description:"Is transaction already authorized by bank?")
+    payment_method_nonce: String! @doc(description:"Encrypted CC data")
+}
+
+input BacFacCcVaultInput {
+    public_hash: String!
+}
+
+type StoreConfig {
+    bacfac_vault_active: String @doc(description: "BacFac cc vault status.")
+}
+

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright © 2021 Bananacode. All rights reserved.
+*/
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.top">
+            <referenceBlock name="store.menu">
+                <referenceBlock name="catalog.topnav">
+                    <block class="Bananacode\Kip\Block\CustomBlocks" name="kip.navbar" template="Bananacode_Kip::navbar.phtml" group="navigation-sections" before="-"/>
+                </referenceBlock>
+                <block class="Bananacode\Kip\Block\CustomBlocks" name="kip.navbar.categories" template="Bananacode_Kip::navbar-categories.phtml" group="navigation-sections" before="-"/>
+            </referenceBlock>
+        </referenceContainer>
+
+        <referenceContainer name="footer">
+            <referenceBlock name="footer_links" remove="true" />
+            <block class="Bananacode\Kip\Block\CustomBlocks" name="kip.footer" template="Bananacode_Kip::footer.phtml" group="navigation-sections" before="-"/>
+        </referenceContainer>
+    </body>
+</page>

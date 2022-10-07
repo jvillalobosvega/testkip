@@ -1,0 +1,11 @@
+<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <path id="svg_1" fill="#707070"
+              d="m12,4.25c0.5523,0 1,0.44772 1,1l0,5.75l5.75,0c0.5523,0 1,0.4477 1,1c0,0.5523 -0.4477,1 -1,1l-5.75,0l0,5.75c0,0.5523 -0.4477,1 -1,1c-0.5523,0 -1,-0.4477 -1,-1l0,-5.75l-5.75,0c-0.55228,0 -1,-0.4477 -1,-1c0,-0.5523 0.44772,-1 1,-1l5.75,0l0,-5.75c0,-0.55228 0.4477,-1 1,-1z"
+              clip-rule="evenodd" fill-rule="evenodd"/>
+        <rect id="svg_2" height="8.31243" width="17.18735" y="2.71883" x="3.40633" opacity="undefined"
+              stroke-opacity="null" stroke-dasharray="null" stroke-width="null" stroke="null" fill="#ffffff"/>
+        <rect id="svg_3" height="8.31243" width="17.18735" y="12.96874" x="3.28133" opacity="undefined"
+              stroke-opacity="null" stroke-dasharray="null" stroke-width="null" stroke="null" fill="#ffffff"/>
+    </g>
+</svg>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer_form">
+            <block class="Bananacode\Referral\Block\Adminhtml\CustomerEdit\Tab\Referrals" name="bn_customer_referrals">
+                <arguments>
+                    <argument name="tab_label" xsi:type="string" translate="true">Referrals</argument>
+                    <argument name="sort_order" xsi:type="number">110</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

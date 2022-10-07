@@ -1,0 +1,43 @@
+<!--@subject {{trans "%subject" subject=$subject}}  @-->
+
+{{template config_path="design/email/header_template"}}
+
+<div>
+    <p>
+        {{trans 'Hola %first_name,' first_name=$first_name }}
+    </p>
+    <p>
+        {{trans 'Aquí el voucher digital de tu compra %document_id' document_id=$document_id }}
+    </p>
+    <br/>
+    <p>
+        Al confirmar tu pedido unicamente hacemos una reserva de fondos. Al facturar, se lleva a cabo el cobro con el
+        monto exacto de la factura.
+    </p>
+    <h3>
+        Comprobante de Pago
+    </h3>
+    <p>
+        <strong>Titular:</strong> {{trans '%name' name=$name }}
+    </p>
+    <p>
+        <strong>Número Tarjeta:</strong> {{trans '%PaddedCardNo' PaddedCardNo=$PaddedCardNo }}
+    </p>
+    <p>
+        <strong>Fecha Transacción:</strong> {{trans '%date' date=$date }}
+    </p>
+    <p>
+        <strong>Hora Transacción:</strong> {{trans '%hour' hour=$hour }}
+    </p>
+    <p>
+        <strong>Referencia:</strong> {{trans '%ReferenceNo' ReferenceNo=$ReferenceNo }}
+    </p>
+    <p>
+        <strong>Autorización:</strong> {{trans '%AuthCode' AuthCode=$AuthCode }}
+    </p>
+    <p>
+        <strong>Total:</strong> {{trans '%amount' amount=$amount }}
+    </p>
+</div>
+
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,40 @@
+input CustomerCreateInput {
+    telephone: String! @doc(description: "Customer's telephone")
+    kip_terms: Boolean @doc(description: "Accept Kip Terms & Conditions")
+    kip_privacy: Boolean @doc(description: "Accept Kip Privacy Policy")
+    document_type: String @doc(description: "Customer's document type: Pasaporte, Carnet Residente, Otro")
+    id_document: String @doc(description: "Customer's document value")
+}
+
+input CustomerUpdateInput {
+    telephone: String! @doc(description: "Customer's telephone")
+    kip_terms: Boolean @doc(description: "Accept Kip Terms & Conditions")
+    kip_privacy: Boolean @doc(description: "Accept Kip Privacy Policy")
+    document_type: String @doc(description: "Customer's document type: Pasaporte, Carnet Residente, Otro")
+    id_document: String @doc(description: "Customer's document value")
+}
+
+type Customer {
+    telephone: String @doc(description: "Customer's telephone")
+    kip_terms: Boolean @doc(description: "Accept Kip Terms & Conditions")
+    kip_privacy: Boolean @doc(description: "Accept Kip Privacy Policy")
+    document_type: String @doc(description: "Customer's document type: Pasaporte, Carnet Residente, Otro")
+    id_document: String @doc(description: "Customer's document value")
+}
+
+interface CategoryInterface {
+    icon: String @doc(description: "Category Kip Icon.")
+}
+
+type Query {
+    kipProductAttributes (
+        sku: String @doc(description: "Product SKU")
+    ): [KipProductAttribute] @resolver(class: "Bananacode\\App\\Model\\Resolver\\ProductAttributesGraphql") @doc(description: "Return product all attributes data.")
+}
+
+type KipProductAttribute @doc(description: "Specific product attributes.") {
+    code : String  @doc(description: "Attribute code")
+    label : String  @doc(description: "Attribute frontend label")
+    value : String  @doc(description: "Attribute frontend value")
+    value_id : String  @doc(description: "Attribute backend value")
+}

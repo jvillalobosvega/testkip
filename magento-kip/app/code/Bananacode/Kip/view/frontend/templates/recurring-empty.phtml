@@ -1,0 +1,20 @@
+<?php
+/**
+ * Copyright © 2021 Bananacode. All rights reserved.
+ */
+
+/**
+ * @var \Bananacode\Kip\Block\CustomBlocks $block
+ */
+?>
+
+<?php
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+?>
+
+<div id="empty-recurring">
+    <?= $block->getHtmlBlock('recurring-empty') ?>
+</div>

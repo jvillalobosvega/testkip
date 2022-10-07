@@ -1,0 +1,385 @@
+#kip-homepage {
+    margin-top: 40px;
+    @include break-max(mobile) {
+        margin-top: 20px;
+    }
+
+    h2.bold-36 {
+        margin-top: 0;
+        text-align: left;
+    }
+
+    #home-slider {
+        position: relative;
+        max-height: calc(100vh - 175px);
+        height: 315px;
+        //margin-bottom: 25px;
+        //overflow: hidden;
+        @include break-max(mobile) {
+            max-height: 262px;
+            height: 60vh;
+            margin-bottom: 0px !important;
+        }
+
+        .kip-slider {
+            position: relative;
+
+            .glide__slides {
+                margin: 0;
+                padding: 0;
+
+                .glide__slide {
+                    img {
+                        border-radius: 0 0 $border-corner 0;
+                        max-height: calc(100vh - 175px);
+                        width: 100%;
+                        height: 315px;
+                        @include break-max(mobile) {
+                            max-height: 262px;
+                            max-width: 100%;
+                            //width: 375px;
+                            height: 100vh;
+                            margin: auto;
+                        }
+                    }
+                }
+            }
+
+            #glide-sprite {
+                position: absolute;
+                z-index: 1;
+                bottom: -25px;
+                left: 50%;
+                transform: translate(-50%, 0px);
+                display: flex;
+                justify-content: center;
+
+                button {
+                    cursor: pointer;
+                    width: 10px;
+                    height: 10px;
+                    background-color: $input;
+                    border: $input solid 1px;
+                    border-radius: 100%;
+                    margin: 10px 7.5px;
+                    padding: 0;
+                }
+
+                button.glide__bullet--active {
+                    background-color: $dark-green;
+                    border: $dark-green solid 1px;
+                }
+            }
+
+            .slider-controls {
+                position: absolute;
+                z-index: 1;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, 50%);
+                width: 100%;
+
+                button {
+                    position: absolute;
+                    background-image: url('assets/icons/chevron.svg');
+                    background-position: center;
+                    background-size: cover;
+                    border: none;
+                    background-color: transparent;
+
+                    &:active, &:focus {
+                        box-shadow: none;
+                        border: none;
+                    }
+                }
+
+                button.left {
+                    left: 50px;
+                    @include break-max(mobile) {
+                        left: 15px;
+                    }
+                }
+
+                button.right {
+                    right: 50px;
+                    transform: rotate(180deg);
+                    @include break-max(mobile) {
+                        right: 15px;
+                    }
+                }
+            }
+        }
+    }
+
+    #home-banner {
+        margin: 80px 15px 0 15px;
+        box-shadow: $box-shadow;
+        border-radius: $border-corner 0 0 0;
+        padding: 45px 175px 45px 60px;
+        background-color: $cream;
+        display: flex;
+        position: relative;
+        @include break-max(mobile) {
+            @include flex;
+            margin: 15px 0 -20px 0;
+            padding: 20px 0 20px 90px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 0 2pc 0;
+        }
+
+        div.text {
+            padding-top: 10px;
+            flex-basis: calc(100% - 250px);
+            max-width: calc(100% - 250px);
+            @include break-max(mobile) {
+                flex-basis: calc(100%);
+                max-width: 175px;
+                padding-top: 0;
+            }
+
+            p, span, strong {
+                @include bold-24;
+                margin: 0;
+                @include break-max(mobile) {
+                    @include medium-16;
+                    font-size: 15px;
+                }
+            }
+        }
+
+        a {
+            justify-content: center;
+            display: flex;
+            @include bold-18;
+            border: $black solid 1.5px;
+            border-radius: $border-radius;
+            text-decoration: none;
+            padding: 12px 25px 10px 25px;
+            width: auto;
+            height: 50px;
+            cursor: pointer;
+            @include icon-after('assets/icons/arrow-circle-black.svg', 24px, 24px);
+
+            &:after {
+                margin-left: 10px;
+                position: relative;
+                top: -2px;
+            }
+
+            @include break-max(mobile) {
+                position: absolute;
+                border: none;
+                font-size: 0;
+                width: 50px;
+                height: 50px;
+                right: 5px;
+                @include icon-after('assets/icons/arrow-circle.svg', 35px, 35px);
+                &:after {
+                    margin-left: 0;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+        }
+
+        img {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 175px;
+            @include break-max(mobile) {
+                width: 95px;
+                right: initial;
+                left: 0;
+                transform: rotate(30deg);
+                top: 8px;
+            }
+        }
+    }
+
+    #home-steps {
+        padding: 50px 0;
+        @include break-max(desktop) {
+            padding: 25px 15px;
+        }
+
+        text-align: center;
+
+        > .row {
+            margin-top: 45px;
+
+            > .col {
+                position: relative;
+
+                &:after,
+                &:before {
+                    content: '';
+                    width: 135px;
+                    height: 1px;
+                    border: $dark-green solid 1px;
+                    position: absolute;
+                    background-color: $dark-green;
+                    top: 25%;
+                    transform: translate(0, -25%);
+                    z-index: 0;
+                    right: 0;
+                }
+
+                &:before {
+                    left: 0;
+                }
+
+                @include break-min(mobile) {
+                    flex-basis: 20%;
+                    max-width: 20%;
+                    padding: 0 40px;
+                }
+
+                @include break-max(mobile) {
+                    flex-basis: 100%;
+                    max-width: 100%;
+                    margin-bottom: 25px;
+
+                    &:after,
+                    &:before {
+                        top: auto;
+                        left: 50%;
+                        transform: translate(-50%, 0) rotate(90deg);
+                    }
+                }
+
+                img {
+                    object-fit: cover;
+                    max-width: 135px;
+                    max-height: 135px;
+                    width: 100%;
+                    height: 100%;
+                    background: $white;
+                    padding: 20px;
+                    border-radius: 50%;
+                    box-shadow: $box-shadow;
+                    position: relative;
+                    z-index: 1;
+                }
+
+                h3 {
+                    background-color: $light-green;
+                    border-radius: $border-radius 0 $border-radius 0;
+                    width: 91px;
+                    margin: 30px auto;
+                    padding: 8px;
+                }
+
+                div.medium-16 {
+                    margin-top: 30px;
+                    background: $white;
+                    position: relative;
+                    z-index: 1;
+                    color: $text;
+                }
+            }
+
+            > .col:first-child {
+                &:before {
+                    display: none;
+                }
+            }
+
+            > .col:last-child {
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    #home-inspirations {
+        //padding: 50px 0 0 0;
+        @include break-max(desktop) {
+            //padding: 25px 0 0 0;
+        }
+
+        text-align: center;
+
+        > .row {
+            margin-top: 30px;
+
+            > .col {
+                padding: 0 15px;
+                @include break-max(mobile) {
+                    padding: 0;
+                }
+
+                @include card;
+            }
+        }
+    }
+
+    #home-right-img {
+        padding: 50px 0;
+        margin-left: 55px;
+        @include break-max(desktop) {
+            padding: 25px 15px;
+        }
+        @include break-max(mobile) {
+            margin-left: 0;
+        }
+
+        > .row {
+            > .col {
+                position: relative;
+
+                .text {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 60%;
+                    transform: translate(-50%, -50%);
+                    @include break-max(mobile) {
+                        position: initial;
+                        transform: none;
+                        padding: 30px;
+                        width: 100%;
+                    }
+
+                    a {
+                        @include btn-gradient;
+                        margin-top: 30px;
+                        display: block;
+                        padding-top: 13px;
+                        text-decoration: none;
+                    }
+                }
+
+                img {
+                    object-fit: cover;
+                    max-height: 311px;
+                    width: 99%;
+                    height: 99%;
+                    position: relative;
+                    left: -55px;
+                    z-index: 0;
+                    margin: auto;
+                    @include break-max(mobile) {
+                        left: 0;
+                        top: -55px;
+                    }
+                }
+            }
+
+            > .col:first-child {
+                border-radius: $border-corner 0 $border-corner 0;
+                background-color: $white;
+                box-shadow: $box-shadow;
+                z-index: 1;
+            }
+        }
+    }
+
+    > div {
+        //border: red solid 1px;
+    }
+}

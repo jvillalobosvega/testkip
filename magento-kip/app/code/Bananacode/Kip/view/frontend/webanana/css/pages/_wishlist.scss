@@ -1,0 +1,132 @@
+body[class*="wishlist-index-index"],
+body[class*="kip-recipes-nowishes"] {
+    .column.main {
+        h1.bold-24 {
+            @include title-border;
+        }
+
+        h4 {
+            @include bold-24;
+        }
+
+        p {
+            @include medium-16;
+            color: $sub-title;
+            margin: 20px auto;
+        }
+
+        #empty-wishlist {
+            margin-bottom: 100px;
+
+            img {
+                width: 100px;
+                height: 100px;
+                margin: auto;
+            }
+
+            a {
+                @include btn-gradient;
+                color: $white;
+                padding-top: 13px;
+                display: block;
+                max-width: 250px;
+                margin: 30px auto;
+
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+
+        #wish-lists {
+            max-width: 930px;
+            margin: auto;
+
+            .wishlist-card {
+                padding: 0 10px;
+                height: 160px;
+
+                .content {
+                    position: relative;
+                    max-width: 450px;
+                    margin: auto;
+                    height: 135px;
+                    box-shadow: $box-shadow;
+                    border-radius: $border-radius;
+
+                    .thumbnail {
+                        left: 0;
+                        top: 0;
+                        position: absolute;
+                        width: 67px;
+                        height: 67px;
+                        border: $input solid 1px;
+                        border-radius: 0 0 1pc 0;
+                        background-color: $white;
+                        overflow: hidden;
+
+                        img {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            width: 50px;
+                            height: 50px;
+                            object-fit: cover;
+                        }
+                    }
+
+                    .bold-18 {
+                        position: absolute;
+                        top: 20px;
+                        left: 90px;
+                        margin: 0;
+                    }
+
+                    .count {
+                        position: absolute;
+                        bottom: 15px;
+                        left: 15px;
+                        color: $input;
+                    }
+
+                    button.delete-wishlist {
+                        position: absolute;
+                        bottom: 15px;
+                        right: 70px;
+                        width: 50px;
+                        height: 50px;
+                        background: $white;
+                        border: none;
+
+                        @include icon-after('assets/icons/trash.svg', 20px, 20px);
+
+                        &:hover, &:focus, &:active {
+                            box-shadow: none;
+
+                            &:after {
+                                background-image: url("assets/icons/trash-red.svg");
+                            }
+                        }
+                    }
+
+                    a {
+                        position: absolute;
+                        bottom: 15px;
+                        right: 15px;
+                        @include btn-gradient;
+                        padding-top: 13px;
+                        width: 50px;
+
+                        @include icon-after('assets/icons/arrow-white.svg', 25px, 25px);
+                    }
+                }
+            }
+        }
+
+        #wishlist-view-form,
+        .wishlist-toolbar {
+            display: none;
+        }
+    }
+}

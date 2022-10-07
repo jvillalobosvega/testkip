@@ -1,0 +1,190 @@
+<?php
+/**
+ * Copyright © 2021 Bananacode. All rights reserved.
+ */
+
+/**
+ * @var \Bananacode\Kip\Block\Main $block
+ */
+
+if ($block->getCurrentPage() !== 'customeraccountindex') {
+    return;
+}
+
+?>
+
+<!-- Account Secondary Actions -->
+<div id="logged-footer" class="row">
+    <!--<div>
+        <button data-m="logged-experience" class="open-modal person-icon"><?= ''//$block->escapeHtml(__('Personaliza tu experiencia')) ?></button>
+        <p class="medium-12">Cuéntanos lo que te gusta y mejoramos tu experiencia en Kip.</p>
+    </div>-->
+    <div>
+        <button data-m="new-product" class="open-modal megaphone-icon"><?= $block->escapeHtml(__('Solicita un producto nuevo')) ?></button>
+        <p class="medium-12">¿Quieres algún producto nuevo en Kip?
+            Solicítalo y procuraremos conseguirlo.</p>
+    </div>
+    <div>
+        <button data-m="report-error" class="open-modal info-icon"><?= $block->escapeHtml(__('Reportar falla en sitio web')) ?></button>
+        <p class="medium-12">¿Te ha fallado nuestro sitio web?
+            Puedes reportarlo y lo resolveremos con prontitud.</p>
+    </div>
+</div>
+
+<!-- Personalize Experience Modal -->
+<!--<div id="logged-experience" class="modal-container <?php ''//($block->getCustomerExperienceData()): ?>hide<?php ''//endif; ?>">
+    <div class="modal">
+        <div class="header">
+            <div class="header-img"></div>
+            <button class="close-modal"></button>
+        </div>
+        <div class="content">
+            <h1 class="bold-24"><?= ''// $block->escapeHtml(__('Personaliza tu experiencia')) ?></h1>
+            <p class="medium-14"><?= ''// (__('Hola <strong>%1</strong>, si quieres tener una experiencia más personalizada, cuéntanos un poquito de ti. Puedes omitir este paso, no es obligatorio. :)', $block->getCustomerName())) ?></p>
+            <input hidden value='<?= ''// $block->getCustomerExperienceData() ?>' id="experience-data">
+            <form id="experience-form">
+                <div class="row section">
+                    <label for="gender"><?= ''// $block->escapeHtml(__('Género')) ?></label>
+                    <select id="gender" name="gender" class="medium-14">
+                        <option value=""><?= ''// $block->escapeHtml(__('Género')) ?></option>
+                        <option value="Lorem"><?= ''// $block->escapeHtml(__('Lorem')) ?></option>
+                        <option value="Ipsum"><?= ''// $block->escapeHtml(__('Ipsum')) ?></option>
+                    </select>
+
+                    <label for="birthday"><?= ''// $block->escapeHtml(__('Birthday')) ?></label>
+                    <input type="text" onfocus="(this.type='date')" id="birthday" name="birthday" class="medium-14 date"/>
+
+                    <label for="buy_for"><?= ''// $block->escapeHtml(__('Personas para las que compras')) ?></label>
+                    <select id="buy_for" name="buy_for" class="medium-14">
+                        <option value=""><?= ''// $block->escapeHtml(__('Personas para las que compras')) ?></option>
+                        <option value="Lorem"><?= ''// $block->escapeHtml(__('Lorem')) ?></option>
+                        <option value="Ipsum"><?= ''// $block->escapeHtml(__('Ipsum')) ?></option>
+                    </select>
+                </div>
+
+                <div class="section">
+                    <p class="medium-14"><?= ''// $block->escapeHtml(__('Dieta y estilo de vida (selecciona tus 5 preferidas):')) ?></p>
+
+                    <div class="row">
+                        <?php ''//foreach ($block->getDietStyleOptions() as $i => $dietStyleOption): ?>
+                            <div class="field choice col col-lg-3 col-md-3 col-sm-3">
+                                <input id="diet-style-<?= ''// $i ?>" class="checkbox" type="checkbox" name="diet_style"
+                                       value="<?= ''// $dietStyleOption ?>">
+                                <label for="diet-style-<?= ''// $i ?>"
+                                       class="medium-12 checkbox"><?= ''// $dietStyleOption ?></label>
+                            </div>
+                        <?php ''//endforeach; ?>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <p class="medium-14"><?= ''// $block->escapeHtml(__('Promociones y ofertas que me gustan (selecciona tus 3 preferidas):')) ?></p>
+
+                    <div class="row">
+                        <?php ''//foreach ($block->getPromosOptions() as $j => $promosOption): ?>
+                            <div class="field choice col col-lg-4 col-md-3 col-sm-3">
+                                <input id="promos-<?= ''// $j ?>" class="checkbox" type="checkbox" name="promos"
+                                       value="<?= ''// $promosOption ?>">
+                                <label for="promos-<?= ''// $j ?>"
+                                       class="medium-12 checkbox"><?= ''// $promosOption ?></label>
+                            </div>
+                        <?php ''//endforeach; ?>
+                    </div>
+                </div>
+            </form>
+            <p class="bold-14"><?= ''// $block->escapeHtml(__('Tu información se queda con nosotros. Nuestro negocio es atenderte a ti, no vender tus datos.')) ?></p>
+            <div class="row">
+                <button class="secondary-btn" id="later-experience">
+                    <?= ''// $block->escapeHtml(__('Más tarde')) ?>
+                </button>
+                <button class="primary-btn" id="accept-experience">
+                    <?= ''// $block->escapeHtml(__('Aceptar')) ?>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+<!-- Ask Product Modal -->
+<div id="new-product" class="modal-container">
+    <div class="modal">
+        <div class="header">
+            <div class="header-img"></div>
+            <button class="close-modal"></button>
+        </div>
+
+        <div class="content">
+            <h1 class="bold-24"><?= $block->escapeHtml(__('Solicitar un producto nuevo')) ?></h1>
+            <p class="medium-16"><?= (__('¿Hay algún producto que quieras ver en Kip?')) ?></p>
+            <p class="medium-14"><?= (__('Describe el producto quieres ver en Kip y nos aseguraremos de incluirlo en nuestro inventario.')) ?></p>
+            <form id="askproduct-form" method="POST" action="/contact/index/post/">
+                <input hidden name="name" value="<?= $block->getCustomerName() ?>">
+                <input hidden name="email" value="<?= $block->getCustomerEmail() ?>">
+                <input hidden name="telephone" value="<?= $block->getCustomerTelephone() ?>">
+                <?= $block->getBlockHtml('formkey') ?>
+                <textarea class="medium-14" name="comment" placeholder="Descripción del producto"></textarea>
+            </form>
+            <div class="row">
+                <button class="secondary-btn close-modal">
+                    <?= $block->escapeHtml(__('Cancelar')) ?>
+                </button>
+                <button class="primary-btn" id="ask-product">
+                    <?= $block->escapeHtml(__('Solicitar Producto')) ?>
+                </button>
+            </div>
+        </div>
+
+        <div class="content content-success hide">
+            <h1 class="bold-24"><?= $block->escapeHtml(__('¡Muchas gracias!')) ?></h1>
+            <p class="medium-16"><?= (__('Al compartirnos productos que quieres ver en Kip, estamos mejorando gracias a ti')) ?></p>
+            <p class="medium-14"><?= (__('Nos esforzaremos para agregar este producto a nuestro inventario y tenerlo listo la próxima vez que desees adquirirlo.')) ?></p>
+            <div class="row">
+                <button class="secondary-btn close-modal">
+                    <?= $block->escapeHtml(__('De acuerdo')) ?>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Report Error Modal -->
+<div id="report-error" class="modal-container">
+    <div class="modal">
+        <div class="header">
+            <div class="header-img"></div>
+            <button class="close-modal"></button>
+        </div>
+
+        <div class="content">
+            <h1 class="bold-24"><?= $block->escapeHtml(__('Reportar falla en sitio web')) ?></h1>
+            <p class="medium-16"><?= (__('¿Has tenido problemas en nuestro sitio web?')) ?></p>
+            <p class="medium-14"><?= (__('Reporta las fallas que has notado en Kip.')) ?></p>
+            <form id="askproduct-form" method="POST" action="/contact/index/post/">
+                <input hidden name="name" value="<?= $block->getCustomerName() ?>">
+                <input hidden name="email" value="<?= $block->getCustomerEmail() ?>">
+                <input hidden name="telephone" value="<?= $block->getCustomerTelephone() ?>">
+                <?= $block->getBlockHtml('formkey') ?>
+                <textarea class="medium-14" name="comment" placeholder="Escribe aquí..."></textarea>
+            </form>
+            <div class="row">
+                <button class="secondary-btn close-modal">
+                    <?= $block->escapeHtml(__('Cancelar')) ?>
+                </button>
+                <button class="primary-btn" id="report">
+                    <?= $block->escapeHtml(__('Reportar')) ?>
+                </button>
+            </div>
+        </div>
+
+        <div class="content content-success hide">
+            <h1 class="bold-24"><?= $block->escapeHtml(__('¡Gracias por tu reporte!')) ?></h1>
+            <p class="medium-16"><?= (__('Lamentamos lo sucedido.')) ?></p>
+            <p class="medium-14"><?= (__('Estaremos trabajando para que no vuelvas a experimentar esta falla en Kip.')) ?></p>
+            <div class="row">
+                <button class="secondary-btn close-modal">
+                    <?= $block->escapeHtml(__('De acuerdo')) ?>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

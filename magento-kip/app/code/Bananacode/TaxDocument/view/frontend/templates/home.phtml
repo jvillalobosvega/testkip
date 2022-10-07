@@ -1,0 +1,209 @@
+<?php
+
+/** @var \Bananacode\TaxDocument\Block\Home $block */
+?>
+
+<?php
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+?>
+
+<div id="tax-documents">
+    <input hidden name="token" value="<?= $kip->getCustomerToken() ?>">
+
+    <input hidden name="customer_id" value="<?= $kip->getCustomerId() ?>">
+
+    <div class="content current-documents content-active">
+        <div class="row" id="customer-documents">
+            <div class="tabs">
+                <button id="document-CCF" class="active tab"><?= $block->escapeHtml(__('Crédito Fiscal')) ?></button>
+                <button id="document-EIVA" class="tab"><?= $block->escapeHtml(__('Exento de IVA')) ?></button>
+            </div>
+            <button class="primary-btn create-document"><?= $block->escapeHtml(__('Agregar ')) ?></button>
+            <div class="list row"></div>
+            <p class="medium-16"><?= __('Antes de utilizar tus documentos fiscales estos deben ser analizados y aprobados (<span class="approve-icon"></span>).') ?></p>
+        </div>
+        <div class="empty">
+            <p class="medium-16"><?= $block->escapeHtml(__('Agrega tus tarjetas en caso quieras que emitamos un crédito fiscal o una factura exenta de IVA.')) ?></p>
+            <button class="primary-btn create-document"><?= $block->escapeHtml(__('Agregar ')) ?></button>
+        </div>
+    </div>
+
+    <?php if ($kip->getCustomerId()): ?>
+        <div class="content edit-document">
+            <button id="go-back"><?= $block->escapeHtml(__('Volver a Mis Documentos')) ?></button>
+            <form class="edit row">
+                <div class="col col-sm-6 col-md-half col-lg-6">
+                    <div class="doc CCF active">
+                        <div class="field">
+                            <input type="text" name="customer_name" placeholder="Nombre del contribuyente">
+                        </div>
+                        <div class="field">
+                            <select name="category_id" id="document-categories">
+                                <option value="">Categoría del contribuyente</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <input type="text" name="tax_identification_number" placeholder="Nº de Identificación tributaria (NIT)">
+                        </div>
+                        <div class="field">
+                            <input type="text" name="registry_number" placeholder="Nºde Registro (NCR)">
+                        </div>
+                        <div class="field">
+                            <textarea name="economic_activity" placeholder="GIRO/Actividad Económica"></textarea>
+                        </div>
+                        <div class="field">
+                            <textarea name="head_office_address" placeholder="Dirección de casa matriz"></textarea>
+                        </div>
+                    </div>
+                    <div class="doc EIVA">
+                        <div class="field">
+                            <input type="text" name="customer_name" placeholder="Nombre y apellidos">
+                        </div>
+                        <div class="field">
+                            <input type="text" onfocus="(this.type='date')" name="expiration_date" placeholder="Fecha de expiración">
+                        </div>
+                        <div class="field">
+                            <input type="text" name="id_number" placeholder="Número de Carnet">
+                        </div>
+                        <div class="field">
+                            <input type="text" name="entity" placeholder="Entidad">
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-sm-6 col-md-half col-lg-6">
+
+                    <img src="" id="current-doc-img-front">
+                    <div class="field file">
+                        <div class="preview front">
+                            <img src="">
+                            <span class="filename medium-14"></span>
+                        </div>
+                    </div>
+                    <div class="field file input front">
+                        <input type="file" name="" class="front">
+                        <div class="bold-18 cover">
+                            Subir imagen delantera
+                        </div>
+                    </div>
+
+                    <img src="" id="current-doc-img-back">
+                    <div class="field file">
+                        <div class="preview back">
+                            <img src="">
+                            <span class="filename medium-14"></span>
+                        </div>
+                    </div>
+                    <div class="field file input back">
+                        <input type="file" name="" class="back">
+                        <div class="bold-18 cover">
+                            Subir imagen trasera
+                        </div>
+                    </div>
+
+                    <button class="primary-btn post-document" id="edit-document">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    <?php endif; ?>
+</div>
+
+<div id="tax-documents-popup" class="modal-container">
+    <div class="modal">
+        <div class="header">
+            <h4 class="bold-18">Agregar Documento </h4>
+            <span class="close-modal"></span>
+            <div class="tabs">
+                <button id="CCF" class="active tab"><?= $block->escapeHtml(__('Crédito Fiscal')) ?></button>
+                <button id="EIVA" class="tab"><?= $block->escapeHtml(__('Exento de IVA')) ?></button>
+            </div>
+        </div>
+        <div class="content">
+            <form class="add">
+                <div class="doc CCF active">
+                    <div class="field">
+                        <input type="text" name="customer_name" placeholder="Nombre del contribuyente">
+                    </div>
+                    <div class="field">
+                        <select name="category_id" id="document-categories">
+                            <option value="">Categoría del contribuyente</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <input type="text" name="tax_identification_number" placeholder="Nº de Identificación tributaria (NIT)">
+                    </div>
+                    <div class="field">
+                        <input type="text" name="registry_number" placeholder="Nºde Registro (NCR)">
+                    </div>
+                    <div class="field">
+                        <textarea name="economic_activity" placeholder="GIRO/Actividad Económica"></textarea>
+                    </div>
+                    <div class="field">
+                        <textarea name="head_office_address" placeholder="Dirección de casa matriz"></textarea>
+                    </div>
+                </div>
+                <div class="doc EIVA">
+                    <div class="field">
+                        <input type="text" name="customer_name" placeholder="Nombre y apellidos">
+                    </div>
+                    <div class="field">
+                        <input type="text" onfocus="(this.type='date')" name="expiration_date" placeholder="Fecha de expiración">
+                    </div>
+                    <div class="field">
+                        <input type="text" name="id_number" placeholder="Número de Carnet ">
+                    </div>
+                    <div class="field">
+                        <input type="text" name="entity" placeholder="Entidad">
+                    </div>
+                </div>
+
+                <div class="field file">
+                    <div class="preview front">
+                        <img src="">
+                        <span class="filename medium-14"></span>
+                    </div>
+                </div>
+                <div class="field file input front">
+                    <input type="file" name="" class="front">
+                    <div class="bold-18 cover">
+                        Subir imagen delantera
+                    </div>
+                </div>
+
+                <div class="field file">
+                    <div class="preview back">
+                        <img src="">
+                        <span class="filename medium-14"></span>
+                    </div>
+                </div>
+                <div class="field file input back">
+                    <input type="file" name="" class="back">
+                    <div class="bold-18 cover">
+                        Subir imagen trasera
+                    </div>
+                </div>
+
+                <button class="primary-btn post-document" id="add-document">
+                    Guardar
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="tax-documents-popup-delete" class="modal-container">
+    <div class="modal">
+        <div class="header">
+            <span class="close-modal"></span>
+        </div>
+        <div class="content">
+            <h4 class="bold-18">¿Quieres eliminar este documento lista?</h4>
+            <button class="secondary-btn close-modal">Cancelar</button>
+            <button class="primary-btn">Eliminar</button>
+        </div>
+    </div>
+</div>

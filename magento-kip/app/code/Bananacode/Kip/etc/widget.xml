@@ -1,0 +1,116 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:helloworld:Magento_Widget:etc/widget.xsd">
+    <widget class="Bananacode\Kip\Block\Widget\Banner" id="kip_slide_banner">
+        <label>Kip Banner</label>
+        <description>Banner Image</description>
+        <parameters>
+            <parameter name="image" xsi:type="block" visible="true" sort_order="0" required="true">
+                <label translate="true">Desktop</label>
+                <block class="Bananacode\Kip\Block\Adminhtml\Widget\Image">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string">Choose Image...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <parameter name="image_mobile" xsi:type="block" visible="true" sort_order="2" required="true">
+                <label translate="true">Mobile</label>
+                <block class="Bananacode\Kip\Block\Adminhtml\Widget\Image">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string">Choose Image...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <parameter name="id_app" xsi:type="text" visible="true" sort_order="2" required="true">
+                <label>ID App</label>
+                <description translate="true">ID app 1,2,3,4...</description>
+            </parameter>
+            <parameter name="alt" xsi:type="text" required="true" visible="true" sort_order="3">
+                <label>Images ALT</label>
+                <description translate="true">Breve descripción del banner...</description>
+            </parameter>
+            <parameter name="url" xsi:type="text" visible="true" sort_order="3">
+                <label>Click URL</label>
+                <description translate="true">Dejar en blanco si no aplica...</description>
+            </parameter>
+        </parameters>
+    </widget>
+
+
+
+    <widget class="Bananacode\Kip\Block\Widget\BannerCintillo" id="kip_slide_banner_cintillo">
+        <label>Kip Banner Cintillo</label>
+        <description>Banner Image</description>
+        <parameters>
+            <parameter name="image" xsi:type="block" visible="true" sort_order="0" required="true">
+                <label translate="true">Desktop</label>
+                <block class="Bananacode\Kip\Block\Adminhtml\Widget\Image">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string">Choose Image...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <parameter name="image_mobile" xsi:type="block" visible="true" sort_order="2" required="true">
+                <label translate="true">Mobile</label>
+                <block class="Bananacode\Kip\Block\Adminhtml\Widget\Image">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string">Choose Image...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <parameter name="id_app" xsi:type="text" visible="true" sort_order="2" required="true">
+                <label>ID App</label>
+                <description translate="true">ID app 1,2,3,4...</description>
+            </parameter>
+            <parameter name="alt" xsi:type="text" required="true" visible="true" sort_order="3">
+                <label>Images ALT</label>
+                <description translate="true">Breve descripción del banner...</description>
+            </parameter>
+            <parameter name="url" xsi:type="text" visible="true" sort_order="3">
+                <label>Click URL</label>
+                <description translate="true">Dejar en blanco si no aplica...</description>
+            </parameter>
+        </parameters>
+    </widget>
+
+
+
+    <widget class="Bananacode\Kip\Block\Widget\Tile" id="kip_tile">
+        <label>Kip Tile</label>
+        <description>Inspirations</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" required="true" visible="true" sort_order="3">
+                <label>Title</label>
+            </parameter>
+            <parameter name="image" xsi:type="block" required="true" visible="true" sort_order="0">
+                <label translate="true">Image</label>
+                <block class="Bananacode\Kip\Block\Adminhtml\Widget\Image">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string">Choose Image...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <parameter name="alt" xsi:type="text" required="true" visible="true" sort_order="3">
+                <label>Images ALT</label>
+                <description translate="true">Breve descripción de la imagen...</description>
+            </parameter>
+            <parameter name="url" xsi:type="text" visible="true" sort_order="3">
+                <label>Click URL</label>
+                <description translate="true">Dejar en blanco si no aplica...</description>
+            </parameter>
+            <parameter name="category_id" xsi:type="text" visible="true" sort_order="3">
+                <label>Click Category ID</label>
+                <description translate="true">Dejar en blanco si no aplica...</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

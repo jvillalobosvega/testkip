@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_quote_remove_item">
+        <observer name="check_shopping_list_remove" instance="Bananacode\ShoppingList\Observer\CheckList" />
+    </event>
+    <event name="sales_quote_add_item">
+        <observer name="check_shopping_list_add" instance="Bananacode\ShoppingList\Observer\CheckList" />
+    </event>
+</config>

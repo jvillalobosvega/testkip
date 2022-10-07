@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route method="GET" url="/V1/referral/customer">
+        <service class="Bananacode\Referral\Api\ReferralsApiInterface" method="getCustomerReferralData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route method="GET" url="/V1/referral/customer/:id">
+        <service class="Bananacode\Referral\Api\ReferralsApiInterface" method="getCustomerReferralDataAdmin"/>
+        <resources>
+            <resource ref="Magento_Customer::read" />
+        </resources>
+    </route>
+    <route method="GET" url="/V1/referral/customer-cash/:id/:cash">
+        <service class="Bananacode\Referral\Api\ReferralsApiInterface" method="setCustomerReferralCash"/>
+        <resources>
+            <resource ref="Magento_Customer::manage" />
+        </resources>
+    </route>
+</routes>

@@ -1,0 +1,101 @@
+/*------------------------------------*\
+          Style Guide Styles
+\*------------------------------------*/
+
+#style-guide-section {
+  .section {
+    margin: 60px auto;
+  }
+
+  .grid-layout {
+    .col {
+      border: white solid 1px;
+      background-color: $black;
+      height: 500px;
+    }
+  }
+
+  .fonts {
+    label {
+      display: block;
+    }
+  }
+
+  .buttons {
+    button,
+    a {
+      margin: 15px 0;
+    }
+  }
+
+  .forms {
+    .form-group {
+      margin: 15px 0;
+    }
+  }
+
+  .colors {
+    .color {
+      border: $white solid 1px;
+      height: 107px;
+      width: 107px;
+      border-radius: 50%;
+    }
+
+    .orange {
+      background-color: #ff5c39;
+    }
+
+    .pink {
+      background-color: #ca0088;
+    }
+
+    .green {
+      background-color: #034432;
+    }
+
+    .black {
+      background-color: #000000;
+    }
+
+    .light-grey {
+      background-color: #d0d0d0;
+    }
+
+    .dark-grey {
+      background-color: #696969;
+    }
+
+    .light-pink {
+      background-color: #e7c9ca;
+    }
+
+    .lighter-pink {
+      background-color: #f8eced;
+    }
+
+    .light-blue {
+      background-color: #acd8ec;
+    }
+
+    .lighter-blue {
+      background-color: #e8f4fa;
+    }
+
+    .light-yellow {
+      background-color: #eced96;
+    }
+
+    .lighter-yellow {
+      background-color: #f9f9d9;
+    }
+
+    .light-green {
+      background-color: #d0dbb4;
+    }
+
+    .lighter-green {
+      background-color: #f5f8ed;
+    }
+  }
+}

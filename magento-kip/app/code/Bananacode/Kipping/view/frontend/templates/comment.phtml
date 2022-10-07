@@ -1,0 +1,80 @@
+<?php
+/**
+ * Copyright © 2021 Bananacode. All rights reserved.
+ */
+
+/**
+ * @var \Bananacode\Kipping\Block\Comment $block
+ */
+?>
+<script type="text/javascript">
+    const ajax = (
+        method,
+        url,
+        data = {},
+        contentType = "application/json",
+        xhttp = null,
+        auth = null
+    ) => {
+        return new Promise((resolve) => {
+            if (!xhttp) {
+                xhttp = new XMLHttpRequest();
+            }
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState === 4) {
+                    resolve(
+                        JSON.stringify({
+                            status: xhttp.status,
+                            response: xhttp.responseText,
+                        })
+                    );
+                }
+            };
+
+            xhttp.open(method, url, true);
+            if(auth) {
+                xhttp.setRequestHeader("Authorization", auth);
+            }
+            if (method === "POST" && data) {
+                xhttp.setRequestHeader("Content-type", contentType);
+                xhttp.send(data);
+            } else {
+                xhttp.send();
+            }
+
+            return xhttp;
+        });
+    };
+
+    let session = JSON.parse(localStorage.getItem('kipping')),
+        interval = setInterval(function () {
+        let loader = document.getElementById('kip-ajax-loader-modal'),
+            loaderContent = document.querySelector('#kip-ajax-loader-modal .loader-kip')
+        if(loader) {
+            clearInterval(interval);
+            loaderContent.innerHTML += `<p class="bold-16">¡Ya casi!</p> <p class="medium-14">Terminando de procesar tu pedido, este proceso puede tomar unos segundos, por favor espera.</p>`
+            loader.classList.add('active');
+            loaderContent.classList.add('copy');
+            ajax('POST',
+                '/rest/V1/kipping/comment',
+                JSON.stringify({
+                    data: JSON.stringify(session)
+                }),
+                'application/json',
+                null,
+                'Bearer ' + '<?= $block->getCustomerToken() ?>'
+            ).then(function (response) {
+                loader.classList.remove('active')
+
+                let result = JSON.parse(JSON.parse(response).response),
+                    msgBox =  document.getElementById('ls-order-result');
+
+                if(result.success && result.message) {
+                    msgBox.innerHTML = `Tu número de pedido es ${result.message}. Puedes ver todos los detalles en "<a href="/sales/order/history/">Mis Pedidos</a>"`;
+                } else {
+                    msgBox.innerHTML = `Podrás ver tu pedido en "<a href="/sales/order/history/">Mis Pedidos</a>" en unos minutos, estamos terminando de finalizar unos detalles.`;
+                }
+            });
+        }
+    },500);
+</script>

@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route method="POST" url="/V1/bananacodeTaxDocument/add">
+        <service class="Bananacode\TaxDocument\Api\TaxDocumentInterface" method="add"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route method="POST" url="/V1/bananacodeTaxDocument/edit">
+		<service class="Bananacode\TaxDocument\Api\TaxDocumentInterface" method="edit"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="POST" url="/V1/bananacodeTaxDocument/delete/:documentId">
+		<service class="Bananacode\TaxDocument\Api\TaxDocumentInterface" method="delete"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/bananacodeTaxDocument/:documentId">
+		<service class="Bananacode\TaxDocument\Api\TaxDocumentInterface" method="get"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/bananacodeTaxDocument/getDocumentsByCustomer">
+		<service class="Bananacode\TaxDocument\Api\TaxDocumentInterface" method="getDocumentsByCustomer"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+    <route method="GET" url="/V1/bananacodeTaxDocument/getApprovedDocumentsByCustomer">
+		<service class="Bananacode\TaxDocument\Api\TaxDocumentInterface" method="getApprovedDocumentsByCustomer"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+    <route method="GET" url="/V1/bananacodeTaxCategories">
+		<service class="Bananacode\TaxDocument\Api\TaxDocumentInterface" method="categories"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+</routes>

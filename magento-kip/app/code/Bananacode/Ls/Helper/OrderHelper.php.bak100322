@@ -1,0 +1,376 @@
+<?php
+
+namespace Bananacode\Ls\Helper;
+
+use Exception;
+use \Ls\Core\Model\LSR;
+use \Ls\Omni\Client\Ecommerce\Entity;
+use Magento\Checkout\Model\Session\Proxy as CheckoutSessionProxy;
+use Magento\Customer\Model\Session\Proxy as CustomerSessionProxy;
+use Magento\Framework\App\Helper\Context;
+use Magento\Sales\Model;
+use Magento\Sales\Model\ResourceModel\Order;
+
+/**
+ * Class OrderHelper
+ * @package Bananacode\Ls\Helper
+ */
+class OrderHelper extends \Ls\Omni\Helper\OrderHelper {
+    /**
+     * @var \Magento\Customer\Model\ResourceModel\CustomerRepository
+     */
+    protected $_customerRepository;
+
+    /**
+     * @var \Bananacode\TaxDocument\Model\TaxDocument
+     */
+    protected $_taxDocument;
+
+    /**
+     * @var \Bananacode\TaxDocument\Model\ResourceModel\TaxDocument
+     */
+    protected $_taxDocumentResource;
+
+    /**
+     * @var \Bananacode\TaxDocument\Model\TaxDocumentType
+     */
+    protected $_taxDocumentType;
+
+    /**
+     * @var \Bananacode\TaxDocument\Model\ResourceModel\TaxDocumentType
+     */
+    protected $_taxDocumentTypeResource;
+
+    /**
+     * @var \Magento\SalesRule\Model\RuleRepository
+     */
+    protected $_rulesRepo;
+
+
+    /**
+     * OrderHelper constructor.
+     * @param Context $context
+     * @param Model\Order $order
+     * @param BasketHelper $basketHelper
+     * @param LoyaltyHelper $loyaltyHelper
+     * @param Model\OrderRepository $orderRepository
+     * @param CustomerSessionProxy $customerSession
+     * @param CheckoutSessionProxy $checkoutSession
+     * @param LSR $lsr
+     * @param Order $orderResourceModel
+     */
+    public function __construct(
+        Context $context,
+        Model\Order $order,
+        \Ls\Omni\Helper\BasketHelper $basketHelper,
+        \Ls\Omni\Helper\LoyaltyHelper $loyaltyHelper,
+        Model\OrderRepository $orderRepository,
+        CustomerSessionProxy $customerSession,
+        CheckoutSessionProxy $checkoutSession,
+        LSR $lsr,
+        Order $orderResourceModel,
+
+        \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
+        \Bananacode\TaxDocument\Model\TaxDocument $taxDocument,
+        \Bananacode\TaxDocument\Model\ResourceModel\TaxDocument $taxDocumentResource,
+        \Bananacode\TaxDocument\Model\TaxDocumentType $taxDocumentType,
+        \Bananacode\TaxDocument\Model\ResourceModel\TaxDocumentType $taxDocumentTypeResource,
+        \Magento\SalesRule\Model\RuleRepository $rulesRepo
+    ) {
+        parent::__construct($context,$order, $basketHelper, $loyaltyHelper, $orderRepository, $customerSession, $checkoutSession, $lsr, $orderResourceModel);
+
+        $this->_customerRepository = $customerRepository;
+        $this->_taxDocument = $taxDocument;
+        $this->_taxDocumentResource = $taxDocumentResource;
+        $this->_taxDocumentType = $taxDocumentType;
+        $this->_taxDocumentTypeResource = $taxDocumentTypeResource;
+        $this->_rulesRepo = $rulesRepo;
+    }
+
+    /**
+     * This function is overriding in hospitality module
+     * @param Model\Order $order
+     * @param \Ls\Omni\Client\Ecommerce\Entity\Order $oneListCalculateResponse
+     * @return Entity\OrderCreate
+     */
+    public function prepareOrder(Model\Order $order, $oneListCalculateResponse)
+    {
+        try {
+            $storeId       = $oneListCalculateResponse->getStoreId();
+            $cardId        = $oneListCalculateResponse->getCardId();
+            $customerEmail = $order->getCustomerEmail();
+
+            if ($order->getShippingAddress()) {
+                $customerName = $order->getShippingAddress()->getFirstname() . ' ' . $order->getShippingAddress()->getLastname();
+            } else {
+                $customerName = $order->getBillingAddress()->getFirstname() . ' ' . $order->getBillingAddress()->getLastname();
+            }
+
+            if ($this->customerSession->isLoggedIn()) {
+                $contactId = $this->customerSession->getData(LSR::SESSION_CUSTOMER_LSRID);
+            } else {
+                $contactId = '';
+            }
+            $shippingMethod = $order->getShippingMethod(true);
+
+            //TODO work on condition
+            $isClickCollect = false;
+            if ($shippingMethod !== null) {
+                $isClickCollect = $shippingMethod->getData('carrier_code') == 'clickandcollect';
+            }
+
+            if (!empty($this->checkoutSession->getCouponCode())) {
+                $order->setCouponCode($this->checkoutSession->getCouponCode());
+            }
+
+            //if the shipping address is empty, we use the contact address as shipping address.
+            $contactAddress = $order->getBillingAddress() ? $this->convertAddress($order->getBillingAddress()) : null;
+            $shipToAddress  = $order->getShippingAddress() ? $this->convertAddress($order->getShippingAddress()) : $contactAddress;
+
+            $oneListCalculateResponse
+                ->setId($order->getIncrementId())
+                ->setContactId($contactId)
+                ->setCardId($cardId)
+                ->setEmail($customerEmail)
+                ->setShipToEmail($customerEmail)
+                ->setContactName($customerName)
+                ->setShipToName($customerName)
+                ->setContactAddress($contactAddress)
+                ->setShipToAddress($shipToAddress)
+                ->setStoreId($storeId);
+
+            //Bananacode
+            $isClickCollect = true;
+
+            if ($isClickCollect) {
+                $oneListCalculateResponse->setOrderType(Entity\Enum\OrderType::CLICK_AND_COLLECT);
+            } else {
+                $oneListCalculateResponse->setOrderType(Entity\Enum\OrderType::SALE);
+            }
+
+            /** Entity\ArrayOfOrderPayment $orderPaymentArrayObject */
+            $orderPaymentArrayObject = $this->setOrderPayments($order, $cardId);
+            $oneListCalculateResponse->setOrderPayments($orderPaymentArrayObject);
+
+            //For click and collect.
+            if ($isClickCollect) {
+                $oneListCalculateResponse->setCollectLocation($order->getPickupStore());
+            }
+            $orderLinesArray = $oneListCalculateResponse->getOrderLines()->getOrderLine();
+            //For click and collect we need to remove shipment charge orderline
+            //For flat shipment it will set the correct shipment value into the order
+            $orderLinesArray = $this->updateShippingAmount($orderLinesArray, $order);
+            // @codingStandardsIgnoreLine
+            $request = new Entity\OrderCreate();
+
+            $isExempt = false;
+            if($order->getAppliedRuleIds()) {
+                foreach (explode(',', $order->getAppliedRuleIds()) as $appliedRuleId) {
+                    $rule = $this->_rulesRepo->getById($appliedRuleId);
+                    if($rule->getName() == 'EXENTOIVA') {
+                        $isExempt = true;
+                    }
+                }
+            }
+
+            //Add discount line manually since LS has been disabled from calculation until this point.
+            $discountAmount = $order->getDiscountAmount() + (is_numeric($order->getBnReferralSpent()) ? $order->getBnReferralSpent() : 0);
+            if($isExempt) {
+                $taxAmount = $order->getSubtotal() * 0.115;
+                $discountAmount = $discountAmount + $taxAmount;
+            }
+            $discountPercent = (($discountAmount * -1) * 100) / $order->getSubtotal();
+
+            /**
+             * @var $orderLine \Ls\Omni\Client\Ecommerce\Entity\OrderLine
+             */
+            $manualLineDiscount = 0;
+            $manualLine = 0;
+            $i = 10000;
+            $i2 = 10001;
+            $discounts = [];
+            foreach ($orderLinesArray as &$orderLine) {
+                if($orderLine->getItemId() !== 'ENVIO' && $orderLine->getItemId() !== 'EXENTOIVA') {
+                    $finalLineAmount = $orderLine->getAmount();
+                    $lineDiscount = (($discountPercent * $orderLine->getAmount()) / 100);
+                    if($lineDiscount > 0) {
+                        $orderLine->setDiscountAmount($lineDiscount);
+                        $orderLine->setDiscountPercent($discountPercent);
+
+                        $discount = new Entity\OrderDiscountLine();
+                        $discount->setDiscountAmount($lineDiscount);
+                        $discount->setDiscountPercent($discountPercent);
+                        $discount->setDescription($order->getDiscountDescription() ?? 'Coupon Discount');
+                        $discount->setDiscountType('Line');
+                        $discount->setLineNumber($i);
+                        $discount->setNo($i2);
+                        $discount->setPeriodicDiscType('Unknown');
+                        $discounts[] = $discount;
+                        $i += 10000;
+                        $i2 += 1;
+
+                        $manualLineDiscount += $lineDiscount;
+                        $finalLineAmount = $finalLineAmount - $lineDiscount;
+                    }
+
+                    if($isExempt) {
+                        $finalLineAmount = $finalLineAmount - $orderLine->getTaxAmount();
+                        $orderLine->setTaxAmount(0);
+                    }
+
+                    $manualLine += $finalLineAmount;
+                    $orderLine->setAmount($finalLineAmount);
+                }
+            }
+
+            $oneListCalculateResponse->setOrderLines($orderLinesArray);
+
+            if(count($discounts) > 0) {
+                $arrayDiscounts = new Entity\ArrayOfOrderDiscountLine();
+                $arrayDiscounts->setOrderDiscountLine($discounts);
+                $oneListCalculateResponse->setOrderDiscountLines($arrayDiscounts);
+            }
+
+            $request->setRequest($oneListCalculateResponse);
+
+            /**
+             * Custom Kip Information
+             */
+            //Bananacode
+            $this->kipData($request, $order);
+            /**
+             * ------------------------------------------
+             */
+
+            return $request;
+        } catch (Exception $e) {
+            $this->_logger->error($e->getMessage());
+        }
+    }
+
+    /**
+     * @param $request Entity\OrderCreate
+     * @param $order Model\Order
+     * @return bool
+     */
+    public function kipData(&$request, $order)
+    {
+        try {
+            $kipData = [];
+            $isEIVA = false;
+            $customerId = $order->getCustomerId();
+            $customer = $this->_customerRepository->getById($customerId);
+            if (!$customer) {
+                return false;
+            } else {
+                $DocumentName = $customer->getFirstname() . ' ' . $customer->getLastname();
+            }
+
+            foreach ($order->getStatusHistoryCollection() as $status) {
+                if ($status->getComment() && !$status->getIsVisibleOnFront()) {
+                    $kipProp = explode(':', $status->getComment());
+                    if (count($kipProp) > 1) {
+                        $value = '';
+                        for ($k = 1; $k < count($kipProp); $k++) {
+                            $value .= $k > 1 ? ':' : '';
+                            $value .= trim($kipProp[$k]);
+                        }
+                        $kipData[$kipProp[0]] = trim($value);
+                    }
+                }
+            }
+
+            $ReceiptDocumentType = 'FCF';
+            if (isset($kipData['invoice_document'])) {
+                if (intval($kipData['invoice_document'])) {
+                    $this->_taxDocumentResource->load($this->_taxDocument, $kipData['invoice_document']);
+                    if ($this->_taxDocument->getId()) {
+                        $DocumentName = $this->_taxDocument->getCustomerName();
+
+                        $this->_taxDocumentTypeResource
+                            ->load(
+                                $this->_taxDocumentType,
+                                $this->_taxDocument->getDocumentType()
+                            );
+                        if ($this->_taxDocumentType->getId()) {
+                            $ReceiptDocumentType = $this->_taxDocumentType->getName() === 'CCF' ? 'CCF' : 'FCF';
+                            $isEIVA = !($this->_taxDocumentType->getName() === 'CCF');
+                        }
+
+                        if ($this->_taxDocument->getCustomerId() != $customerId) {
+                            $ReceiptDocumentType = 'FCF';
+                            $isEIVA = false;
+                        }
+                    }
+                }
+            }
+
+            //Documento legal del cliente
+            $request->getRequest()->setDUI($customer->getCustomAttribute('id_document') ? $customer->getCustomAttribute('id_document')->getValue() : '');
+
+            //Tipo de documento
+            $request->getRequest()->setReceiptDocumentType($ReceiptDocumentType);
+            $request->getRequest()->setDocumentName($DocumentName);
+
+            //Si es CCF se envian estos dos:
+            if ($this->_taxDocumentType->getName() === 'CCF') {
+                $categories = [
+                    1 => 'Otro',
+                    2 => 'Mediano',
+                    3 => 'Grande'
+                ];
+                $request->getRequest()->setNIT($this->_taxDocument->getTaxIdentificationNumber());
+                $request->getRequest()->setNRC($this->_taxDocument->getRegistryNumber());
+                $request->getRequest()->setCategContrib(isset($categories[$this->_taxDocument->getCategoryId()]) ? $categories[$this->_taxDocument->getCategoryId()] : 'Otro');
+                $request->getRequest()->setGIRO($this->_taxDocument->getEconomicActivity());
+                $request->getRequest()->setDocAddress($this->_taxDocument->getHeadOfficeAddress());
+            }
+
+            //Si es EIVA
+            if ($isEIVA) {
+                $fechaExp = \DateTime::createFromFormat('Y-m-d H:i:s', $this->_taxDocument->getExpirationDate());
+                $request->getRequest()->setEntidad($this->_taxDocument->getEntity());
+                $request->getRequest()->setNoCarnet($this->_taxDocument->getIdNumber());
+                $request->getRequest()->setExento(true);
+            } else {
+                $fechaExp = new \DateTime();
+            }
+            $request->getRequest()->setFechaExp($fechaExp->format('Y-m-d\TH:i:s'));
+
+            //Shipping
+            $today = new \DateTime();
+            $request->getRequest()->setRequestedDeliveryDate(isset($kipData['requestedDeliveryDate']) ? $kipData['requestedDeliveryDate'] : $today->format('Y-m-d\TH:i:s'));
+            $request->getRequest()->setHoraEntrega(isset($kipData['HoraEntrega']) ? $kipData['HoraEntrega'] :  $today->format('H:i:s'));
+            $request->getRequest()->setTipoPaquete(isset($kipData['TipoPaquete']) ? $kipData['TipoPaquete'] : '');
+            $request->getRequest()->setCommentsH(isset($kipData['CommentsH']) ? substr($kipData['CommentsH'],0, 254) : '');
+            $request->getRequest()->setTipoEnvio($order->getShippingMethod());
+
+            //Bin
+            $request->getRequest()->setBIN(isset($kipData['bin']) ? $kipData['bin'] : '');
+
+            //Hardcoded
+            $request->getRequest()->setOrderType(\Ls\Omni\Client\Ecommerce\Entity\Enum\OrderType::CLICK_AND_COLLECT);
+            $request->getRequest()->setCollectLocation('T001'); //todo: hardcoded?
+            $request->getRequest()->setShippingStatus(\Ls\Omni\Client\Ecommerce\Entity\Enum\ShippingStatus::SHIPPIG_NOT_REQUIRED);
+
+            foreach ($request->getRequest()->getOrderLines() as &$orderLine) {
+                //$orderLine->setClickAndCollectLine(true);
+                foreach ($order->getAllItems() as $orderItem) {
+                    if ($orderItem->getSku() === $orderLine->getItemId()) {
+                        $options = $orderItem->getProductOptions();
+                        if (isset($options['options'])) {
+                            $comment = '';
+                            foreach ($options['options'] as $opt) {
+                                $comment .= $opt['value'] . ' | ';
+                            }
+                            $orderLine->setCommentsL($comment);
+                        }
+                    }
+                }
+            }
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+}

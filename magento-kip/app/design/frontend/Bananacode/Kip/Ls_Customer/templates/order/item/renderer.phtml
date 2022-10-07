@@ -1,0 +1,109 @@
+<?php
+
+use \Ls\Customer\Block\Order\Item\Renderer;
+
+// @codingStandardsIgnoreFile
+
+/** @var  $block Renderer */
+
+/** @var  $_item \Magento\Sales\Model\Order\Item\Interceptor */
+/** @var  //$_item \Ls\Omni\Client\Ecommerce\Entity\SalesEntryLine */
+
+$_item        = $block->getItem();
+$discountInfo = $block->getItemDiscountLines();
+
+if (get_class($_item) === 'Ls\Omni\Client\Ecommerce\Entity\SalesEntryLine') {
+    $sku = $block->getSku();
+    if (!empty($_item->getVariantId())) {
+        $sku .= '-' . $_item->getVariantId();
+    }
+    if (!empty($_item->getUomId())) {
+        $sku .= '-' . $_item->getUomId();
+    }
+    $qty = $block->getFormattedQty($_item->getQuantity());
+    $amount = $block->getFormattedPrice($_item->getAmount()/* + $_item->getDiscountAmount()*/);
+    $name = $block->escapeHtml($_item->getItemDescription());
+} else {
+    $sku = $_item->getSku();
+    $qty = $block->getFormattedQty($_item->getQtyOrdered());
+    $amount = $block->getFormattedPrice($_item->getRowTotal()/* + $_item->getDiscountAmount()*/);
+    $name = $block->escapeHtml($_item->getName());
+}
+
+?>
+
+<?php
+
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+$_imageHelper  = $om->get('\Magento\Catalog\Helper\Image');
+$src  = null;
+try {
+    $_productRepository  = $om->get('\Magento\Catalog\Api\ProductRepositoryInterface');
+    /**
+     * @var  $baseProduct \Magento\Catalog\Api\Data\ProductInterface
+     */
+    $baseProduct = $_productRepository->get($sku);
+    if ($baseProduct) {
+        $src = $_imageHelper
+            ->init($baseProduct, 'product_page_image_small')
+            ->setImageFile($baseProduct->getImage())
+            ->resize(72, 72)
+            ->getUrl();
+    }
+} catch (\Exception $e) {}
+
+/**
+ * @var \Ls\Customer\Block\Order\Info $info
+ */
+$info = $block->getLayout()->createBlock('\Ls\Customer\Block\Order\Info');
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+
+$invoicedItem = $kip->getLsInvoicedItem($info->getOrder()->getId(), $sku);
+
+?>
+
+<tr id="order-item-row-<?= /* @escapeNotVerified */ $sku ?>" class="<?= ($invoicedItem['qty'] < 0) ? 'not-invoiced' : 'invoiced' ?>">
+    <td class="col img" data-th="<?= $block->escapeHtml(__('Image')) ?>">
+        <?php if ($src): ?>
+            <img src="<?= $src ?>" alt="item-thumbnail">
+        <?php endif; ?>
+    </td>
+    <td class="col name" data-th="<?= $block->escapeHtml(__('Product Name')) ?>">
+        <strong class="product name product-item-name"><?= $name ?></strong>
+        <?php if (!empty($_item->getVariantDescription())) { ?>
+            <p><?= $_item->getVariantDescription() ?></p>
+            <?php
+        } ?>
+        <?php if (!empty($discountInfo)) { ?>
+            <p><strong><?= $discountInfo[0]; ?></strong></p>
+            <?php
+        } ?>
+    </td>
+    <td class="col price" data-th="<?= $block->escapeHtml(__('Price')) ?>">
+        <?php if (!empty($_item->getDiscountAmount()) && $_item->getDiscountAmount() > 0) { ?>
+            <?= $block->getFormattedPrice($_item->getAmount() > 0 ? ($_item->getAmount()/* + $_item->getDiscountAmount()*/) : ($_item->getPrice()/* + $_item->getDiscountAmount()*/)); ?>
+
+            <div class="lsdiscountprice2">
+                <strike><?= ''//$block->getFormattedPrice($_item->getPrice() * $_item->getQuantity()); ?></strike></div>
+            <div class="lsdiscountamount">
+                <?= ''//$block->priceCurrency->format($_item->getDiscountAmount()) ?>
+            </div>
+
+        <?php } else { ?>
+            <?= $block->getFormattedPrice($_item->getPrice()/* + $_item->getDiscountAmount()*/); ?>
+        <?php } ?>
+    </td>
+    <td class="col qty" data-th="<?= $block->escapeHtml(__('Qty')) ?>">
+        <span>
+            <?= 'Pedido: ' . number_format(floatval($qty),2) ?>
+            <?= $invoicedItem['qty'] >= 0 ? '<br/>Facturado: ' . number_format(floatval($invoicedItem['qty']), 2) : '' ?>
+        </span>
+    </td>
+    <td class="col subtotal" data-th="<?= $block->escapeHtml(__('Subtotal')) ?>">
+        <?= $invoicedItem['qty'] >= 0 ? ('<br/>' . $kip->formatValue($invoicedItem['amount'])) : $amount; ?>
+    </td>
+</tr>

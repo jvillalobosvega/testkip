@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="bacfac" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Bananacode BacFac</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="acquirer_id" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Acquirer Id</label>
+                </field>
+                <field id="merchant_id" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Merchant Id</label>
+                </field>
+                <field id="password" translate="label" type="obscure" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Password</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="sandbox" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sandbox</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="exempt_product_id" translate="label" type="text" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Exempt Product ID</label>
+                </field>
+
+                <field id="bac_coupons_bins" translate="label" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>BAC: BIN Coupons</label>
+                </field>
+                <field id="bac_bins_numbers" translate="label" type="textarea" sortOrder="56" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>BAC: BIN Numbers</label>
+                </field>
+
+                <field id="cus_coupons_bins" translate="label" type="text" sortOrder="57" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cuscatlan: BIN Coupons</label>
+                </field>
+                <field id="cus_bins_numbers" translate="label" type="textarea" sortOrder="58" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cuscatlan: BIN Numbers</label>
+                </field>
+
+                <field id="prome_coupons_bins" translate="label" type="text" sortOrder="59" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Promerica: BIN Coupons</label>
+                </field>
+                <field id="prome_bins_numbers" translate="label" type="textarea" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Promerica: BIN Numbers</label>
+                </field>
+
+
+
+                <field id="agricola_coupons_bins" translate="label" type="text" sortOrder="63" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Banco Agricola: BIN Coupons</label>
+                </field>
+                <field id="agricola_bins_numbers" translate="label" type="textarea" sortOrder="64" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Banco Agricola: BIN Numbers</label>
+                </field>
+
+
+
+                <field id="payment_action" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment Action</label>
+                    <source_model>Bananacode\BacFac\Model\Adminhtml\Source\PaymentAction</source_model>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="120" showInDefault="9"
+                       showInWebsite="1" showInStore="0">
+                    <label>Payment From Applicable Countries</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="130" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Payment From Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Sort Order</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+                <field id="cctypes" translate="label" type="multiselect" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Credit Card Types</label>
+                    <source_model>Magento\Payment\Model\Source\Cctype</source_model>
+                </field>
+            </group>
+
+            <group id="bacfac_vault" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Bananacode BacFac Vault</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <attribute type="shared">1</attribute>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Title</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

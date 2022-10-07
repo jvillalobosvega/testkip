@@ -1,0 +1,27 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Magento\Checkout\Block\Cart\Item\Renderer\Actions\Remove */
+
+$_item = $block->getItem();
+
+$productId = $_item->getProduct()->getId();
+if ($option = $_item->getOptionByCode('simple_product')) {
+    $productId = $option->getProduct()->getId();
+}
+
+?>
+<a title="<?= $block->escapeHtml(__('Remove item')) ?>"
+   class="action kip-delete"
+   data-cart-item="<?= $productId ?>"
+>
+    <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin">
+        <use xlink:href="#img-trash"></use>
+    </svg>
+    <span>
+        <?= $block->escapeHtml(__('Remove item')) ?>
+    </span>
+</a>

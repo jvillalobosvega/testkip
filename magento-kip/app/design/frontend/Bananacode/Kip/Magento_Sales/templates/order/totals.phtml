@@ -1,0 +1,97 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var $block \Magento\Sales\Block\Order\Totals
+ * @see \Magento\Sales\Block\Order\Totals
+ */
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+$_order = $block->getOrder();
+$omniReceipt = null;
+if ($_omniOrder = $kip->getLsOrderFromLsDocumentId($_order->getDocumentId())) {
+    $omniReceipt = $kip->getLsReceiptFromLsDocumentId($_omniOrder['receipt_id']);
+} else {
+    $omniReceipt = $kip->getLsReceiptFromLsDocumentId($_order->getDocumentId());
+}
+?>
+
+<?php foreach ($block->getTotals() as $_code => $_total) : ?>
+    <?php if (strpos($_code, 'tax') !== false) : ?>
+    <?php else: ?>
+        <?php if ($_total->getBlockName()) : ?>
+            <?= $block->getChildHtml($_total->getBlockName(), false) ?>
+        <?php else : ?>
+            <tr class="<?= $block->escapeHtmlAttr($_code) ?>">
+                <th <?= /* @noEscape */ $block->getLabelProperties() ?> scope="row">
+                    <?php if ($_code == 'discount'): ?>
+                        <?php if ($_total->getStrong()) : ?>
+                            <strong>Descuento</strong>
+                        <?php else : ?>
+                            Descuento
+                        <?php endif ?>
+                    <?php else: ?>
+                        <?php if ($_total->getStrong()) : ?>
+                            <strong><?= $block->escapeHtml($_total->getLabel()) ?></strong>
+                        <?php else : ?>
+                            <?= $block->escapeHtml($_total->getLabel()) ?>
+                        <?php endif ?>
+                    <?php endif; ?>
+                </th>
+                <td <?= /* @noEscape */ $block->getValueProperties() ?> data-th="<?= $block->escapeHtmlAttr($_total->getLabel()) ?>">
+                    <?php if ($omniReceipt) : ?>
+                        <?php
+                        $omniTotal = '$0.00';
+                        switch ($_code) {
+                            case 'subtotal':
+                                $omniTotal = $omniReceipt['total_net_amount'];
+                                break;
+                            case 'discount':
+                                $omniTotal = $omniReceipt['total_discount'];
+                                break;
+                            case 'shipping':
+                                $omniTotal = $omniReceipt['total_shipping'];
+                                break;
+                            case 'grand_total':
+                                $omniTotal = $omniReceipt['total_amount'];
+                                break;
+                        }
+                        ?>
+                        <?php if ($_total->getStrong()) : ?>
+                            <strong><?= /* @noEscape */ $omniTotal ?></strong>
+                        <?php else : ?>
+                            <?= /* @noEscape */
+                            $omniTotal ?>
+                        <?php endif ?>
+                    <?php else : ?>
+                        <?php if ($_total->getStrong()) : ?>
+                            <strong><?= /* @noEscape */
+                                $block->formatValue($_total) ?></strong>
+                        <?php else : ?>
+                            <?= /* @noEscape */
+                            $block->formatValue($_total) ?>
+                        <?php endif ?>
+                    <?php endif ?>
+                </td>
+            </tr>
+
+            <?php if (is_numeric($_order->getBnReferralSpent()) && $_code == 'shipping') : ?>
+                <tr>
+                    <th colspan="2" scope="row">
+                        Puntos de referidos
+                    </th>
+                    <td>
+                        <?= '-$' . number_format(abs($_order->getBnReferralSpent()),2) ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endforeach ?>

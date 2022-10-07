@@ -1,0 +1,229 @@
+Product Group Id,ID Grupo Productos
+Item Category Code,Código Item Categorias
+Show all the stores,Mostrar todas las tiendas
+Show the Click and Collect stores only,Show the Click and Collect stores only
+Please select your hierarchy code,Por favor selecciona el código de jerarquía
+Inventory Per Store,Inventario por Tienda
+Inventory Totals,Inventario Total
+On Demand,On Demand
+Batch Job,Batch Job
+N/A,N/A
+No,No
+Cron Listing,Cron Listing
+LS Attributes deleted successfully.,Atributos de LS  eliminadas con éxito.
+Categories deleted successfully.,Categorías eliminadas con éxito.
+Customers deleted successfully.,Clientes eliminados con éxito.
+Discounts deleted successfully.,Descuento eliminado con éxito.
+%1 table truncated successfully.,%1 table truncated successfully.
+All ls_ tables truncated successfully.,All ls_ tables truncated successfully.
+Orders deleted successfully.,órden eliminda con éxito.
+Products deleted successfully.,Productos elimindos con éxito.
+Attribute Replication,Attribute Replication
+Attribute Option Value Replication,Attribute Option Value Replication
+Attribute Value Replication,Attribute Value Replication
+Barcode Replication,Barcode Replication
+Data Translation Replication,Data Translation Replication
+Data Translation Lang Code Replication,Data Translation Lang Code Replication
+Discount Replication,Discount Replication
+Extended Variant Value Replication,Extended Variant Value Replication
+Hierarchy Replication,Hierarchy Replication
+Hierarchy Leaf Replication,Hierarchy Leaf Replication
+Hierarchy Node Replication,Hierarchy Node Replication
+Image Link Replication,Image Link Replication
+Inventory Status Replication,Inventory Status Replication
+Item Replication,Item Replication
+Item Category Replication,Categoría Replicación Producto
+Item Unit Of Measure,Unidad Medida Producto
+Item Variant Registration Replication,Registro
+Item Vendor,Vendedor Producto
+Item Price Replication,Precio Replicación Producto
+Product Group Replication,Grupo Replicación Producto
+Store Replication,Replicación Tienda
+Unit Of Measure,Unidad de Medida
+Vendor,Vendedor
+Logs,Logs
+No Data Found File is Empty.,"No se encontro Data, el archivo esta vacío"
+File Not Found.,Archivo no encontrado.
+Product Image,Imágen Producti
+"<strong>LS Retail Setup Incomplete</strong><br/>Please define the LS Retail Service Base URL and Web Store to proceed.<br/>Go to <a href=""%1"">Stores > Configuration > LS Retail > General Configuration</a>.","<strong>Configuración Incompleta LS Retail</strong><br/>Porfavor defina el URL Base de LS Retail y la Tienda Web para continuar.<br/>Ir a <a href=""%1"">Tiendas > Configuración > LS Retail > Configuración General</a>"
+Default,Default
+Quantity Unit Of Measure,Cantidad Unidad de Medida
+Object with id ' . . ' does not exist.,Objeto con el ID ' . . ' no exite
+Could not save entity,No se pudo guarda la entidad
+Execute,Ejecutar
+Want to process %1 Cron?,Quiere continuar con el proceso Cron %1?
+It will take some time to process. Please don't close this window.,Llevará algún tiempo procesarlo. Por favor no cierre esta ventana.
+Omni to Flat,Omni to Flat
+Reset,Resetear
+Want to Reset Data for %1 Cron Job?,Quiere resetear la data para el Cron %1?
+"It will take some time to reset data. Please don't close this window.
+                                ",Tomara algun tiempo reiniciar su información. Por favor no cierre esta pestaña
+Forward,Adelante
+Back,Atras
+Flat to Magento,Flat to Magento
+Complete,Completo
+Pending,Pendiente
+Cron has been executed.,Cron se ha ejectuado
+Remaining entries,Entradas restantes
+Do you want to execute More Data?,Quiere ejecutar más Data?
+Click Here,Click Here
+Configuration,Configuración
+LS Retail Configuration,Configuración LS Retail
+Manual Crons,Cons Manuales
+Crons Listing,Crons Listing
+Logs,Logs
+Report,Reporte
+Replication Status,Estado Replicación
+Price Replication,Precio Replicación
+Item,Item
+Price,Precio
+Inventory Status,Estado Inventario
+Barcode,Código Barras
+Data Translation,Traducir Data
+Data Translation Lang Code,Código Lenguage Traducir Data
+Extended Variant Value,Extender Valor de Variante
+Image Link,Link Imágen
+Item Variant Registration,Registrar Variante Producto
+Hierarchy,Jerarquía
+Hierarchy Node,Nodo Jerarquía
+Hierarchy Leaf,Hoja de Jerarquía
+Attribute,Atributo
+Attribute Value,Valor del Atributo
+Attribute Option Value,Opción Valor de Atributo
+Store,Tienda
+Replication,Replicar
+Data Translation Language Code,Código de Lenguage Traducción Data
+Manual Cron Grid Default Store,Manual Cron Grid Default Store
+Replicate All Stores Items,Replicar Productos Todas las Tiendas
+Default Batch Size,Tamaño Lote Default
+Product Batch Size,Tamaño Lote Productos
+Product Attribute Batch Size,Tamaño Lote Atributos Producto
+Product Discount Batch Size,Tamaño Lote Descuentos Producto
+Product Inventory Batch Size,Tamaño Lote Inventario Producto
+Product Prices Batch Size,Tamaño Lote Precios de Producto
+Product Images Batch Size,Tamaño Lote Imágenes de Producto
+Product Barcode Batch Size,Tamaño Lote Código de Barras
+Variant Batch Size,Tamaño Lote Variantes
+Product Assignment to Category Batch Size,Tamaño Lote Asignación Productos a Categoría
+Create attribute sets on the basis of,Crear atributos por
+Item Availability,Disponibilidad Producti
+Availability Check,Revisar Disponibilidad
+Product Availability in Stores,Producto Disponible en Tiendas
+Display Stores,Mostrar Tiendas
+Restore Database,Restaurar Base de Datos
+Delete Orders,Eliminar Órdenes
+Delete Customers,Eliminar Clientes
+Delete Products & set processed to false,"Eliminar Productos y poner ""processed"" en falso"
+Delete Categories & set processed to false,"Eliminar Categorías y poner ""processed"" en falso"
+Delete Attributes & set processed to false,"Eliminar Atributos y poner ""processed"" en falso"
+Delete Discounts & set processed to false,"Eliminar Descuentos y poner ""processed"" en falso"
+Truncate all ls_ tables,Truncate all ls_ tables
+Nav ID,Nav ID
+ID,ID
+Job Code,Código Trabajo
+Status,Estado
+Last Executed,Última Ejecución
+Cron Class,Clase de Cron
+Area,Área
+Action,Acción
+Reset Data,Resetear Data
+All Store Views,Vista Todas las Tiendas
+Store View,Vista Tienda
+Code,Código
+Description,Descripción
+Failed Status,Estado Fallido
+Deleted Status,Estado Eliminado
+Default Value,Estado Default
+Value Type,Tipo Valor
+Created Date,Fecha Creación
+Updated Date,Fecha Actualización
+Processed Date,Fecha Proceso
+Sequence,Secuencia
+Value,Valor
+Link Field 1,Campo Link 1
+Link Field 2,Campo Link 2
+Link Field 3,Campo Link 3
+Link Type,Tipo Link
+Numberic Value,Valor Númerico
+Blocked,Bloqueado
+Item Id,ID Producto
+Variant ID,ID Variante
+Language Code,Código Lenguage
+Key,Llave
+Text,Texto
+Translation Id,ID Traducción
+Scroll,Scroll
+Item ID,ID Producto
+Discount Value,Valor Descuento
+Discount Value Type,Tipo Valor Descuento
+From Date,Desde
+To Date,Hasta
+Offer No,Núm Oferta
+Priority No,Num. Prioridad
+Store ID,ID Tienda
+Currency Code,Código Moneda
+Customer Discount Group,Grupo Descuento Clientes
+Details,Detalles
+Loyalty Scheme Code,Código esquema Lealtad
+Minimum Quantity,Cantidad Mínima
+Modify Date,Fecha Modificación
+Type,Tipo
+Unit Of Measure ID,ID Unidad de Medida
+Validation Period ID,ID Periodo Validación
+Dimension Logical Order,Dimension Lógica órden
+Dimensions,Dimensiones
+Framework Code,Framework Code
+Logical Order,Logical Order
+Timestamp,Timestamp
+Hierarchy Code,Código de Jerarquía
+Image ID,ID Imágen
+Node ID,ID Nodo
+Children Order,órden hija
+Indentation,Indentation
+ParentNode,Nodo Padre
+Presentation Order,órden Presentación
+Display Order,Mostrar órden
+Key Value,Key Value
+Variant Id,ID Variante
+Quantity,Cantidad
+Store Id,ID Tienda
+Blocked On eCommerce,Bloqueado en ecommerce
+Base Unit Of Measure,Unidad Base de Medida
+Unit Price,Precio por Unidad
+Gross Weight,Peso Bruto
+Item Family Code,Código Familia Producto
+Product Group ID,ID Grupo Producto
+Purch Unit Of Measure,Purch Unit Of Measure
+Salse Unit Of Measure,Salse Unit Of Measure
+Scale Item,Escala Producto
+Tax Item Group ID,ID Grupo Impuesto Producto
+Unit Volume,Unidad Volumen
+Units Per Parcel,Unidad por Parcela
+Vendor Id,ID Vendedor
+Vendor Item Id,ID Producto Vendedor
+Zero Price ValId,Precio Cero Valido
+Order,órden
+Quantity Per Unit Of Measure,Cantidad por Unidad de Medida
+Variant Dimension 1,Dimensiones Variante 1
+Variant Dimension 2,Dimensiones Variante 2
+Variant Dimension 3,Dimensiones Variante 3
+Variant Dimension 4,Dimensiones Variante 4
+Variant Dimension 5,Dimensiones Variante 5
+Variant Dimension 6,Dimensiones Variante 6
+Item Category ID,ID Categorá Producto
+Name,Nombre
+City,Ciudad
+Click And Collect,Click And Collect
+Country,País
+County,Provincia
+Currency,Modena
+DefaultCustomerAccount,DefaultCustomerAccount
+Functionality Profile,Perfil Funcionalidad
+Latitude,Latitud
+Longitude,Longitud
+Phone,Celular
+State,Estado
+Street,Calle
+TaxGroup,Grupo Impuestos
+Zip Code,Código Postal
+Unit Decimals,Unidades Decimales

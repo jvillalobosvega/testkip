@@ -1,0 +1,38 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/** @var \Magento\Theme\Block\Html\Breadcrumbs $block */
+/** @var \Magento\Catalog\ViewModel\Product\Breadcrumbs $viewModel */
+$viewModel = $block->getData('viewModel');
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+
+/**
+ * @var \Magento\Catalog\Block\Product\View\Gallery $gallery
+ */
+$gallery = $block->getLayout()->createBlock('Magento\Catalog\Block\Product\View\Gallery');
+?>
+<div class="breadcrumbs">
+    <!-- [posicion_1] -->
+    <ul class="items">
+    <!-- <a style="border: #48d597 solid 1px;border-radius: 6px;background: linear-gradient(180deg,#48d597 0%,#33be81 100%);" class="action primary back" href="javascript:history.back()"><?= __('Back') ?></a> -->
+    <a href="javascript:history.back()" class="breadcrumbs items" style="color: #33BE81 !important; margin-right: 10px !important;" >< Volver   </a>| &nbsp;&nbsp;
+        <?= $kip->getProductCategoryBreadcrumb($gallery->getProduct()) ?></a>
+        <!-- [posicion_3] -->
+        <li>
+        <!-- [posicion_4] -->
+            <a href="#">
+            <!-- [posicion_5] -->
+                <?= '';//$block->escapeHtmlAttr($viewModel->getProductName()) ?>
+                <?= $gallery->getProduct()->getName() ?>
+            </a>
+        </li>                
+    </ul>
+    <!-- [posicion_6] -->
+    <!-- <a class="action primary back" href="javascript:history.back()"><?= __('Back') ?></a> -->
+</div>

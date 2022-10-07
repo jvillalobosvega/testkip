@@ -1,0 +1,51 @@
+<!-- End Content -->
+</td>
+</tr>
+
+<tr>
+    <td class="footer">
+        <table>
+            <tr>
+                <td>
+                    <div class="address">
+                        <p>{{config path="general/store_information/name"}}</p>
+                        <p>{{config path="general/store_information/street_line1"}}</p>
+                        <p>{{config path="general/store_information/country_id"}}</p>
+                    </div>
+                </td>
+                <td>
+                    {{depend store_phone}}
+                    <p class="phone">
+                        {{trans '<a href="tel:%store_phone">%store_phone</a>' store_phone=$store_phone |raw}}
+                    </p>
+                    {{/depend}}
+                    {{depend store_hours}}
+                    <p class="hours">
+                        {{trans 'Hours of Operation:<br /><span class="no-link">%store_hours</span>.' store_hours=$store_hours |raw}}
+                    </p>
+                    {{/depend}}
+                </td>
+                <td>
+                    <div>
+                        <a href="https://www.instagram.com/kip.sv/" target="_blank" rel="noopener">
+                            <img style="width: 30px; margin: 5px" src="https://kip.sv/pub/media/email/fb.png" alt="Facebook">
+                        </a>
+                        <a href="https://www.facebook.com/Kip-102643095393550" target="_blank" rel="noopener">
+                            <img style="width: 30px; margin: 5px" src="https://kip.sv/pub/media/email/ins.png" alt="Instagram">
+                        </a>
+                    </div>
+                    <p>
+                        {{trans '<a href=https://direct.lc.chat/12768201/>Servicio al Cliente</a>' url_customer_service=$url_customer_service |raw}}
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+
+</table>
+</td>
+</tr>
+</table>
+<!-- End wrapper table -->
+</body>

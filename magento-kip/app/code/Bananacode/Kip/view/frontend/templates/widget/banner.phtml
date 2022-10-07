@@ -1,0 +1,14 @@
+<?php
+/**
+ * @var $block \Bananacode\Kip\Block\Widget\Banner
+ */
+?>
+<div class="banner">
+    <?php if($block->getData('url')): ?>
+        <img onclick="window.location.href='<?= $block->getData('url'); ?>'" class="desktop-only" src="<?= $block->getMediaFolder() . $block->getData('image') . '?b' . $block->getData('id_app') ?>" alt="<?= $block->getData('alt'); ?>"/>
+        <img onclick="window.location.href='<?= $block->getData('url'); ?>'" class="mobile-only" src="<?= $block->getMediaFolder() . $block->getData('image_mobile') . '?b' . $block->getData('id_app') . 'm' ?>" alt="<?= $block->getData('alt'); ?>"/>
+    <?php else: ?>
+        <img class="desktop-only" src="<?= $block->getMediaFolder() . $block->getData('image') . '?b' . $block->getData('id_app') ?>" alt="<?= $block->getData('alt'); ?>"/>
+        <img class="mobile-only" src="<?= $block->getMediaFolder() . $block->getData('image_mobile') . '?b' . $block->getData('id_app') . 'm' ?>" alt="<?= $block->getData('alt'); ?>"/>
+    <?php endif; ?>
+</div>

@@ -1,0 +1,103 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="payment-method" css="'_active': isActive()" id="payment-method-bacfac-vault">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="
+                    attr: {'id': getId()},
+                    value: getId(),
+                    click: selectPaymentMethod,
+                    checked: isChecked,
+                    visible: isRadioButtonVisible()"/>
+
+        <label class="label" data-bind="attr: {'for': getId()}">
+            <span style="display: none" data-bind="attr: {'id': 'bin-number-' + getId()}" text="getBIN()"></span>
+            <span text="getMaskedCard()"></span>
+            <span text="getExpirationDate()"></span>
+            <span data-bind="attr: {'class': 'cc-icon cc-icon-' + getCardType()}"></span>
+        </label>
+    </div>
+
+    <div class="payment-method-content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <div class="payment-method-billing-address">
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <form class="form" data-bind="attr: {'id': getCode() + getId() + '-form'}">
+            <fieldset data-bind="attr: {class: 'fieldset payment items ccard ' + getCode() + getId(), id: 'payment_form_' + getCode() + getId()}">
+                <legend class="legend">
+                    <span><!-- ko i18n: 'CVC'--><!-- /ko --></span>
+                </legend>
+                <br/>
+                <div class="field summary">
+                    <span text="getMaskedCard()"></span>
+                    <span text="getExpirationDate()"></span>
+                    <span data-bind="attr: {'class': 'cc-icon cc-icon-' + getCardType()}"></span>
+                </div>
+                <div class="field cvv required" data-bind="attr: {id: getCode() + getId() + '_cc_type_cvv_div'}">
+                    <label data-bind="attr: {for: getCode() + getId() + '_cc_cid'}" class="label">
+                        <span><!-- ko i18n: 'Card Verification Number'--><!-- /ko --></span>
+                    </label>
+                    <div class="control _with-tooltip">
+                        <input type="number"
+                               autocomplete="off"
+                               class="input-text cvv noscroll"
+                               name="payment[cc_cid]"
+                               value=""
+                               placeholder="CVC"
+                               data-bind="attr: {id: getCode() + getId() + '_cc_cid',
+                        title: $t('Card Verification Number'),
+                        'data-container': getCode() + getId() + '-cc-cvv',
+                        'data-validate': JSON.stringify({'required-number':true, 'validate-card-cvv':'#' + getCode() + getId() + '_cc_type'})},
+                        enable: isActive($parents),
+                        value: creditCardVerificationNumber"/>
+                        <div class="field-tooltip toggle">
+                            <span class="field-tooltip-action action-cvv"
+                                  tabindex="0"
+                                  data-toggle="dropdown"
+                                  data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
+                                <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
+                            </span>
+                            <div class="field-tooltip-content"
+                                 data-target="dropdown"
+                                 data-bind="html: getCvvImageHtml()"></div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+        <div class="tds-iframe-container" data-bind="attr: {'id': getId() + '-tds-iframe-container'}">
+
+        </div>
+
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action primary checkout"
+                        type="submit"
+                        data-bind="
+                            click: placeOrder,
+                            attr: {title: $t('Place Order')}">
+                    <span translate="'Place Order'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

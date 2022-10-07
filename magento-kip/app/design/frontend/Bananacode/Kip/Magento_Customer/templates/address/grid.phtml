@@ -1,0 +1,66 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Customer\Block\Address\Grid $block */
+$customerAddressView = $block->getData('customer_address');
+?>
+
+<div class="block block-addresses-list">
+    <div class="block-title"><strong><?= $block->escapeHtml(__('Additional Address Entries')) ?></strong></div>
+    <div class="block-content">
+        <?php if ($_pAddsses = $block->getAdditionalAddresses()) : ?>
+
+            <?php foreach ($_pAddsses as $address) : ?>
+                <div class="address">
+                    <p>
+                        <?= ''//$block->escapeHtml($address->getRegion()->getRegion()) . ', ' . $block->escapeHtml($address->getPostcode()) ?>
+                        <?= $address->getCompany() ?>
+                    </p>
+                    <div class="actions">
+                        <a class="action delete" href="#" role="delete-address" data-address="<?= $block->escapeHtmlAttr($address->getId()) ?>"><span><?= $block->escapeHtml(__('Delete')) ?></span></a>
+                        <a class="action edit" href="<?= $block->escapeUrl($block->getUrl('customer/address/edit', ['id' => $address->getId()])) ?>"><span><?= $block->escapeHtml(__('Edit')) ?></span></a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+            <div class="address new">
+                <p><?= $block->escapeHtml(__('Agrega una nueva dirección')) ?></p>
+                <div class="actions">
+                    <button type="button" role="add-address" title="<?= $block->escapeHtmlAttr(__('Add')) ?>" class="action edit"><span><?= $block->escapeHtml(__('Add')) ?></span></button>
+                </div>
+            </div>
+
+            <?php if ($block->getChildHtml('pager')) : ?>
+                <div class="customer-addresses-toolbar toolbar bottom"><?= $block->getChildHtml('pager') ?></div>
+            <?php endif ?>
+        <?php else : ?>
+            <div class="address new">
+                <p><?= $block->escapeHtml(__('Agrega una nueva dirección')) ?></p>
+                <div class="actions">
+                    <button type="button" role="add-address" title="<?= $block->escapeHtmlAttr(__('Add')) ?>" class="action edit"><span><?= $block->escapeHtml(__('Add')) ?></span></button>
+                </div>
+            </div>
+        <?php endif ?>
+    </div>
+</div>
+
+<div class="actions-toolbar">
+    <div class="secondary">
+        <a class="action back" href="<?= $block->escapeUrl($block->getUrl('customer/account')) ?>"><span><?= $block->escapeHtml(__('Back')) ?></span></a>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        ".page-main": {
+            "address": {
+                "deleteAddress": "div.actions a[role='delete-address']",
+                "deleteUrlPrefix": "<?= $block->escapeJs($block->escapeUrl($block->getDeleteUrl())) ?>id/",
+                "addAddress": "button[role='add-address']",
+                "addAddressLocation": "<?= $block->escapeJs($block->escapeUrl($block->getAddAddressUrl())) ?>"
+            }
+        }
+    }
+</script>

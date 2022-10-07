@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\QuoteGraphQl\Model\Cart\CheckCartCheckoutAllowance"
+                type="Bananacode\App\Model\Cart\CheckCartCheckoutAllowance" />
+
+    <preference for="Magento\CatalogGraphQl\Model\Resolver\Products\DataProvider\ExtractDataFromCategoryTree"
+                type="Bananacode\App\Model\ExtractDataFromCategoryTree" />
+
+    <preference for="Magento\GraphQl\Controller\GraphQl"
+                type="Bananacode\App\Controller\GraphQl" />
+</config>

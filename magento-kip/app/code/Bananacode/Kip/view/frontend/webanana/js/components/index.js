@@ -1,0 +1,9 @@
+export { Gif } from "./component.gif";
+export { Header } from "./component.header";
+export { Forms } from "./component.forms";
+export { Map } from "./component.map";
+export { Modals } from "./component.modals";
+export { Products } from "./component.products";
+export { Sliders } from "./component.sliders";
+export { Kipping } from "./component.kipping";
+export { Kipckout } from "./component.kipckout";

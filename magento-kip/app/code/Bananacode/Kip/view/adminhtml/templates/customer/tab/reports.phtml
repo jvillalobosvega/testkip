@@ -1,0 +1,153 @@
+<?php
+/** @var \Bananacode\Kip\Block\Adminhtml\CustomerEdit\Tab\Referrals $block */
+?>
+<div class="fieldset-wrapper customer-information">
+    <div>
+        <div class="fieldset-wrapper-title">
+            <span class="title"><?= $block->escapeHtml(__('Habituales')) ?></span>
+        </div>
+        <div style="margin: 15px">
+            <label for="order-by-recurring">Orderar por:</label>
+            <select id="order-by-recurring">
+                <option value="name_asc">Nombre (ASC)</option>
+                <option value="name_desc">Nombre (DESC)</option>
+                <option value="presentation_asc">Presentación (ASC)</option>
+                <option value="presentation_desc">Presentación (DESC)</option>
+                <option value="brand_asc">Marca (ASC)</option>
+                <option value="brand_desc">Marca (DESC)</option>
+                <option value="purchases_asc">Compras (ASC)</option>
+                <option value="purchases_desc">Compras (DESC)</option>
+            </select>
+        </div>
+        <div style="margin: 15px">
+            <label for="from-recurring">Desde:</label>
+            <input id="from-recurring" type="date"/>
+            <label for="to-recurring">Hasta:</label>
+            <input id="to-recurring" type="date"/>
+        </div>
+        <div style="margin: 15px">
+            <label for="name-recurring">Nombre:</label>
+            <input id="name-recurring" type="text"/>
+        </div>
+        <div style="margin: 15px">
+            <label for="email-recurring">Email:</label>
+            <input id="email-recurring" type="email"/>
+        </div>
+        <button
+            style="margin: 15px"
+            id="recurring-report" title="Habituales" type="button"
+            class="action- scalable save primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            role="button" aria-disabled="false">
+            <span class="ui-button-text">
+                <span>Descargar</span>
+            </span>
+        </button>
+        <button
+            style="margin: 15px"
+            id="recurring-email" title="Habituales" type="button"
+            class="action- scalable save primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            role="button" aria-disabled="false">
+            <span class="ui-button-text">
+                <span>Enviar por correo</span>
+            </span>
+        </button>
+
+
+        <div class="fieldset-wrapper-title">
+            <span class="title"><?= $block->escapeHtml(__('Favoritos')) ?></span>
+        </div>
+        <div style="margin: 15px">
+            <label for="order-by-wishlist">Orderar por:</label>
+            <select id="order-by-wishlist">
+                <option value="name_asc">Nombre (ASC)</option>
+                <option value="name_desc">Nombre (DESC)</option>
+                <option value="presentation_asc">Presentación (ASC)</option>
+                <option value="presentation_desc">Presentación (DESC)</option>
+                <option value="brand_asc">Marca (ASC)</option>
+                <option value="brand_desc">Marca (DESC)</option>
+            </select>
+        </div>
+        <div style="margin: 15px">
+            <label for="from-wishlist">Desde:</label>
+            <input id="from-wishlist" type="date"/>
+            <label for="to-wishlist">Hasta:</label>
+            <input id="to-wishlist" type="date"/>
+        </div>
+        <div style="margin: 15px">
+            <label for="name-wishlist">Nombre:</label>
+            <input id="name-wishlist" type="text"/>
+        </div>
+        <div style="margin: 15px">
+            <label for="email-wishlist">Email:</label>
+            <input id="email-wishlist" type="email"/>
+        </div>
+        <button
+            style="margin: 15px"
+            id="wishlist-report" title="Favoritos" type="button"
+            class="action- scalable save primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            role="button" aria-disabled="false">
+            <span class="ui-button-text">
+                <span>Descargar</span>
+            </span>
+        </button>
+        <button
+            style="margin: 15px"
+            id="wishlist-email" title="Favoritos" type="button"
+            class="action- scalable save primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            role="button" aria-disabled="false">
+            <span class="ui-button-text">
+                <span>Enviar por correo</span>
+            </span>
+        </button>
+    </div>
+</div>
+<script>
+    function download(btn, sort, from, to, email, name, method, title) {
+        btn ? btn.addEventListener('click', function () {
+            let emailValue = 'empty',
+                nameValue = 'empty';
+            if(email && name) {
+                emailValue = email.value;
+                nameValue = name.value;
+            }
+            if(!emailValue) {
+                alert('Favor ingresar el correo electrónico al cual enviar el reporte.');
+                return;
+            }
+            if(!nameValue) {
+                alert('Favor ingresar el nombre de quien recibe el reporte.');
+                return;
+            }
+
+            let fromValue = 'empty',
+                toValue = 'empty';
+            if(from.value && to.value) {
+                fromValue = from.value;
+                toValue = to.value;
+            }
+
+            btn.style.opacity = '0.5';
+            btn.disabled = true;
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+                    if(emailValue === 'empty' && nameValue === 'empty') {
+                        window.open(window.location.origin + `/pub/reports/${title}` + <?= $block->getCustomerId() ?> + '.pdf', '_blank').focus();
+                    } else {
+                        alert('Reporte enviado.');
+                    }
+                }
+            };
+            xmlHttp.open("GET", `/rest/V1/kip/reports/${method}/` + <?= $block->getCustomerId() ?> + '/' + sort.value + '/' + fromValue + '/' + toValue + '/' + encodeURIComponent(emailValue) + '/' + encodeURIComponent(nameValue), true);
+            xmlHttp.send(null);
+        }) : '';
+    }
+
+    download(document.getElementById('recurring-report'), document.getElementById('order-by-recurring'), document.getElementById('from-recurring'), document.getElementById('to-recurring'), null, null, 'recurring', 'habituales');
+    download(document.getElementById('recurring-email'), document.getElementById('order-by-recurring'), document.getElementById('from-recurring'), document.getElementById('to-recurring'), document.getElementById('email-recurring'), document.getElementById('name-recurring'), 'recurring', 'habituales');
+
+    download(document.getElementById('wishlist-report'), document.getElementById('order-by-wishlist'), document.getElementById('from-wishlist'), document.getElementById('to-wishlist'), null, null, 'wishlist', 'favoritos');
+    download(document.getElementById('wishlist-email'), document.getElementById('order-by-wishlist'), document.getElementById('from-wishlist'), document.getElementById('to-wishlist'), document.getElementById('email-wishlist'), document.getElementById('name-wishlist'), 'wishlist', 'favoritos');
+</script>

@@ -1,0 +1,320 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="carriers">
+            <group id="kipping" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Kipping</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Title</label>
+                </field>
+                <field id="name" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Method Name</label>
+                </field>
+            </group>
+            <group id="kipping_scheduled" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Kipping: Programado</label>
+                <field id="active" translate="label" type="select"        sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Activar</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text"           sortOrder="51" showInDefault="1">
+                    <label>Título</label>
+                </field>
+                <field id="disclaimer" translate="label" type="textarea"  sortOrder="52" showInDefault="1">
+                    <label>Disclaimer</label>
+                </field>
+                <field id="price" translate="label" type="text"           sortOrder="53" showInDefault="1">
+                    <label>Precio</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="free" translate="label" type="text"             sortOrder="53" showInDefault="1">
+                    <label>Envío gratis a partir de </label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                    <comment>Si 0 entonces desactivado.</comment>
+                </field>
+                <field id="drivers" translate="label" type="text"         sortOrder="54" showInDefault="1">
+                    <label>Conductores</label>
+                </field>
+                <field id="hours" translate="label" type="text"        sortOrder="55" showInDefault="1">
+                    <label>Rango Horas</label>
+                </field>
+                <field id="capacity" translate="label" type="text"     sortOrder="55" showInDefault="1">
+                    <label>Capacidad por Hora</label>
+                    <comment>0.5 = medio viaje por hora.</comment>
+                </field>
+                <field id="days" translate="label" type="multiselect"     sortOrder="56" showInDefault="1" showInWebsite="1">
+                    <label>Días</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\DaysOption</source_model>
+                </field>
+                <field id="hours_l" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas L</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_k" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas K</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_m" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas M</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_j" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas J</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_v" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas V</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_s" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas S</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_d" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas D</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+            </group>
+            <group id="kipping_scheduled_today" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Kipping: Programado - Mismo día</label>
+                <field id="active" translate="label" type="select"        sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Activar</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text"           sortOrder="51" showInDefault="1">
+                    <label>Título</label>
+                </field>
+                <field id="disclaimer" translate="label" type="textarea"  sortOrder="52" showInDefault="1">
+                    <label>Disclaimer</label>
+                </field>
+                <field id="price" translate="label" type="text"           sortOrder="53" showInDefault="1">
+                    <label>Precio</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="hour" translate="label" type="text" sortOrder="56" showInDefault="1" showInWebsite="1">
+                    <label>Hora Límite</label>
+                    <comment>0 - 24 horas</comment>
+                </field>
+                <field id="hours" translate="label" type="text" sortOrder="56" showInDefault="1" showInWebsite="1">
+                    <label>Rango Horas</label>
+                </field>
+                <field id="free" translate="label" type="text"             sortOrder="53" showInDefault="1">
+                    <label>Envío gratis a partir de </label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                    <comment>Si 0 entonces desactivado.</comment>
+                </field>
+                <field id="drivers" translate="label" type="text"         sortOrder="54" showInDefault="1">
+                    <label>Conductores</label>
+                </field>
+                <field id="capacity" translate="label" type="text"     sortOrder="55" showInDefault="1">
+                    <label>Capacidad por Hora</label>
+                    <comment>0.5 = medio viaje por hora.</comment>
+                </field>
+                <field id="days" translate="label" type="multiselect"     sortOrder="56" showInDefault="1" showInWebsite="1">
+                    <label>Días</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\DaysOption</source_model>
+                </field>
+                <field id="hours_l" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas L</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_k" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas K</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_m" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas M</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_j" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas J</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_v" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas V</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_s" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas S</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_d" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas D</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+            </group>
+            <group id="kipping_scheduled_add" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Kipping: Programado - Agregar</label>
+                <field id="active" translate="label" type="select"        sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Activar</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text"           sortOrder="51" showInDefault="1">
+                    <label>Título</label>
+                </field>
+                <field id="disclaimer" translate="label" type="textarea"  sortOrder="52" showInDefault="1">
+                    <label>Disclaimer</label>
+                </field>
+                <field id="price" translate="label" type="text"           sortOrder="53" showInDefault="1">
+                    <label>Precio</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="free" translate="label" type="text"             sortOrder="53" showInDefault="1">
+                    <label>Envío gratis a partir de </label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                    <comment>Si 0 entonces desactivado.</comment>
+                </field>
+            </group>
+            <group id="kipping_express" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Kipping: Express</label>
+                <field id="active" translate="label" type="select"          sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Activar</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="open_hours" translate="label" type="multiselect"  sortOrder="40" showInDefault="1">
+                    <label>Disponibilidad Horas</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="title" translate="label" type="text"             sortOrder="41" showInDefault="1">
+                    <label>Título</label>
+                </field>
+                <field id="disclaimer" translate="label" type="textarea"    sortOrder="42" showInDefault="1">
+                    <label>Disclaimer</label>
+                </field>
+                <field id="price" translate="label" type="text"             sortOrder="43" showInDefault="1">
+                    <label>Precio</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="drivers" translate="label" type="text"           sortOrder="44" showInDefault="1">
+                    <label>Conductores</label>
+                </field>
+                <field id="hours" translate="label" type="text"             sortOrder="45" showInDefault="1">
+                    <label>Rango Horas</label>
+                </field>
+                <field id="capacity" translate="label" type="text"          sortOrder="45" showInDefault="1">
+                    <label>Capacidad por Hora</label>
+                    <comment>0.5 = medio viaje por hora.</comment>
+                </field>
+                <field id="products_limit" translate="label" type="text"          sortOrder="50" showInDefault="1">
+                    <label>Límite de Productos</label>
+                </field>
+            </group>
+            <group id="kipping_flash" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Kipping: Flash</label>
+                <field id="active" translate="label" type="select"          sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Activar</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="open_hours" translate="label" type="multiselect"  sortOrder="40" showInDefault="1">
+                    <label>Disponibilidad Horas</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="title" translate="label" type="text"             sortOrder="41" showInDefault="1">
+                    <label>Título</label>
+                </field>
+                <field id="disclaimer" translate="label" type="textarea"    sortOrder="42" showInDefault="1">
+                    <label>Disclaimer</label>
+                </field>
+                <field id="price" translate="label" type="text"             sortOrder="43" showInDefault="1">
+                    <label>Precio</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="drivers" translate="label" type="text"           sortOrder="44" showInDefault="1">
+                    <label>Conductores</label>
+                </field>
+                <field id="hours" translate="label" type="text"             sortOrder="45" showInDefault="1">
+                    <label>Rango Horas</label>
+                </field>
+                <field id="capacity" translate="label" type="text"          sortOrder="45" showInDefault="1">
+                    <label>Capacidad por Hora</label>
+                    <comment>0.5 = medio viaje por hora.</comment>
+                </field>
+                <field id="products_limit" translate="label" type="text"          sortOrder="50" showInDefault="1">
+                    <label>Límite de Productos</label>
+                </field>
+            </group>
+            <group id="kipping_scheduled_festivity" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Kipping: Programado Festividad</label>
+                <field id="active" translate="label" type="select"        sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Activar</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text"           sortOrder="51" showInDefault="1">
+                    <label>Título</label>
+                </field>
+                <field id="disclaimer" translate="label" type="textarea"  sortOrder="52" showInDefault="1">
+                    <label>Disclaimer</label>
+                </field>
+                <field id="price" translate="label" type="text"           sortOrder="53" showInDefault="1">
+                    <label>Precio</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="free" translate="label" type="text"             sortOrder="53" showInDefault="1">
+                    <label>Envío gratis a partir de </label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                    <comment>Si 0 entonces desactivado.</comment>
+                </field>
+                <field id="drivers" translate="label" type="text"         sortOrder="54" showInDefault="1">
+                    <label>Conductores</label>
+                </field>
+                <field id="hours" translate="label" type="text"        sortOrder="55" showInDefault="1">
+                    <label>Rango Horas</label>
+                </field>
+                <field id="capacity" translate="label" type="text"     sortOrder="55" showInDefault="1">
+                    <label>Capacidad por Hora</label>
+                    <comment>0.5 = medio viaje por hora.</comment>
+                </field>
+                <field id="date_limit" translate="label" type="text"     sortOrder="56" showInDefault="1" showInWebsite="1">
+                    <label>Fecha Límite</label>
+                    <comment>Formato DD/MM/AAAA (19/12/2021).</comment>
+                </field>
+                <field id="days_in_advance" translate="label" type="text"     sortOrder="56" showInDefault="1" showInWebsite="1">
+                    <label>Días por Adelantado</label>
+                    <comment>Número de días por adelantado para programar.</comment>
+                </field>
+                <field id="days" translate="label" type="multiselect"     sortOrder="56" showInDefault="1" showInWebsite="1">
+                    <label>Días</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\DaysOption</source_model>
+                </field>
+                <field id="hours_l" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas L</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_k" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas K</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_m" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas M</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_j" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas J</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_v" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas V</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_s" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas S</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+                <field id="hours_d" translate="label" type="multiselect"  sortOrder="57" showInDefault="1">
+                    <label>Horas D</label>
+                    <source_model>Bananacode\Kipping\Model\System\Source\HoursOption</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

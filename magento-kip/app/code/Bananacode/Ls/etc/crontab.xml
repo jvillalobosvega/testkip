@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <!-- Disabled -->
+    <group id="flat_replication">
+        <!-- Most Important-->
+        <job name="repl_unit_of_measure" instance="Ls\Replication\Cron\ReplEcommUnitOfMeasuresTask"
+             method="execute">
+            <schedule>0 0 30 2 *</schedule>
+        </job>
+        <job name="repl_item_unit_of_measure" instance="Ls\Replication\Cron\ReplEcommItemUnitOfMeasuresTask"
+             method="execute">
+            <schedule>0 0 30 2 *</schedule>
+        </job>
+        <!--<job name="repl_image_link" instance="Ls\Replication\Cron\ReplEcommImageLinksTask" method="execute">
+            <schedule>0 0 30 2 *</schedule>
+        </job>-->
+    </group>
+    <!--<group id="sync_operations">
+        <job name="repl_item_images_sync" instance="Ls\Replication\Cron\SyncImages" method="execute">
+            <schedule>0 0 30 2 *</schedule>
+        </job>
+    </group>-->
+
+    <group id="flat_replication">
+        <!-- To run every two hours to get the best data of the day -->
+        <job name="repl_inv_status_reset" instance="Ls\Replication\Cron\ResetReplInvStatusTask" method="execute">
+            <schedule>0 */2 * * *</schedule>
+        </job>
+    </group>
+</config>

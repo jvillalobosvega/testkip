@@ -1,0 +1,265 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Payment Method Facade configuration -->
+    <virtualType name="BacFacFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\Bananacode\BacFac\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Bananacode\BacFac\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BacFacValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BacFacCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BacFacConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\Bananacode\BacFac\Model\Ui\ConfigProvider::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Logger, initialized with BacFacConfig -->
+    <virtualType name="BacFacLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">BacFacConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Bananacode\BacFac\Gateway\Http\Client\ClientMock">
+        <arguments>
+            <argument name="logger" xsi:type="object">BacFacLogger</argument>
+        </arguments>
+    </type>
+
+    <!-- Commands infrastructure -->
+    <virtualType name="BacFacCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">BacFacAuthorizeCommand</item>
+
+                <item name="vault_authorize" xsi:type="string">BacFacVaultAuthorizeCommand</item>
+                <item name="vault_sale" xsi:type="string">BacFacVaultSaleCommand</item>
+                <item name="vault_capture" xsi:type="string">BacFacVaultCaptureCommand</item>
+
+                <item name="capture" xsi:type="string">BacFacCaptureCommand</item>
+                <item name="sale" xsi:type="string">BacFacSaleCommand</item>
+                <item name="void" xsi:type="string">BacFacVoidCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Authorize command -->
+    <virtualType name="BacFacAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">BacFacAuthorizationRequest</argument>
+            <argument name="handler" xsi:type="object">BacFacResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">Bananacode\BacFac\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Bananacode\BacFac\Gateway\Http\Client\ClientMock</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Bananacode\BacFac\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BacFacAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Bananacode\BacFac\Gateway\Request\AuthorizationRequest</item>
+                <item name="mockData" xsi:type="string">Bananacode\BacFac\Gateway\Request\MockDataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Bananacode\BacFac\Gateway\Request\AuthorizationRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">BacFacConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Authorization & Capture command  -->
+    <virtualType name="BacFacSaleCommand" type="BacFacAuthorizeCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">BacFacSaleRequest</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BacFacSaleRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="authorize" xsi:type="string">BacFacAuthorizationRequest</item>
+                <item name="settlement" xsi:type="string">Magento\BacFac\Gateway\Request\SettlementDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Capture command -->
+    <virtualType name="BacFacCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Bananacode\BacFac\Gateway\Request\CaptureRequest</argument>
+            <argument name="handler" xsi:type="object">Bananacode\BacFac\Gateway\Response\BacFacHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Bananacode\BacFac\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Bananacode\BacFac\Gateway\Validator\ResponseCodeValidator</argument>
+            <argument name="client" xsi:type="object">Bananacode\BacFac\Gateway\Http\Client\ClientMock</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Bananacode\BacFac\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <type name="Bananacode\BacFac\Gateway\Request\CaptureRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">BacFacConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Void command -->
+    <virtualType name="BacFacVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Bananacode\BacFac\Gateway\Request\VoidRequest</argument>
+            <argument name="handler" xsi:type="object">Bananacode\BacFac\Gateway\Response\BacFacHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Bananacode\BacFac\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Bananacode\BacFac\Gateway\Validator\ResponseCodeValidator</argument>
+            <argument name="client" xsi:type="object">Bananacode\BacFac\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>
+    <type name="Bananacode\BacFac\Gateway\Request\VoidRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">BacFacConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Response handlers -->
+    <virtualType name="BacFacResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="bacfac" xsi:type="object">Bananacode\BacFac\Gateway\Response\BacFacHandler</item>
+                <item name="txnid" xsi:type="string">Bananacode\BacFac\Gateway\Response\TxnIdHandler</item>
+                <item name="fraud" xsi:type="string">Bananacode\BacFac\Gateway\Response\FraudHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BacFacValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BacFacConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BacFacConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BacFacConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Bananacode\BacFac\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">BacFacConfig</argument>
+        </arguments>
+    </type>
+
+    <!-- Error Mapping-->
+    <virtualType name="Bananacode\BacFac\Gateway\ErrorMapper\VirtualConfigReader" type="Magento\Payment\Gateway\ErrorMapper\VirtualConfigReader">
+        <arguments>
+            <argument name="fileName" xsi:type="string">bacfac_error_mapping.xml</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Bananacode\BacFac\Gateway\ErrorMapper\VirtualMappingData" type="Magento\Payment\Gateway\ErrorMapper\MappingData">
+        <arguments>
+            <argument name="reader" xsi:type="object">Bananacode\BacFac\Gateway\ErrorMapper\VirtualConfigReader</argument>
+            <argument name="cacheId" xsi:type="string">bacfac_error_mapper</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Bananacode\BacFac\Gateway\ErrorMapper\VirtualErrorMessageMapper" type="Magento\Payment\Gateway\ErrorMapper\ErrorMessageMapper">
+        <arguments>
+            <argument name="messageMapping" xsi:type="object">Bananacode\BacFac\Gateway\ErrorMapper\VirtualMappingData</argument>
+        </arguments>
+    </virtualType>
+
+
+    <!-- VAULT -->
+    <virtualType name="BacFacVaultConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Bananacode\BacFac\Model\Ui\ConfigProvider::VAULT_CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="BacFacCommandManager" type="Magento\Payment\Gateway\Command\CommandManager">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">BacFacCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="BacFacVaultCommandManagerPool" type="Magento\Payment\Gateway\Command\CommandManagerPool">
+        <arguments>
+            <argument name="executors" xsi:type="array">
+                <item name="bacfac" xsi:type="string">BacFacCommandManager</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="BacFacVaultFacade" type="Magento\Vault\Model\Method\Vault">
+        <arguments>
+            <argument name="code" xsi:type="const">Bananacode\BacFac\Model\Ui\ConfigProvider::VAULT_CODE</argument>
+            <argument name="config" xsi:type="object">BacFacVaultConfig</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BacFacValueHandlerPool</argument>
+            <argument name="vaultProvider" xsi:type="object">BacFacFacade</argument>
+            <argument name="commandManagerPool" xsi:type="object">BacFacVaultCommandManagerPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Vault Authorization command -->
+    <virtualType name="BacFacVaultAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">BacFacVaultAuthorizeRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Bananacode\BacFac\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Bananacode\BacFac\Gateway\Http\Client\ClientMock</argument>
+            <argument name="handler" xsi:type="object">BacFacResponseHandlerComposite</argument>
+            <argument name="validator" xsi:type="object">Bananacode\BacFac\Gateway\Validator\ResponseCodeValidator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BacFacVaultAuthorizeRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">Bananacode\BacFac\Gateway\Request\AuthorizationRequest</item>
+                <item name="mockData" xsi:type="string">Bananacode\BacFac\Gateway\Request\MockDataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Vault Authorization&Capture command -->
+    <virtualType name="BacFacVaultSaleCommand" type="BacFacVaultAuthorizeCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">BacFacVaultSaleRequest</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BacFacVaultSaleRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="authorize" xsi:type="string">BacFacAuthorizationRequest</item>
+                <item name="settlement" xsi:type="string">Magento\BacFac\Gateway\Request\SettlementDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Vault Capture (Sale actually) command -->
+    <virtualType name="BacFacVaultCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">BacFacVaultCaptureRequest</argument>
+            <argument name="handler" xsi:type="object">Bananacode\BacFac\Gateway\Response\BacFacHandler</argument>
+            <argument name="transferFactory" xsi:type="object">Bananacode\BacFac\Gateway\Http\TransferFactory</argument>
+            <argument name="validator" xsi:type="object">Bananacode\BacFac\Gateway\Validator\ResponseCodeValidator</argument>
+            <argument name="client" xsi:type="object">Bananacode\BacFac\Gateway\Http\Client\ClientMock</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Bananacode\BacFac\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BacFacVaultCaptureRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="config" xsi:type="object">BacFacConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Web Apis -->
+    <preference for="Bananacode\BacFac\Api\HookInterface"
+                type="Bananacode\BacFac\Model\Hook" />
+</config>

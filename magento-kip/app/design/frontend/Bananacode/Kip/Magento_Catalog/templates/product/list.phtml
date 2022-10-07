@@ -1,0 +1,255 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Framework\App\Action\Action;
+
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+?>
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+
+/** @var \Magento\Catalog\Helper\Output $_helper */
+$_helper = $block->getData('outputHelper');
+
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+
+/** @var \Magento\Catalog\Helper\Output $_attributeHelper */
+$_attributeHelper = $this->helper(Magento\Catalog\Helper\Output::class)
+
+?>
+<?php if (!$_productCollection->count()): ?>
+    <div class="message info empty">
+        <div><?= $escaper->escapeHtml(__('We can\'t find products matching the selection.')) ?></div>
+    </div>
+<?php else: ?>
+    <?= $block->getToolbarHtml() ?>
+
+    <?= $block->getAdditionalHtml() ?>
+
+    <?php
+        /*if ($block->getMode() == 'grid') {
+            $viewMode = 'grid';
+            $imageDisplayArea = 'category_page_grid';
+            $showDescription = false;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+        } else {
+            $viewMode = 'list';
+            $imageDisplayArea = 'category_page_list';
+            $showDescription = true;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+        }*/
+
+        $viewMode = 'grid';
+        $imageDisplayArea = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+
+        /**
+         * Position for actions regarding image size changing in vde if needed
+         */
+        $pos = $block->getPositioned();
+    ?>
+
+    <?php
+    if($promotedProducts = $kip->getPromotedProducts()) {
+        /**
+         * @var $productsBlock \Magento\CatalogWidget\Block\Product\ProductsList
+         */
+        $productsBlock = $block
+            ->getLayout()
+            ->createBlock('\Magento\CatalogWidget\Block\Product\ProductsList')
+            ->setTitle('Productos promocionados')
+            ->setProductsCount($promotedProducts[1])
+            ->setTemplate("Magento_CatalogWidget::product/widget/content/grid.phtml")
+            ->setConditionsEncoded($promotedProducts[0]);
+        echo '<div id="kip-promoted-products">' . $productsBlock->toHtml() . '</div>';
+    }
+    ?>
+
+    <div class="products wrapper <?= $viewMode ?> products-<?= $viewMode ?>">
+        <ol class="products list items product-items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product): ?>
+                <li class="item product product-item">
+                    <div class="product-item-info type-<?= $_product->getTypeId() ?>"
+                         id="product-item-info_<?= $_product->getId() ?>"
+                         data-container="product-<?= $viewMode ?>">
+
+                        <!-- Labels -->
+                        <div class="kip-labels">
+                            <?= $kip->getProductLabels($_product) ?>
+                        </div>
+
+                        <!-- Image -->
+                        <a href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>"
+                           class="product photo product-item-photo"
+                           tabindex="-1">
+                            <?php $productImage = $block->getImage($_product, $imageDisplayArea); ?>
+                            <?= $kip->getProductImageHtml($productImage, $_product) ?>
+                        </a>
+
+                        <!-- Details -->
+                        <div class="product details product-item-details">
+                            <?php $_productNameStripped = $block->stripTags($_product->getName(), null, true); ?>
+
+                            <strong class="product name product-item-name">
+                                <a class="product-item-link"
+                                   href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>">
+                                    <?= /* @noEscape */
+                                    $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+                                </a>
+                            </strong>
+
+                            <?php if ($_product->getTypeId() != 'grouped'): ?>
+                                <div class="product description">
+                                    <?php $presentacion = $kip->getPresentacion($_product) ?>
+                                    <?php if ($presentacion) :?>
+                                        <?= /* @noEscape */ $presentacion ?>
+                                    <?php else: ?>
+                                        <?= $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                                    <?php endif ?>
+                                </div>
+
+                                <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
+
+                                <?= $block->getProductPrice($_product) ?>
+                            <?php else: ?>
+                                <div class="grouped-product description">
+                                    <?php $recipeProps = $kip->getRecipeProps($_product) ?>
+                                    <?php if ($recipeProps) :?>
+                                        <?= /* @noEscape */ $recipeProps ?>
+                                    <?php else: ?>
+                                        <?= $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                                    <?php endif ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($_product->isAvailable()): ?>
+                                <?= $block->getProductDetailsHtml($_product) ?>
+                            <?php endif; ?>
+
+                            <div class="product-item-inner">
+                                <div class="product actions product-item-actions">
+                                    <div class="actions-primary">
+                                        <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                        <?php if ($_product->isSaleable()): ?>
+                                            <form data-role="tocart-form"
+                                                  data-product-sku="<?= $escaper->escapeHtml($_product->getSku()) ?>"
+                                                  action="<?= $escaper->escapeUrl($postParams['action']) ?>"
+                                                  method="post">
+                                                <input name="<?= Action::PARAM_NAME_URL_ENCODED ?>"
+                                                       type="hidden"
+                                                       value="<?= $postParams['data'][Action::PARAM_NAME_URL_ENCODED] ?>">
+
+                                                <?= $block->getBlockHtml('formkey') ?>
+
+                                                <?php if (($_product->getTypeId() == 'simple' || $_product->getTypeId() == 'virtual') && $_product->getFinalPrice() > 0): ?>
+                                                    <div class="hover-atc">
+                                                        <input type="hidden"
+                                                               name="product"
+                                                               value="<?= /* @noEscape */ $postParams['data']['product'] ?>">
+                                                        <button type="submit"
+                                                                title="<?= $escaper->escapeHtmlAttr(__('Add to Cart')) ?>"
+                                                                class="action tocart primary"> <span><?= $escaper->escapeHtml(__('Add to Cart')) ?></span>
+                                                        </button>
+                                                        <div class="qty-controls">
+                                                            <span class="minus">
+                                                                <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use xlink:href="#img-minus"></use></svg>
+                                                            </span>
+                                                            <input name="qty" id="qty" type="number"
+                                                                   value="<?= $kip->getMinSale($_product); ?>"
+                                                                   data-min="<?= $kip->getMinSale($_product); ?>"
+                                                            >
+                                                            <span class="add">
+                                                                <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use xlink:href="#img-add"></use></svg>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                <?php else: ?>
+                                                    <div>
+                                                        <input type="hidden"
+                                                               name="product"
+                                                               value="<?= /* @noEscape */ $postParams['data']['product'] ?>">
+                                                        <a href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>"
+                                                           title="<?= $escaper->escapeHtmlAttr(__('Elegir')) ?>"
+                                                           class="action togo primary"> <span><?= $escaper->escapeHtml(__('Elegir')) ?></span>
+                                                        </a>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </form>
+                                        <?php else: ?>
+                                            <?php if ($_product->isAvailable()): ?>
+                                                <!--<div class="stock available">
+                                                    <span><?/*= $escaper->escapeHtml(__('In stock')) */?></span>
+                                                </div>-->
+                                            <?php else: ?>
+                                                <div class="out-of-stock">
+                                                    <input type="hidden"
+                                                           name="product"
+                                                           value="<?= /* @noEscape */ $postParams['data']['product'] ?>">
+                                                    <button disabled
+                                                            title="<?= $escaper->escapeHtmlAttr(__('Out of Stock')) ?>"
+                                                            class="action tocart primary"> <span><?= $escaper->escapeHtml(__('Out of Stock')) ?></span>
+                                                    </button>
+                                                </div>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <?= strpos($pos, $viewMode . '-primary') ? $secureRenderer->renderStyleAsTag($position, 'product-item-info_' . $_product->getId() . ' div.actions-primary') : '' ?>
+
+                                    <div data-role="add-to-links"
+                                         class="actions-secondary <?= 0 > 0 ? 'is-wished' : '' ?>">
+                                        <?php if ($addToBlock = $block->getChildBlock('addto')): ?>
+                                            <?= $addToBlock->setProduct($_product)->getChildHtml() ?>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <?= strpos($pos, $viewMode . '-secondary') ? $secureRenderer->renderStyleAsTag($position, 'product-item-info_' . $_product->getId() . ' div.actions-secondary') : '' ?>
+                                </div>
+                                <?php if ($showDescription): ?>
+                                    <div class="product description product-item-description">
+                                        <?= $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                                        <a href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>"
+                                           title="<?= $_productNameStripped ?>"
+                                           class="action more"><?= $escaper->escapeHtml(__('Learn More')) ?></a>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?= strpos($pos, $viewMode . '-actions') ? $secureRenderer->renderStyleAsTag($position, 'product-item-info_' . $_product->getId() . ' div.product-item-actions') : '' ?>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+
+    <?= $block->getToolbarHtml() ?>
+
+    <?php if (!$block->isRedirectToCartEnabled()): ?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {
+                    "product_sku": "<?= $escaper->escapeJs($_product->getSku()) ?>"
+                }
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>

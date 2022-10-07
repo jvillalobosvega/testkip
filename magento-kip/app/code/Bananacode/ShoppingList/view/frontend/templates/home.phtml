@@ -1,0 +1,131 @@
+<?php
+
+/** @var \Bananacode\ShoppingList\Block\Home $block */
+?>
+
+<?php
+/**
+ * @var \Bananacode\Kip\Block\Main $kip
+ */
+$kip = $block->getLayout()->createBlock('Bananacode\Kip\Block\Main');
+
+$placeholders = [
+    $block->escapeHtml(__('Azúcar')),
+    $block->escapeHtml(__('Leche'))
+];
+?>
+<div id="shopping-lists">
+    <input hidden name="token" value="<?= $kip->getCustomerToken() ?>">
+    <input hidden name="customer_id" value="<?= $kip->getCustomerId() ?>">
+
+    <div class="tabs">
+        <button id="new-list" class="tab"><?= $block->escapeHtml(__('Lista nueva')) ?></button>
+        <button id="current-lists" class="tab active"><?= $block->escapeHtml(__('Mis listas')) ?></button>
+    </div>
+
+    <div class="content current-lists content-active">
+        <?php if (!$kip->getCustomerId()): ?>
+            <div class="empty empty-active">
+                <span class="fruit-icon"></span>
+                <p class="medium-16"><?= $block->escapeHtml(__('Inicia sesión para crear una lista de búsqueda.')) ?></p>
+                <a href="/customer/account/login" class="primary-btn"><?= $block->escapeHtml(__('Iniciar Sesión')) ?></a>
+                <p class="medium-12">
+                    <?= $block->escapeHtml(__('¿No tienes cuenta?')) ?>
+                    <a href="/customer/account/create/">
+                        <?= $block->escapeHtml(__('Crear cuenta')) ?>
+                    </a>
+                </p>
+            </div>
+        <?php else: ?>
+            <div class="row" id="customer-lists"></div>
+            <div class="empty">
+                <span class="fruit-icon"></span>
+                <p class="medium-16"><?= $block->escapeHtml(__('Aún no tienes listas  de búsqueda guardadas.')) ?></p>
+                <button class="primary-btn create-list"><?= $block->escapeHtml(__('Crear lista')) ?></button>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <?php if ($kip->getCustomerId()): ?>
+        <div class="content new-list">
+            <div id="page">
+                <p class="medium-14 header">
+                    <?= $block->escapeHtml(__('Escribe tu lista aquí abajo. Asegúrate de escribir un producto por renglón.')) ?>
+                </p>
+                <form>
+                    <?php for ($i = 0; $i < 10; $i++): ?>
+                        <div class="line" data-line="<?= ($i + 1) ?>">
+                            <div class="field choice">
+                                <input type="checkbox" name="searchProductReady" />
+                            </div>
+                            <div class="field value">
+                                <input name="searchProduct" <?php if ($i < 2): ?> placeholder="<?= $placeholders[$i] ?>" <?php endif; ?> />
+                            </div>
+                        </div>
+                    <?php endfor; ?>
+                </form>
+            </div>
+            <div class="actions">
+                <button id="save-list" class="secondary-btn">
+                    <?= $block->escapeHtml(__('Guardar')) ?>
+                </button>
+                <button id="search-unsaved-list" class="primary-btn">
+                    <?= $block->escapeHtml(__('Buscar Productos')) ?>
+                </button>
+            </div>
+        </div>
+        <div class="content edit-list">
+            <button id="go-back"><?= $block->escapeHtml(__('Volver a Mis Listas')) ?></button>
+            <div id="page">
+                <p class="medium-14 header">
+                    <?= $block->escapeHtml(__('Escribe tu lista aquí abajo. Asegúrate de escribir un producto por renglón.')) ?>
+                </p>
+                <form>
+                    <?php for ($i = 0; $i < 10; $i++): ?>
+                        <div class="line" data-line="<?= ($i + 1) ?>">
+                            <div class="field choice">
+                                <input type="checkbox" name="searchProductReady" />
+                            </div>
+                            <div class="field value">
+                                <input name="searchProduct" <?php if ($i < 2): ?> placeholder="<?= $placeholders[$i] ?>" <?php endif; ?> />
+                            </div>
+                        </div>
+                    <?php endfor; ?>
+                </form>
+            </div>
+            <div class="actions">
+                <button id="save-list" class="secondary-btn">
+                    <?= $block->escapeHtml(__('Guardar')) ?>
+                </button>
+                <button id="delete-list"></button>
+                <button id="search-list" class="primary-btn">
+                    <?= $block->escapeHtml(__('Buscar Productos')) ?>
+                </button>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<div id="shopping-lists-popup" class="modal-container">
+    <div class="modal">
+        <div class="header"><span class="close-modal"></span></div>
+        <div class="edit mode content">
+            <h4 class="bold-18">Guardar lista de búsqueda</h4>
+            <p class="medium-14">Escribe el nombre para tu lista.</p>
+            <form class="add">
+                <div class="field">
+                    <input name="list-name" placeholder="Nombre">
+                </div>
+            </form>
+            <button class="secondary-btn cancel-modal">Cancelar</button>
+            <button class="primary-btn">Guardar</button>
+        </div>
+        <div class="delete mode content">
+            <h4 class="bold-18">¿Quieres eliminar esta lista?</h4>
+            <p class="medium-14">Se eliminarán los productos que has guardado aquí.</p>
+            <button class="secondary-btn cancel-modal">Cancelar</button>
+            <button class="primary-btn">Eliminar</button>
+        </div>
+        <div class="success mode content"></div>
+    </div>
+</div>

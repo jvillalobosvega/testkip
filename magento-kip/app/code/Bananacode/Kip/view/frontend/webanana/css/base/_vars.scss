@@ -1,0 +1,61 @@
+/*------------------------------------*\
+            Global Variables
+\*------------------------------------*/
+
+/*------------------------------------*\
+  Colors Palette
+\*------------------------------------*/
+$white: #ffffff;
+$black: #000000;
+
+$lighter-green: #EAF8F2;
+$light-green: #B6EED5;
+$green: #48d597;
+$dark-green: #33BE81;
+$red: #EF3340;
+$fest: #EF3340;
+$yellow: #FFE100;
+$cream: #FFFDE5;
+$pink: #F9C7DD;
+$purple: #7B61FF;
+$sky-blue: #1F9EEB;
+$sky-dark-blue: #1776b0;
+$baby-blue: #A5D8F7;
+
+$footer: #F8F8F8;
+$grey: #F3F3F3;
+$input: #DDDDDD;
+$text: #707070;
+$titles: #3D3D3D;
+$sub-title: #171918;
+
+$border-radius: 6px;
+$border-corner: 5pc;
+$border-corner-double: 10pc;
+$box-shadow: 0px 2px 10px rgba(112, 112, 112, 0.25);
+
+$gradient-background: linear-gradient(180deg, #48D597 0%, #33BE81 100%);
+$gradient-background-hover: linear-gradient(180deg, rgba(72, 213, 151, 0.85) 0%, rgba(51, 190, 129, 0.85) 100%);
+
+/*------------------------------------*\
+  Z-Index
+\*------------------------------------*/
+$z1: 100;
+$z2: 200;
+$z3: 300;
+$z4: 400;
+$z5: 500;
+$z6: 600;
+$z7: 700;
+$z8: 800;
+$z9: 900;
+$z10: 1000;
+
+/*------------------------------------*\
+  Transition Speeds
+\*------------------------------------*/
+$x-fast: 0.2s;
+$fast: 0.25s;
+$med: 0.3s;
+$slow: 0.4s;
+$x-slow: 0.5s;

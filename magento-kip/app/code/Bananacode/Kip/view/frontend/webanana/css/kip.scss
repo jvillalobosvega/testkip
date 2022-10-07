@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+/*------------------------------------*\
+        Project Styles Imports
+\*------------------------------------*/
+@import "base/vars", "base/mixins", "base/typography", "base/animations",
+"base/global";
+
+@import "components/buttons", "components/modals", "components/forms",
+"components/sliders", "components/productcard", "components/cards", "components/minicart", "components/referrals";
+
+@import "layouts/flex-grid";
+
+@import "pages/home", "pages/account", "pages/secondary", "pages/pcp", "pages/pdp",
+"pages/wishlist", "pages/shopping-lists", "pages/checkout", "pages/cart", "pages/404",
+"pages/recipes", "pages/tax-document";
+
+@import "lib/glide.core.min";
+
+@import "sections/footer", "sections/header", "sections/styleguide";
+

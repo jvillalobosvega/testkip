@@ -1,0 +1,97 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Vault\Api\Data\PaymentTokenInterface;
+
+$tokens = $block->getPaymentTokens();
+
+?>
+
+<div class="breadcrumbs">
+    <ul class="items">
+        <li>
+            <a href="/customer/account">
+                <?= $block->escapeHtmlAttr(__('Configuración de cuenta')) ?>
+            </a>
+        </li>
+        <li>
+            <a href="/vault/cards/listaction/">
+                <?= $block->escapeHtmlAttr(__('Métodos de pago')) ?>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<?php if (count($tokens) !== 0) : ?>
+    <div class="table-wrapper my-credit-cards">
+        <h1 class="bold-24">
+            <?= $block->escapeHtmlAttr(__('Métodos de pago')) ?>
+        </h1>
+        <p class="medium-16"><?= (__(' Aquí puedes eliminar tus tarjetas guardadas. Para agregar una tarjeta nueva lo puedes hacer al momento de realizar un pago. Estamos trabajando para que puedas agregar tarjetas desde aquí en un futuro.')) ?></p>
+        <table class="data table table-credit-cards" id="bacfac-cards-table">
+            <caption class="table-caption"><?= $block->escapeHtml(__('Stored Payment Methods - BAC FAC')) ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col card-number"><?= $block->escapeHtml(__('Card Number')) ?></th>
+                <th scope="col" class="col expire"><?= $block->escapeHtml(__('Expiration Date')) ?></th>
+                <th scope="col" class="col card-type">&nbsp;</th>
+                <th scope="col" class="col actions">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($tokens as $token): ?>
+                <?php
+                $details = json_decode($token->getTokenDetails(), true);
+                ?>
+                <tr>
+                    <td data-th="<?= $block->escapeHtml(__('Card Number')) ?>" class="col card-number">
+                        <?= /* @noEscape */ $details['maskedCC'] ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Expiration Date')) ?>" class="col card-expire">
+                        <?= $block->escapeHtml($details['expirationDate']) ?>
+                    </td>
+                    <td class="col card-type <?= $block->escapeHtml($details['type']) ?>">
+
+                    </td>
+                    <td class="col actions">
+                        <form
+                                class="form"
+                                action="<?= $block->escapeUrl($block->getUrl('vault/cards/deleteaction')) ?>"
+                                method="post"
+                        >
+                            <?= $block->getBlockHtml('formkey') ?>
+                            <input
+                                    name="<?= /* @noEscape */ PaymentTokenInterface::PUBLIC_HASH ?>"
+                                    value="<?= /* @noEscape */ $token->getPublicHash() ?>"
+                                    type="hidden"/>
+                            <button type="submit"
+                                    class="action delete"
+                                    data-mage-init='{
+                                    "Magento_Vault/js/customer_account/deleteWidget":{
+                                        "type": "popup",
+                                        "modalClass": "my-credit-cards-popup",
+                                        "toggleEvent": "click",
+                                        "title": "<?= $block->escapeHtml(__('Eliminar')) ?>",
+                                        "content": "¿Quieres eliminar esta tarjeta: <?= /* @noEscape */ $details['maskedCC'] ?>?"
+                                    }
+                                }'>
+                                <span><?= $block->escapeHtml(__('Delete')) ?></span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php elseif (!$block->isExistsCustomerTokens()) : ?>
+<div class="table-wrapper my-credit-cards empty">
+    <h1 class="bold-24">
+        <?= $block->escapeHtmlAttr(__('Métodos de pago')) ?>
+    </h1>
+    <p class="medium-16"><?= (__(' Aquí puedes eliminar tus tarjetas guardadas. Para agregar una tarjeta nueva lo puedes hacer al momento de realizar un pago. Estamos trabajando para que puedas agregar tarjetas desde aquí en un futuro.')) ?></p>
+</div>
+<?php endif ?>

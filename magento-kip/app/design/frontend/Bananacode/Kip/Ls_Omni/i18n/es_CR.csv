@@ -1,0 +1,208 @@
+Loyalty Points Redeemed,Puntos de Lealtad Redimidos
+Gift Card Redeemed,Tarjetas de Regalo Redimidas
+Validate Base URL,Validar URL Base
+12 Hours,12 Horas
+24 Hours,24 Horas
+Valid till,Válido hasta
+Minimum Qty :,Cantidad mínima:
+Avail %1 Off,Disponible %1 descuentos
+Click Here to see the items,Click para mostrar artículos
+if Buy with any of these items:,si compra cualquiera de estos productos:
+Expiry :,Expiración:
+Coupon Code :,Código Cupón:
+Closed,Cerrado
+Special,Especial
+Order request has been sent to LS Central successfully,La órden se ha enviado a LS Central con éxito
+Something terrible happened while placing order %1,Ha ocurrido un error al crear la órden %1
+The service is currently unavailable. Please try again later.,El servicio esta fuera de servicio. Inténtelo de nuevo más tarde
+Please select your hierarchy code,Por favor seleccione el código de jerarquía
+No hierarchy code found for the selected store,No se ha seleccionado un código de jerarquía
+Please select your web store,Por favor selecciona una tienda web
+No store found for entered omni api url,No se encontró una tienda para el url del API del omni
+The gift card code %1 is not valid.,El código de la tárjeta de regalo %1 no es válido.
+You have successfully cancelled the gift card.,Ha cancelado su tárjeta de regalo con éxitoThe applied amount %3 is greater than gift card balance amount (%1) or it is greater than order balance (Excl. Shipping Amount) (%2).
+The applied amount %3 is greater than gift card balance amount (%1) or it is greater than order balance (Excl. Shipping Amount) (%2).,El monto aplicado %3 es mayor al balance de la tárjeta de regalo (%1) o es mayor al balance de la orden (Sin Costo Envío)(%2).
+"The gift card amount ""%1"" is not valid.",El monto de la tárjeta de regalo ¨%1¨ no es válido.
+Totals calculation is not applicable to empty cart.,El cálculo del total no sé puede hacer en un carrito vacío.
+Customer session not found.,Sesión del cliente no encontrada.
+"The loyalty points ""%1"" are not valid.",Puntos de Lealtad ¨%1¨no son válidos.
+"The gift card Amount ""%1"" is not valid.",El monto de la tárjeta de regalo ¨%1¨ no es válido.
+"You have used ""%1"" amount from gift card.",Ha utilizado ¨%1¨de su tárjeta de regalo.
+Gift Card cannot be applied.,Tárjeta de Regalo no se puede aplicar.
+"You have redeemed ""%1"" loyalty points.",Ha rediminto ¨%1¨puntos de lealtad.
+The loyalty points can't be redeemed.,Los puntos de lealtad no se pueden redimir.
+You have successfully canceled the points redemption.,Ha cancelado correctamente el canje de puntos.
+We cannot redeem the points.,No podemos canjear sus puntos.
+Check Your Gift Card Balance,Revisar balance tárjeta de regalo.
+Notice,Aviso
+This item is only available online.,Este producto sólamente esta disponible online.
+Please check other stores or remove the not available item(s) from your,Por favor revise otra tienda o elimine el producto no disponible
+This item is available,El producto esta disponible
+"You have selected %1 quantity for this item.
+                                 We only have %2 quantity available in stock for this store.
+                                 Please update this item quantity in cart.","Ha seleccionado %1 para este producto.
+                                 Solamente tenemos %2 disponibles.
+                                 Porfavor selecciona otra cantidad de artículos."
+This item is not available,Este producto no esta disponible
+Oops! Unable to do stock lookup currently.,¡Oops! No es pósible revistar el stock en este momento.
+Our Stores,Nuestras Tiendas
+Coupon Code is not valid for these item(s),El código de cupón no es valido para estos productos
+Reset password token expired.,El token para reiniciar contraseña ha expirado
+"The gift card amount ""%1"" and loyalty points ""%2"" are not valid.","La  tarjeta de regalo por ""%1"" y los puntos de lealtad ""%2"" no son validos."
+Save,Guardar
+Products,Productos
+SKU,SKU
+Qty,Cantidad
+Price,Precio
+Discount,Descuento
+Subtotal,Subtotal
+Total Discount:,Descuento Total:
+Loyalty Points Redeemed:,Puntos de Lealtad Redimidos:
+GiftCard Redeemed,Tarjeta de Regalo Redimida
+Invoice #,Factura #
+Excl. Tax,Sin Impuesto
+Incl. Tax,Con Impuesto
+Tax (Inclusive Total),Impuesto (Incluye Total)
+Gift Card Redeemed,Tarjeta de Regalo Redimida
+Gift Card No,Tarjeta de Regalo Número
+You will earn,Obtiene
+Login to earn,Inicie sesión para ganar
+You are using,Está usando
+Coupon code successfully removed.,Código de cupón removido.
+"You used coupon code ""%1"".","Uso el cupón ""%1""."
+Send order to LS Central?,Enviar órden a LS Central?
+Send to LS Central,Enviar a LS Central
+Flat No/House No/Building No,Dirección (Calle y Colonia)
+Street Name/Landmark,Calle
+Cart %1 doesn't contain products,Carrito %1 no contiene productos.
+Cart isn't assigned to correct store,Carrito no esta asignado a la tienda correcta.
+Could not delete coupon code,No se pudo eliminar el código del cupón
+Product that you are trying to add is not available.,El producto que esta intentando agregar no esta disponible
+Max quantity available for this item is %1,La cantidad disponible es %1
+Make Check payable to:,Hacer cheque pagable a:
+Send Check to:,Envíar cheque a:
+Make Check payable to: %1,Hacer cheque pagable a: %1
+Ls Central Order Reference ID:,ID Referencia Orden LS Central:
+Loyalty Points Earned,Puntos de Lealtad Obtenidos
+Coupon Code Redeemed,Código Cupón Canjeado
+Gift Card Code,Código Tarjeta de Regalo
+Chosen Store,Tienda Seleccionada
+OR,OR
+Loading...,Cargando...
+Loading Coupons...,Cargando Cupones...
+Apply Discount Code,Aplicar código de descuento o referido
+Enter discount code,Código descuento
+Apply Discount,Aplicar
+Cancel Coupon,Cancelar
+Apply Gift Card,Aplicar Tarjeta de Regalo
+Apply,Aplicar
+Update,Actualizar
+Cancel,Cancelar
+Item,Producto
+See price before order confirmation.,Ver precio antes de confirmar órden.
+What's this?,Que es esto?
+Apply Loyalty Points,Aplicar Puntos de Lealtad
+You have %1 loyalty points. Each of 10 Points gets %2 discount.,Tiene %1 puntos de lealtad. Cada 10 puntos obtiene %2 de descuento.
+Redeem,Canjear
+Loading recommended products for you...,Cargando productos recomendados...
+Recommended Products for you,Productos Recomendados
+Add to Cart,Agregar al Carrito
+In stock,Disponible
+Out of stock,Agotado
+Make Check payable to,Hacer cheque pagable a
+Send Check to,Enviar Cheque a
+Loading Product Discounts...,Cargando descuentos...
+Check Availability in Stores,Revisar Disponibilidad en Tiendas
+"Please <a href=""%1"">Login</a> / <a href=""%2"">Register</a> to view available discounts on this product.","Por favor <a href=""%1"">Inicie Sesión</a> / <a href=""%2"">Registrese</a> para ver descuentos disponibles del producto."
+Offers and Promotions:,Ofertas y Promociones:
+Find Discounts,Encontrar Descuentos
+Store,Tienda
+Address,Dirección
+Phone,Celular
+Hours,Horas
+Select Store by map,Seleccionar tienda por mapa
+Search for a Store,Buscar una tienda
+View Details,Ver Detalles
+Options Details,Opciones de Detalles
+Gift Card Code:,Código Tarjeta Regalo:
+Check Balance,Ver Balance
+Reset,Resetear
+See Details,Ver Detalles
+Edit,Editar
+Remove,Remover
+Cancel coupon,Cancelar
+Enter Gift Card,Ingresar Tarjeta Regalo
+Place Order,Realizar Pedido
+Items,Productos
+Close,Cerrar
+Gift card successfully removed.,Tarjeta de Regalo removida con éxito
+Your points are successfully removed.,Sus puntos se removieron con éxito.
+Gift card successfully applied.,Tarjeta de regalo aplicada
+Your points are successfully redeemed.,Sus puntos se han redimido con éxito
+contains %1 quantity,contiene %1 cantidad
+cart,carrito
+Please provide where (if suitable) you prefer to pick your order.,Por favor selecciona donde quiere recoger su órden.
+Configuration,Configuración
+Version,Version
+Service Base URL,Servicio Base URL
+LS Key,Llave LS
+For Multi Tenant Web Services,Para Multi Tenant Web Services
+Please validate your base url by clicking on button above,Por favor ingrese su URL Base haciendo click en el botón
+Omni Service Version,Versión Omni Service
+LS Central Version,Versión LS Central
+Select Store,Seleccionar Tienda
+Choose the web store,Selecciona un tienda web
+Select Hierarchy Code,Seleccione Código de Jerarquía
+Required to get hierarchy node and leaf from omni,Necesario para obtener jerarquía de nodo y hoja del omni
+Debug,Debug
+Debug Mode for Omni Client,Debug Mode for Omni Client
+Service Timeout,Service Timeout
+Max time in seconds to wait for omni response,Tiempo máximo en segundos para esperar respuesta del omni
+Service Down Notification,Notifación Servicio Caído
+Enabled,Permitido
+Notification Email,Notificación de Email
+LS Recommend,Recomendado por LS
+Show on Product Page,Mostrar en Página de Producto
+Show on Cart Page,Mostrar en Página de Carrito
+Show on Home Page,Mostrar en Home
+Loyalty Points,Puntos de Lealtad
+Show on Checkout Page,Mostrar en Página de Checkout
+Coupons,Cupones
+Show Coupon Recommendations on Cart/Checkout Page,Mostrar
+Gift Card,Tarjeta de Regalo
+Discount Management,Administrar Descuentos
+Show Promotions on Product Page,Mostrar Promociones en Página de Productos
+Show Login/Register Notice,Mostrar Noticia de Inicio Sesión/Registro
+Mix and Match Products Limit on Popup,Mix and Match Products Limit on Popup
+"This will display the number of mix and match discounts product on promotions in product
+                        page. Set value to -1 to display all products.","This will display the number of mix and match discounts product on promotions in product
+                        page. Set value to -1 to display all products."
+Stores Listing,Listado Tienda
+Opening Hours Time Format,Formato Hora Apertura
+Order Management,Administrar Órdenes
+Magento Order Number Prefix,Prefijo Número órden de Magento
+Maximum Length 5 Characters,Máximo 5 carácteres
+Shipping Charge Item Id,ID Centro de Envio Producto
+Please make sure this item Id is the same as set in LS Central. This value is used to calculate the flat shipment amount and is sent as a separate orderline with the order.,Por favor verifique que el ID del producto es el mismo que LS Central. Este valor se utiliza para cálcular el costo de envio y se agrega a la órden.
+Click And Collect,Click And Collect
+Title,Título
+Method Name,Nombre del Metodo
+Allowed Payment Methods,Métodos de Pago Permitidos
+Shipping Cost,Costos de Envío
+Displayed Error Message,Mostrar Mensaje de Error
+Ship to Applicable Countries,Enviar a Paises Aplicables
+Ship to Specific Countries,Eviar a Paises Especificos
+Show Method if Not Applicable,Mostrar Metodo si no Aplica
+Sort Order,órdenar órden
+Pay at the Store,Pagar en la Tienda
+Google Maps API Key,Google Maps API Key
+Default Latitude,Latitud Default
+Default Longitude,Longitud Default
+Default Zoom,Zoom Default
+LS eCommerce Cache,LS eCommerce Cache
+LS eCommerce cache for storing the response objects,LS eCommerce cache for storing the response objects
+Subtotal (Inc.Tax),Subtotal
+"Shipment & Handling","Envío"
+Order Balance,Total
+Stores,Tiendas
+Check Gift Card Balance,Revisar Balance Tarjeta de Regalo

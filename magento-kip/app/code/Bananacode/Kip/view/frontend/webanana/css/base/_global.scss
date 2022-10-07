@@ -1,0 +1,521 @@
+/*------------------------------------*\
+            Global Styles
+\*------------------------------------*/
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    font-style: normal;
+    font-stretch: normal;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+
+    &:focus {
+        outline: 0;
+    }
+}
+
+html {
+    -ms-overflow-style: none;
+
+    body {
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        position: relative;
+        transition: margin $med cubic-bezier(0.23, 1, 0.32, 1);
+        width: 100%;
+        min-width: 320px;
+
+        /*------------------------------------*\
+          Clear Inputs
+        \*------------------------------------*/
+        input[type="search"]::-ms-clear {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        input[type="search"]::-ms-reveal {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        input[type="search"]::-webkit-search-decoration,
+        input[type="search"]::-webkit-search-cancel-button,
+        input[type="search"]::-webkit-search-results-button,
+        input[type="search"]::-webkit-search-results-decoration {
+            display: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="search"],
+        input[type="email"] {
+            -moz-appearance: none; /* older firefox */
+            -webkit-appearance: none; /* safari, chrome, edge and ie mobile */
+            border-radius: 0;
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            -webkit-border-radius: 0; /* Safari 3-4, iOS 1-3.2, Android 1.6- */
+            -moz-border-radius: 0; /* Firefox 1-3.6 */
+            border-radius: 0; /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: auto;
+        }
+
+        .mobile-only {
+            display: none;
+            @include break-max(mobile) {
+                display: block;
+            }
+        }
+
+        .mobile-only.row {
+            @include break-max(mobile) {
+                display: flex;
+            }
+        }
+
+        .print-only {
+            display: none;
+        }
+
+        .tablet-only,
+        .tablet-only.row {
+            display: none;
+            @include break-max(tablet) {
+                display: block;
+            }
+        }
+
+        .tablet-only.row {
+            @include break-max(tablet) {
+                display: flex;
+            }
+        }
+
+        .desktop-only,
+        .desktop-only.row {
+            @include break-max(mobile) {
+                display: none !important;
+            }
+        }
+
+        header.page-header,
+        div.sections.nav-sections,
+        main#maincontent {
+            @include break-min(mobile) {
+                margin: 0 auto !important;
+                width: 100%;
+                max-width: 1420px;
+                padding: 0;
+            }
+
+            @include break-max(max) {
+                padding: 0 20px;
+            }
+        }
+
+        .page-wrapper {
+            padding-top: 120px;
+            @include break-max(mobile) {
+                padding-top: 70px;
+            }
+
+            main#maincontent {
+                @include break-max(max) {
+                    padding: 0 20px;
+                }
+
+                .page-title-wrapper {
+                    .page-title {
+                        @include bold-24;
+                    }
+                }
+            }
+        }
+
+        /*
+        Breadcrumbs
+        */
+        .breadcrumbs {
+            max-width: 1420px;
+            padding: 20px 0;
+            margin: 0 auto;
+            @media (max-width: $max) {
+                padding: 20px;
+            }
+            @include break-max(mobile) {
+                display: flex;
+                margin: 0;
+            }
+
+            ul,
+            ul.items {
+                display: flex;
+                list-style: none;
+                padding: 0;
+                @include break-max(mobile) {
+                    display: initial;
+                }
+
+                li {
+                    margin-right: 13px;
+                    margin-bottom: 0;
+
+                    @include break-max(mobile) {
+                        margin-right: 5px;
+                    }
+
+                    a, strong {
+                        @include medium-12;
+                        color: $text !important; //override magento2 styles
+                    }
+                }
+
+                li:not(:last-child) {
+                    @include icon-after('assets/icons/chevron.svg', 10px, 10px);
+
+                    &:after {
+                        margin: 0;
+                        vertical-align: initial;
+                        margin-left: 11px;
+                        transform: rotate(180deg);
+                        @include break-max(mobile) {
+                            margin-left: 5px;
+                        }
+                    }
+                }
+
+                li:last-child {
+                    a, strong {
+                        color: $dark-green !important; //override magento2 styles
+                    }
+                }
+            }
+        }
+
+        .columns .column.main .breadcrumbs {
+            padding: 20px 0;
+        }
+
+        /*
+        ------------------------
+        */
+
+        #error-modal {
+            //z-index: 100;
+            background: transparent;
+            opacity: 0;
+            width: 399px;
+            height: 120px;
+            right: 0;
+            left: inherit;
+            bottom: 0;
+            top: inherit;
+            @include transition(opacity, 0.3s, ease);
+
+            .modal {
+                padding: 15px;
+                background: $red;
+                right: 30px;
+                @include break-max(mobile) {
+                    right: 15px;
+                }
+                transform: none;
+                bottom: 30px;
+                top: initial;
+                margin: 0;
+                left: initial;
+                max-width: 370px;
+                max-height: 260px;
+
+                .header {
+                    position: relative;
+                    z-index: 1;
+                }
+
+                .mode {
+                    display: none;
+                    margin: 0;
+                    background: $red;
+                    color: white;
+                    width: 100%;
+                    padding: 0;
+
+                    .medium-14 {
+                        color: white;
+                        font-size: 16px;
+                        text-align: left;
+                        font-weight: lighter;
+                    }
+
+                    p {
+                        margin-bottom: 20px;
+                        text-align: center;
+                    }
+
+                    .icon {
+                        display: none;
+                    }
+                }
+
+                .mode.active {
+                    display: block;
+                }
+            }
+        }
+
+        #error-modal.active {
+            opacity: 1;
+            @include transition(opacity, 0.3s, ease);
+        }
+
+        #error-modal.success {
+            .modal {
+                background: $green;
+                .mode {
+                    background: $green;
+                }
+            }
+        }
+
+        @include map-search-input();
+
+        .toolbar select {
+            background-color: $white;
+        }
+
+        .yotpo.testimonials,
+        .yotpo.testimonials.yotpo-medium {
+            display: none;
+        }
+
+        .swatch-option.text {
+            border: $dark-green solid 1px;
+            height: auto;
+            color: $dark-green;
+            background: white;
+            border-radius: $border-radius;
+
+            &:hover {
+                background: $gradient-background;
+                color: $white;
+                border-color: $dark-green;
+                outline: none;
+            }
+        }
+
+        .swatch-option.selected {
+            background: $gradient-background;
+            color: $white;
+            border-color: $dark-green;
+            outline: none;
+        }
+
+        font-family: $montse-medium;
+
+        div:not(.sidebar.sidebar-main),
+        section, span,
+        h1, h2, h3,
+        p, strong,
+        ul, li, dl, ol,
+        {
+            font-family: $montse-medium;
+            /* Hide scrollbar for IE and Edge */
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important; // Firefox
+            &::-webkit-scrollbar {
+                display: none !important;
+            }
+        }
+
+        select {
+            font-family: $montse-medium;
+        }
+
+        form {
+            #password-strength-meter-container {
+                #password-strength-meter {
+                    height: auto;
+                    @include medium-12;
+                    padding: 10px 0 0 ;
+                    background-color: $white;
+
+                    #password-strength-meter-label {
+                        @include medium-12;
+                    }
+
+                    &:before {
+                        background-color: $white;
+                    }
+                }
+            }
+            #password-strength-meter-container.password-weak {
+                #password-strength-meter {
+                    color: $red;
+                    #password-strength-meter-label {
+                        color: $red;
+                    }
+                    &:before {
+                        background-color: $white;
+                        width: 100%;
+                    }
+                }
+            }
+            #password-strength-meter-container.password-medium {
+                #password-strength-meter {
+                    color: $yellow;
+                    #password-strength-meter-label {
+                        color: $yellow;
+                    }
+                    &:before {
+                        background-color: $white;
+                        width: 100%;
+                    }
+                }
+            }
+            #password-strength-meter-container.password-strong{
+                #password-strength-meter {
+                    color: $green;
+                    #password-strength-meter-label {
+                        color: $green;
+                    }
+                    &:before {
+                        background-color: $white;
+                        width: 100%;
+                    }
+                }
+            }
+            #password-strength-meter-container.password-very-strong{
+                #password-strength-meter {
+                    color: $dark-green;
+                    #password-strength-meter-label {
+                        color: $dark-green;
+                    }
+                    &:before {
+                        background-color: $white;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        .disclaimer {
+            margin-bottom: 50px;
+        }
+
+        .table-wrapper {
+            @include break-max(mobile) {
+                border: none;
+            }
+        }
+
+        #chat-widget-container.minicart {
+            z-index: 99 !important;
+        }
+
+        img {
+            opacity: 1;
+            @include transition(opacity, 1s, ease)
+        }
+
+        img.lazy-load-img {
+            opacity: 0;
+        }
+
+        .iti {
+            width: 100%;
+
+            .iti__flag {
+                //background-image: url("assets/flags@2x.png");
+                display: none !important;
+            }
+
+            .iti__flag-box {
+                display: none !important;
+            }
+
+            .iti__flag-container {
+                padding: 10px 0 10px 10px;
+                height: 50px;
+            }
+
+            .iti__country-list {
+                width: 260px;
+                z-index: 5;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .iti__selected-flag {
+                background-color: transparent;
+            }
+        }
+
+        .loader {
+            img {
+                max-width: 50px;
+            }
+        }
+    }
+
+    body.locked {
+        overflow: hidden;
+        height: 100vh;
+    }
+}
+
+html.noscroll {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+@media print {
+    /* All your print styles go here */
+    header,
+    .sections.nav-sections,
+    footer,
+    #recipe-ingredients,
+    .breadcrumbs,
+    .yotpo.yotpo-main-widget,
+    .copyright,
+    .yotpoBottomLine
+    {
+        display: none !important;
+    }
+
+    .print-only {
+        display: block !important;
+    }
+
+    .page-wrapper {
+        padding-top: 0 !important;
+    }
+}
+
+object.snize-async {
+    width: 0 !important;
+    height: 0 !important;
+}

@@ -1,0 +1,98 @@
+<?php
+/**
+ * @var $block \Bananacode\Kipping\Block\Adminhtml\Order\View\Info
+ */
+
+$_order = $block->getOrder();
+
+$disaster = $block->disasterRecovery($_order);
+?>
+
+<?php if ($disaster): ?>
+<script>
+    window.location.reload();
+</script>
+<?php endif; ?>
+
+<?php if (strpos($_order->getShippingMethod(), 'kipping') !== false): ?>
+    <?php
+    $date = \DateTime::createFromFormat('Y-m-d H:i:s',  $_order->getKippingDelivery());
+    $deliveryDate = '';
+    $deliveryHour = '';
+    $deliveryGate = '';
+    $deliveryMaxHour = '';
+    setlocale(LC_ALL, "es_ES", 'Spanish_Spain', 'Spanish');
+    if($date) {
+        if ($_order->getShippingMethod() == 'kipping_scheduled' || $_order->getShippingMethod() == 'kipping_scheduled_today' || $_order->getShippingMethod() == 'kipping_scheduled_festivity') {
+            $gate = $block->getConfig('_scheduled/hours');
+            $date->sub(new \DateInterval('PT6H')); // GMT-06:00;
+        } else {
+            if($_order->getShippingMethod() == 'kipping_express') {
+                $gate = $block->getConfig('_express/hours');
+            } else {
+                $gate = $block->getConfig('_flash/hours');
+            }
+            $date->setTimezone(new \DateTimeZone("America/El_Salvador"));
+        }
+
+        $deliveryDate = '<strong>Fecha:</strong> ' . strftime("%A, %d de %B del %Y", strtotime($date->format('Y-m-d')));
+        $deliveryHour = '<strong>Hora:</strong> ' . $date->format('h:i A');
+        $deliveryGate = '<strong>Lapso:</strong> ' . $gate . ' horas';
+
+        $future = $date;
+        $future->add(new \DateInterval('PT' . $gate . 'H'));
+        $deliveryMaxHour = '<strong>Hora Límite:</strong> ' . $future->format('h:i A');
+    }
+    ?>
+
+    <input hidden id="kip_form_key" value="<?= $block->getRequest()->getCookie('PHPSESSID') ?>">
+    <input hidden id="kip_order_id" value="<?= $_order->getIncrementId() ?>">
+    <input hidden id="kip_customer_id" value="<?= $_order->getCustomerId() ?>">
+
+    <section class="admin__page-section order-view-account-information">
+        <div class="admin__page-section-title">
+            <span class="title">Kip Delivery</span>
+        </div>
+        <div class="admin__page-section-content">
+            <div class="admin__page-section-item order-payment-method">
+                <div class="admin__page-section-item-content">
+                    <p>
+                        <?= $deliveryDate ?>
+                    </p>
+                    <p>
+                        <?= $deliveryHour ?>
+                    </p>
+                    <p>
+                        <?= $deliveryMaxHour ?>
+                    </p>
+                    <a href="https://www.waze.com/ul?ll=<?= $_order->getAddressLatitude() ?>%2C<?= $_order->getAddressLongitude() ?>&navigate=yes&zoom=17" target="_blank">
+                        Waze
+                    </a>
+                </div>
+            </div>
+            <div class="admin__page-section-item order-payment-method">
+                <div class="admin__page-section-item-content">
+                    <?= $block->getFormattedAddress($_order); ?>
+                    <a href="https://wa.me/<?= '' ?>?text=<?= urlencode($block->getRawAddress($_order) . " https://www.waze.com/ul?ll=" . $_order->getAddressLatitude() . "%2C" . $_order->getAddressLongitude() . "&navigate=yes&zoom=17") ?>" target="_blank">
+                        Whatsapp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-title">
+        <span class="title">Documento Fiscal</span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-payment-method">
+            <div class="admin__page-section-item-content">
+                <p>
+                    <?= $block->getInvoiceDocument($_order) ?>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

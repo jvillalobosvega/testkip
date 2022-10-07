@@ -1,0 +1,72 @@
+<?php
+
+namespace Bananacode\Kip\Plugin\Algolia;
+
+use Magento\Framework\Message\MessageInterface;
+
+/**
+ *
+ */
+class ProductHelper
+{
+    /**
+     * @var \Bananacode\Kip\Block\Main
+     */
+    private $_kip;
+
+    /**
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
+     */
+    private $_productLoader;
+
+    /**
+     * CreatePost constructor.
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     */
+    public function __construct(
+        \Bananacode\Kip\Block\Main $kip,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productLoader
+    )
+    {
+        $this->_kip = $kip;
+        $this->_productLoader = $productLoader;
+    }
+
+    /**
+     * @param \Algolia\AlgoliaSearch\Helper\Entity\ProductHelper $subject
+     * @param $customData
+     * @return mixed
+     */
+    public function afterGetObject(
+        \Algolia\AlgoliaSearch\Helper\Entity\ProductHelper $subject,
+        $customData
+    )
+    {
+        try {
+            if(isset($customData['objectID'])) {
+                $product = $this->_productLoader->getById($customData['objectID']);
+                // if($customData['in_stock']==1){                
+                    if($customData['type_id'] == 'grouped') {
+                        $customData['kip_description'] = '<div class="grouped-product description">' . $this->_kip->getRecipeProps($product) . '</div>';
+                        $customData['kip_description_strip'] =  $this->_kip->getRecipeProps($product, false, false);
+                    } else {
+                        $customData['kip_description'] = '<div class="product description">' . $this->_kip->getPresentacion($product) . '</div>';
+                        $customData['kip_description_strip'] = $this->_kip->getPresentacion($product, false, [], false, false);
+                    }
+    
+                    $customData['kip_label'] = $this->_kip->getProductLabels($product);
+    
+                    $customData['kip_image'] = $this->_kip->getProductImageHtml(null, $product);
+    
+                    $customData['kip_image_url'] = $this->_kip->getProductImageHtml(null, $product, true);
+    
+                    $customData['kip_min_qty'] = $this->_kip->getMinSale($product);
+    
+                    $customData['kip_um'] = $this->_kip->getUM($product);                            
+            // }
+        }
+        } catch (\Exception $e) {}
+
+        return $customData;
+    }
+}

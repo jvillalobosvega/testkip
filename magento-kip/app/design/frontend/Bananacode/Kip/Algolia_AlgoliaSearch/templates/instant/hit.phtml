@@ -1,0 +1,106 @@
+<?php
+
+/** @var \Algolia\AlgoliaSearch\Block\Instant\Hit $block */
+
+$priceKey     = $block->getPriceKey();
+$currencyCode = $block->getCurrencyCode();
+
+$baseVar         = $block->escapeHtml('price' . $priceKey);
+$maxVar          = $block->escapeHtml('price' . $priceKey . '_max');
+$baseFormatedVar = $block->escapeHtml('price' . $priceKey . '_formated');
+$origFormatedVar = $block->escapeHtml('price' . $priceKey . '_original_formated');
+$tierFormatedVar = $block->escapeHtml('price' . $priceKey . '_tier_formated');
+
+?>
+
+<script type="text/template" id="instant-hit-template">
+    <div class="product-item-info type-{{type_id}}" id="product-item-info_{{objectID}}">
+        <meta itemprop="position" content="{{__position}}" />
+
+        <!-- Labels -->
+        <div class="kip-labels">
+            {{{kip_label}}}
+        </div>
+
+        <!-- Image -->
+        <a href="{{url}}"
+           class="product photo product-item-photo"
+           tabindex="-1">
+            {{{kip_image}}}
+        </a>
+
+        <!-- Details -->
+        <div class="product details product-item-details">
+            <strong class="product name product-item-name">
+                <a class="product-item-link"
+                   href="{{url}}">
+                    {{{ _highlightResult.name.value }}}
+                </a>
+            </strong>
+
+            {{{ kip_description }}}
+
+            <div class="price-box">
+                {{<?php echo $baseFormatedVar; ?>}}                
+                {{{kip_um}}}            
+                <div style="text-decoration: line-through;color:#ef3340 !important;">
+                {{<?php echo $origFormatedVar; ?>}}
+            </div>
+            </div>
+            
+            <div class="product-item-inner">
+                <div class="product actions product-item-actions">
+                    <div class="actions-primary kip-algolia-atc kip-algolia-atc-{{type_id}}">
+                        {{#isAddToCartEnabled}}
+                        <form data-role="tocart-form" action="{{ addToCart.action }}" method="post">
+                            <div class="hover-atc">
+                                <input type="hidden"
+                                       name="product"
+                                       value="{{objectID}}">
+                                <input type="hidden" name="uenc" value="{{ addToCart.uenc }}">
+                                <input name="form_key" type="hidden" value="{{ addToCart.formKey }}">
+                                <button type="submit"
+                                        title="<?= (__('Add to Cart')) ?>"
+                                        class="action tocart primary">
+                                    <span><?= (__('Add to Cart')) ?></span>
+                                </button>
+                                <div class="qty-controls">
+                                    <span class="minus">
+                                        <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use xlink:href="#img-minus"></use></svg>
+                                    </span>
+                                    <input name="qty" id="qty"
+                                           type="number"
+                                           value="{{kip_min_qty}}"
+                                           data-min="{{kip_min_qty}}"
+                                    >
+                                    <span class="add">
+                                       <svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMinYMin"><use xlink:href="#img-add"></use></svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="goto-options">
+                            <a href="{{url}}" class="action togo primary">
+                                <span>
+                                    Elegir
+                                </span>
+                            </a>
+                        </div>
+                        {{/isAddToCartEnabled}}
+                    </div>
+
+                    <div class="secondary-addto-links actions-secondary" data-role="add-to-links">
+                        <a href="#"
+                           class="action towishlist {{type_id}}"
+                           title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>"
+                           aria-label="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>"
+                           role="button"
+                           data-product="{{objectID}}"
+                           data-name="{{name}}"
+                        ></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

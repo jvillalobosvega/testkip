@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ls\Customer\Block\Loyalty\Offers"
+                type="Bananacode\Ls\Block\Loyalty\Offers" />
+
+    <preference for="Ls\Omni\Helper\OrderHelper"
+                type="Bananacode\Ls\Helper\OrderHelper" />
+
+    <preference for="Ls\Omni\Helper\BasketHelper"
+                type="Bananacode\Ls\Helper\BasketHelper" />
+
+    <preference for="Ls\Omni\Observer\OrderObserver"
+                type="Bananacode\Ls\Observer\OrderObserver" />
+
+    <preference for="Ls\Replication\Cron\SyncImages"
+                type="Bananacode\Ls\Cron\Replication\SyncImages" />
+
+    <preference for="Ls\Omni\Helper\LoyaltyHelper"
+                type="Bananacode\Ls\Helper\LoyaltyHelper" />
+
+    <preference for="Ls\Omni\Helper\ContactHelper"
+                type="Bananacode\Ls\Helper\ContactHelper" />
+
+    <preference for="Ls\Replication\Cron\ReplEcommUnitOfMeasuresTask"
+                type="Bananacode\Ls\Cron\DisabledUnitOfMeasuresTask" />
+    <preference for="Ls\Replication\Cron\ReplEcommItemUnitOfMeasuresTask"
+                type="Bananacode\Ls\Cron\DisabledItemUnitOfMeasuresTask" />
+
+    <preference for="Magento\SalesRule\Model\Quote\Discount"
+                type="Bananacode\Ls\Model\Quote\Discount"/>
+
+    <preference for="Ls\Core\Model\LSR"
+                type="Bananacode\Ls\Model\LSR"/>
+
+    <preference for="Ls\Omni\Helper\ItemHelper"
+                type="Bananacode\Ls\Helper\ItemHelper"/>
+
+    <type name="Magento\Checkout\Controller\Cart\CouponPost">
+        <plugin name="SetCouponData"
+                type="Ls\Omni\Model\SetCouponData"
+                sortOrder="1"
+                disabled="true"
+        />
+    </type>
+    <type name="Magento\Quote\Model\CouponManagement">
+         <plugin name="checkout_coupon_apply"
+                 type="Ls\Omni\Plugin\Checkout\Model\CouponInformationManagement"
+                 sortOrder="1"
+                 disabled="true"
+         />
+     </type>
+</config>
+
