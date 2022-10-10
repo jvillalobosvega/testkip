@@ -84,30 +84,45 @@ export const controlQty = (control) => {
     if (control) {
         if (!hasClass(control, 'kiptrolled') && (hasClass(control, 'minus') || hasClass(control, 'add'))) {
             control.classList.add('kiptrolled');
-            event(control, 'click', function () {
-                let input = selectDoc('input', this.parentNode);
-                if (input) {
-                    let value = parseFloat(input.value),
-                        min = parseFloat(input.getAttribute('data-min'));
+            event(control, 'click', function (event) {
 
-                    value = isNaN(value) ? 0 : value;
-                    min = isNaN(min) ? 1 : min;
+                /*************/
+                /*****QXD*****/
+                /*************/
+                /******************************************************************/
+                /* Adding class to block the controls and avoid multiple requests */
+                /******************************************************************/
 
-                    if (this.className.includes('minus')) {
-                        value -= min;
-                    } else {
-                        value += min;
-                    }
+                console.log("is button inactive?");
+                console.log(!hasClass(control, 'inactive_button'));
+                if(!hasClass(control, 'inactive_button')){
+                    addClass(this, 'inactive_button');
+                    let input = selectDoc('input', this.parentNode);
+                    if (input) {
+                        let value = parseFloat(input.value),
+                            min = parseFloat(input.getAttribute('data-min'));
 
-                    if (value >= min) {
-                        value = Math.round(value * 10) / 10;
-                        input.value = value;
-                        input.setAttribute('value', value.toString().replace(/\.0+$/, ''));
-                        input.dispatchEvent(new Event('change', {'bubbles': true}));
-                        controlUpdate(input, value);
+                        value = isNaN(value) ? 0 : value;
+                        min = isNaN(min) ? 1 : min;
+
+                        if (this.className.includes('minus')) {
+                            value -= min;
+                        } else {
+                            value += min;
+                        }
+
+                        if (value >= min) {
+                            value = Math.round(value * 10) / 10;
+                            input.value = value;
+                            input.setAttribute('value', value.toString().replace(/\.0+$/, ''));
+                            input.dispatchEvent(new Event('change', {'bubbles': true}));
+                            controlUpdate(input, value, this);
+                        }else{
+                            removeClass(this, 'inactive_button');
+                        }
                     }
                 }
-            })
+            });
         }
     }
 }
@@ -151,10 +166,12 @@ export const controlDelete = (del) => {
  * @param input
  * @param value
  */
-export const controlUpdate = (input, value) => {
+export const controlUpdate = (input, value, element) => {
     if (input.getAttribute('data-cart-item')) {
         kipCartSession(input.getAttribute('data-cart-item'), value, true)
-        renderCart(input.getAttribute('data-cart-item'), 'update');
+        renderCart(input.getAttribute('data-cart-item'), 'update', null, null, null, false, element);
+    }else{
+        removeClass(element, 'inactive_button');
     }
 }
 
@@ -172,12 +189,14 @@ export const renderCart = (
     totals = null,
     preCart = null,
     lsoptions = null,
-    isReorder = false
+    isReorder = false,
+    clearElement = null
 ) => {
     let cart = JSON.parse(kipCartSession()),
         magCartEmpty = selectDoc('#minicart-empty-custom-content'),
         customItemsContainer = selectDoc('#minicart-custom-items'),
         kipCart = selectDoc('#kip-content-wrapper');
+
 
     if (customItemsContainer) {
         if (Object.keys(cart).length > 0) {
@@ -304,7 +323,7 @@ export const renderCart = (
         if (token) {
             // alert("Calling-1");
             // syncCartBackend(token, backToFront, lsoptions);
-            filterClicks(token, backToFront, lsoptions,"lcx", isReorder);
+            filterClicks(token, backToFront, lsoptions,"lcx", isReorder, clearElement);
             // (async() => {
             //     console.log('1')
             //     await syncCartBackend(token, backToFront, lsoptions)  
@@ -494,7 +513,7 @@ const customerToken = (value = null) => {
     return localStorage.getItem('kiptoken');
 }
 
-function filterClicks(a,b,c,d="N",isReorder = false){
+function filterClicks(a,b,c,d="N",isReorder = false, clearElement = null){
     // console.log("<<>>"+d);
     let lastExecution = window.localStorage.getItem("lastsync");
     const delay = 100;
@@ -503,7 +522,7 @@ function filterClicks(a,b,c,d="N",isReorder = false){
         console.log("R=");
         (async() => {
             console.log('1')
-            await syncCartBackend(a, b, c,isReorder)  
+            await syncCartBackend(a, b, c,isReorder, clearElement)  
             console.log('2')
           })()
     }
@@ -515,7 +534,7 @@ function filterClicks(a,b,c,d="N",isReorder = false){
         else{
             (async() => {
                 console.log('1')
-                await syncCartBackend(a, b, c)  
+                await syncCartBackend(a, b, c, false, clearElement)  
                 console.log('2')
               })()
         }
@@ -528,7 +547,7 @@ function filterClicks(a,b,c,d="N",isReorder = false){
  * @param backToFront
  * @param lsoptions
  */
-async function syncCartBackend  (token, backToFront = false, lsoptions = null, isReorder = false) {
+async function syncCartBackend  (token, backToFront = false, lsoptions = null, isReorder = false, clearElement = null) {
     // let lastExecution = window.localStorage.getItem("lastsync");
     // const delay = 500;
     // var n_tmstamp=parseInt(lastExecution)+parseInt(delay);        
@@ -558,6 +577,7 @@ async function syncCartBackend  (token, backToFront = false, lsoptions = null, i
         addClass(footerMiniCart, 'loading');
         
         window.localStorage.setItem("lastsync",parseInt(Date.now()));
+
         ajax('POST',
             '/rest/V1/kip/cart',
             JSON.stringify({
@@ -618,6 +638,17 @@ async function syncCartBackend  (token, backToFront = false, lsoptions = null, i
                         window.kipatc = {};
                         window.kipatcAdding = false;
                         console.log('Cart updated success...');
+
+                        /*************/
+                        /*****QXD*****/
+                        /*************/
+                        /**********************************/
+                        /* Unblocking the current element */
+                        /**********************************/
+                        if(clearElement != null){
+                            console.log("removing inactive_button");
+                            removeClass(clearElement, 'inactive_button');
+                        }
                         if (data.status === 200) {
                             if(selectDoc('body.checkout-index-index')) {
                                 clearKipCartSession(updateList);

@@ -72,8 +72,6 @@ class ClientMock implements ClientInterface
         $this->_bananaCryptor = $bananaCryptor;
         $this->_currency = $currency;
         $this->_bananaHelper = $bananaHelper;
-
-     
     }
 
     /**
@@ -84,41 +82,29 @@ class ClientMock implements ClientInterface
      */
     public function placeRequest(TransferInterface $transferObject)
     {
-        $logHandler = new \Monolog\Handler\RotatingFileHandler(BP . '/var/log/bacfac.log');
-        $this->logger = new \Monolog\Logger('Bacfac');
-        $this->logger->pushHandler($logHandler);
-        $this->logger->addInfo(print_r("placeRequest", true));
-
         $requestData = $transferObject->getBody();
         $nonce = (array)json_decode($this->_bananaCryptor->decrypt($requestData['payment_method_nonce'], $requestData['ekey']));
         $requestData['is_authorized'] =  isset($requestData['is_authorized']) ? $requestData['is_authorized'] : false;
 
         //If authorized = 3DS was required (visa/mastercard)
-        if ($requestData['is_authorized'] && $nonce['cc_type'] != 'AE') { 
-            $this->logger->addInfo(print_r("AUTHORIZE RESPONSE VISA/MASTERCARD", true));          
+        if ($requestData['is_authorized'] && $nonce['cc_type'] != 'AE') {
             return $nonce;
         } else {
             //AMEX
             $response = $this->authorizeAndPlaceOrder($requestData, $nonce);
-            
             if ($response) {
-                $this->logger->addInfo(print_r("AUTHORIZE RESPONSE AMEX", true));
-                $this->logger->addInfo(print_r(json_encode($response), true));
-                $authorizeResult = $response->IsoResponseCode;
-                $authorizeResultMessage = $response->ResponseMessage;
-                // $creditCardTransactionResults = $authorizeResult->CreditCardTransactionResults;
-                if ($authorizeResult == "SP4" && $authorizeResultMessage == 'SPI Preprocessing complete') {
-                    // $nonce['TokenizedPAN'] = isset($creditCardTransactionResults->TokenizedPAN) ? $creditCardTransactionResults->TokenizedPAN : null;
-                    // $nonce['PaddedCardNo'] = isset($creditCardTransactionResults->PaddedCardNumber) ? $creditCardTransactionResults->PaddedCardNumber : null;
-                    // $nonce['OrderID'] = isset($authorizeResult->OrderNumber) ? $authorizeResult->OrderNumber : $requestData['order_id'];
-                    $this->logger->addInfo(print_r("CCNS", true));
-                    $this->logger->addInfo(print_r($nonce, true));
-                    // unset($nonce['credit_card_number']);
-                    // unset($nonce['credit_card_security_code_number']);
+                $authorizeResult = $response->AuthorizeResult;
+                $creditCardTransactionResults = $authorizeResult->CreditCardTransactionResults;
+                if ($creditCardTransactionResults->ResponseCode == "1" && $creditCardTransactionResults->ReasonCode == "1" && $creditCardTransactionResults->ReasonCodeDescription == 'Transaction is approved.') {
+                    $nonce['TokenizedPAN'] = isset($creditCardTransactionResults->TokenizedPAN) ? $creditCardTransactionResults->TokenizedPAN : null;
+                    $nonce['PaddedCardNo'] = isset($creditCardTransactionResults->PaddedCardNumber) ? $creditCardTransactionResults->PaddedCardNumber : null;
+                    $nonce['OrderID'] = isset($authorizeResult->OrderNumber) ? $authorizeResult->OrderNumber : $requestData['order_id'];
+                    unset($nonce['credit_card_number']);
+                    unset($nonce['credit_card_security_code_number']);
                     return $nonce;
                 } else {
-                    $requestData["error"] = $authorizeResultMessage->ReasonCodeDescription;
-                    $requestData["response_code"] = $authorizeResult->ResponseCode;
+                    $requestData["error"] = $creditCardTransactionResults->ReasonCodeDescription;
+                    $requestData["response_code"] = $creditCardTransactionResults->ResponseCode;
                     /*if(
                         $creditCardTransactionResults->ReasonCodeDescription == "Duplicate Order Id not allowed."
                         || ($creditCardTransactionResults->ResponseCode == "40" && $creditCardTransactionResults->ReasonCode == "3")
@@ -145,11 +131,6 @@ class ClientMock implements ClientInterface
     private function authorizeAndPlaceOrder($requestData, $card_details)
     {
         //$requestData["amount"]
-        $logHandler = new \Monolog\Handler\RotatingFileHandler(BP . '/var/log/bacfac.log');
-        $this->logger = new \Monolog\Logger('Bacfac');
-        $this->logger->pushHandler($logHandler);
-        $this->logger->addInfo(print_r("CLIENTMOCK authorizeAndPlaceOrder", true));
-
         return $this->_bananaHelper->generate_request(
             $card_details,
             $requestData["order_id"],

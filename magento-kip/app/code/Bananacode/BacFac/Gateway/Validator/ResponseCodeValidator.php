@@ -8,8 +8,6 @@ namespace Bananacode\BacFac\Gateway\Validator;
 
 use Magento\Payment\Gateway\Validator\AbstractValidator;
 use Magento\Payment\Gateway\Validator\ResultInterface;
-use Magento\Payment\Model\Method\Logger;
-
 
 /**
  * Class ResponseCodeValidator
@@ -17,11 +15,6 @@ use Magento\Payment\Model\Method\Logger;
  */
 class ResponseCodeValidator extends AbstractValidator
 {
-    /**
-     * @var Logger
-     */
-    private $logger;
-    
     const RESULT_CODE = 'OrderID';
 
     const ERROR_MESSAGES = [
@@ -42,28 +35,18 @@ class ResponseCodeValidator extends AbstractValidator
      */
     public function validate(array $validationSubject)
     {
-        $logHandler = new \Monolog\Handler\RotatingFileHandler(BP . '/var/log/bacfac.log');
-        $this->logger = new \Monolog\Logger('Bacfac');
-        $this->logger->pushHandler($logHandler);
-        $this->logger->addInfo(print_r("VALIIIIDATEEEEEE!!!:", true));
-        $this->logger->addInfo(print_r('------------------->'.json_encode($validationSubject), true));
-
         if (!isset($validationSubject['response']) || !is_array($validationSubject['response'])) {
-            $this->logger->addInfo(print_r(" NOT EXIST", true));
             throw new \InvalidArgumentException('Response does not exist');
         }
 
         $response = $validationSubject['response'];
         if ($this->isSuccessfulTransaction($response)) {
-            $this->logger->addInfo(print_r("EXXITO", true));
             return $this->createResult(
                 true,
                 []
             );
         } else {
             $errors = $this->extractErrorObject($response);
-            $this->logger->addInfo(print_r("error CODE VALIDATOR" , true));
-            $this->logger->addInfo(print_r($response , true));
             return $this->createResult(
                 false,
                 [
@@ -82,8 +65,7 @@ class ResponseCodeValidator extends AbstractValidator
      */
     private function isSuccessfulTransaction(array $response)
     {
-        // return isset($response[self::RESULT_CODE]) && !isset($response['error']);
-        return isset($response['IsoResponseCode']) && !isset($response['error']);
+        return isset($response[self::RESULT_CODE]) && !isset($response['error']);
     }
 
     /**
@@ -92,10 +74,6 @@ class ResponseCodeValidator extends AbstractValidator
      */
     private function extractErrorObject(array $response)
     {
-        $logHandler = new \Monolog\Handler\RotatingFileHandler(BP . '/var/log/bacfac.log');
-        $this->logger = new \Monolog\Logger('Bacfac');
-        $this->logger->pushHandler($logHandler);
-        $this->logger->addInfo(print_r("error CODE VALIDATORextractErrorObject" , true));
         if (isset($response['error'])) {
             /*$response['error'] = (array)$response['error'];
             if (isset($response['error']['en'])) {

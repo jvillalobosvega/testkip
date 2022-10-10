@@ -27,13 +27,6 @@
                     <label>Password</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
-                 <field id="powertranz_password" translate="label" type="obscure" sortOrder="46" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>PowerTranz - Password</label>
-                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-                </field>
-                <field id="max_risk_day" translate="label" type="text" sortOrder="47" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Max. Transactions Risk/Day</label>                    
-                </field>
                 <field id="sandbox" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sandbox</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

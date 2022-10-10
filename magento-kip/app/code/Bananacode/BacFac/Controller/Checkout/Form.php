@@ -61,6 +61,9 @@ class Form  extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
     public function execute()
     {
         $params = $this->_request->getParams();
+
+        var_dump($params);
+        die();
         $errorMsg = "Ha habido un error procesando tu pago, favor refrescar el sitio e intentar de nuevo.";
         if (isset($params['ReasonCodeDesc'])) {
             if ($params['ReasonCodeDesc'] === 'Transaction is approved.') {
