@@ -1,0 +1,16 @@
+<?php
+
+// @codingStandardsIgnoreFile
+/** @var \Ls\Customer\Block\Order\Info $block */
+?>
+
+<div class="order-date">
+    <?= /* @escapeNotVerified */
+    __(
+        '<span class="label">Order Date:</span> %1',
+        '<date>' . $block->formatDate(
+            $block->getOrder()->getDocumentRegTime(),
+            IntlDateFormatter::LONG
+        ) . '</date>'
+    ) ?>
+</div>

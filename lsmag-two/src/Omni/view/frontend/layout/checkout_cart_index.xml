@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <!-- For LS Recommendation. -->
+            <block class="Ls\Omni\Block\Product\Recommend"
+                   name="ls.omni.product.recommendation"
+                   template="Ls_Omni::checkout/cart/recommendation.phtml"
+                   after="checkout.cart" ifconfig="ls_mag/ls_recommend/cart"/>
+        </referenceContainer>
+        <referenceContainer name="cart.discount">
+            <block class="Ls\Omni\Block\Cart\Loyaltypoints" name="checkout.cart.loyaltypoints" as="loyaltypoints"
+                   template="Ls_Omni::cart/loyalty-points.phtml" before="-" ifconfig="ls_mag/ls_loyaltypoints/cart"/>
+            <block class="Ls\Omni\Block\Cart\Giftcard" name="checkout.cart.giftcard" as="giftcard"
+                   template="Ls_Omni::cart/gift-card.phtml" before="-" ifconfig="ls_mag/ls_giftcard/cart"/>
+        </referenceContainer>
+        <move element="cart.discount" destination="checkout.cart.container" after="-"/>
+        <referenceBlock name="checkout.cart.totals">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="block-totals" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="loyalty_points_label" xsi:type="array">
+                                    <item name="component" xsi:type="string">Ls_Omni/js/view/totals/label</item>
+                                    <item name="sortOrder" xsi:type="string">0</item>
+                                </item>
+                                <item name="subtotal" xsi:type="array">
+                                    <item name="component" xsi:type="string">Magento_Checkout/js/view/summary/subtotal
+                                    </item>
+                                    <item name="config" xsi:type="array">
+                                        <item name="title" xsi:type="string" translate="true">Subtotal (Inc.Tax)</item>
+                                        <item name="template" xsi:type="string">Magento_Checkout/cart/totals/subtotal
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="before_grandtotal" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="ls_points_discount" xsi:type="array">
+                                            <item name="component" xsi:type="string">Ls_Omni/js/view/totals/discount
+                                            </item>
+                                            <item name="sortOrder" xsi:type="string">0</item>
+                                        </item>
+                                        <item name="ls_gift_card_amount_used" xsi:type="array">
+                                            <item name="component" xsi:type="string">
+                                                Ls_Omni/js/view/totals/giftcard-discount
+                                            </item>
+                                            <item name="sortOrder" xsi:type="string">1</item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="grand-total" xsi:type="array">
+                                    <item name="component" xsi:type="string">
+                                        Magento_Tax/js/view/checkout/cart/totals/grand-total
+                                    </item>
+                                    <item name="config" xsi:type="array">
+                                        <item name="title" xsi:type="string" translate="true">Order Balance</item>
+                                        <item name="template" xsi:type="string">
+                                            Magento_Tax/checkout/cart/totals/grand-total
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="checkout.cart.form">
+            <block class="Magento\Framework\View\Element\RendererList" name="checkout.cart.item.renderers.override"
+                   as="renderer.list.custom"/>
+            <arguments>
+                <argument name="renderer_list_name" xsi:type="string">checkout.cart.item.renderers.override</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="checkout.cart.coupon" template="Ls_Omni::cart/coupons.phtml">
+            <arguments>
+                <argument name="view_model" xsi:type="object">Ls\Omni\ViewModel\CouponsViewModel</argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

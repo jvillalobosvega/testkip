@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="ls_omni_client_generate" xsi:type="object">Ls\Omni\Console\Command\ClientGenerate</item>
+                <item name="ls_omni_client_ping" xsi:type="object">Ls\Omni\Console\Command\ClientPing</item>
+                <item name="ls_omni_client_wsdl" xsi:type="object">Ls\Omni\Console\Command\ClientWsdl</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Checkout\Controller\Cart\CouponPost">
+        <plugin name="SetCouponData" type="Ls\Omni\Model\SetCouponData" sortOrder="1"/>
+    </type>
+    <!-- For Click and Collect -->
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="savePickupInfoToQuote"
+                type="Ls\Omni\Plugin\Checkout\Model\ShippingInformationManagement"/>
+    </type>
+    <!-- For Street Fields Overwrite -->
+    <type name="Magento\Checkout\Block\Checkout\AttributeMerger">
+        <plugin name="shippingAddress" type="Ls\Omni\Plugin\Checkout\Block\Checkout\AttributeMerger\StreetPlugin"/>
+    </type>
+    <preference for="Magento\Catalog\Block\Product\View" type="Ls\Omni\Block\Product\View\View"/>
+    <type name="Magento\Quote\Api\CartTotalRepositoryInterface">
+        <plugin name="loyalty_point_add_quote_data" type="Ls\Omni\Plugin\Quote\CartTotalRepository"/>
+    </type>
+    <preference for="Ls\Omni\Api\PointsManagementInterface" type="Ls\Omni\Model\Api\PointsManagement"/>
+    <!-- For Coupon Code Overwrite -->
+    <type name="Magento\Quote\Model\CouponManagement">
+        <plugin name="checkout_coupon_apply"
+                type="Ls\Omni\Plugin\Checkout\Model\CouponInformationManagement"/>
+    </type>
+    <!--<preference for="Magento\Checkout\CustomerData\DefaultItem" type="Ls\Omni\CustomerData\DefaultItem"/>-->
+    <type name="Magento\Checkout\Model\DefaultConfigProvider">
+        <plugin name="checkout_summary_price_modification" type="Ls\Omni\Plugin\Checkout\Model\DefaultConfigProvider"/>
+    </type>
+    <type name="Magento\Checkout\CustomerData\Cart">
+        <plugin name="subtotal_modification" type="Ls\Omni\Plugin\Checkout\CustomerData\Cart"/>
+    </type>
+    <!-- To Override Discount Calculator -->
+    <preference for="Magento\SalesRule\Model\Quote\Discount" type="Ls\Omni\Model\Tax\Sales\Total\Quote\Discount"/>
+    <!-- To Override Invoice Pdf -->
+    <preference for="Magento\Sales\Model\Order\Pdf\Items\Invoice\DefaultInvoice"
+                type="Ls\Omni\Model\Order\Pdf\Items\Invoice\DefaultInvoice"/>
+    <type name="Magento\Sales\Model\Order\Pdf\Invoice">
+        <plugin name="ls.omni.pdf.invoice" type="Ls\Omni\Plugin\Order\Pdf\Invoice"
+                sortOrder="1"/>
+    </type>
+    <!-- To Override Subtotal Calculation for Paypal -->
+    <type name="Magento\Paypal\Model\Cart">
+        <plugin name="ls_update_paypal_amount_order" type="Ls\Omni\Plugin\Checkout\Model\UpdateAmountPaypal"/>
+    </type>
+    <!-- Magento order number prefix. -->
+    <type name="Magento\SalesSequence\Model\Sequence">
+        <plugin name="ls.order.number.sequence" type="Ls\Omni\Plugin\Order\Sequence"
+                sortOrder="1"/>
+    </type>
+    <!-- for changing increment_id to document_id in emails -->
+    <type name="Magento\Sales\Model\Order\Email\Sender\OrderSender">
+        <plugin name="ls_update_order_email_modification" type="Ls\Omni\Plugin\Email\Sender\OrderSender"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Email\Sender\InvoiceSender">
+        <plugin name="ls_update_invoice_email_modification" type="Ls\Omni\Plugin\Email\Sender\InvoiceSender"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Email\Sender\ShipmentSender">
+        <plugin name="ls_update_shipment_email_modification" type="Ls\Omni\Plugin\Email\Sender\ShipmentSender"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
+        <plugin disabled="false" name="Ls_Omni_Plugin_ConfigurableProduct_Block_Product_View_Type_Configurable"
+                sortOrder="10" type="Ls\Omni\Plugin\ConfigurableProduct\Block\Product\View\Type\Configurable"/>
+    </type>
+    <type name="Magento\Swatches\Block\Product\Renderer\Configurable">
+        <plugin disabled="false"
+                name="Ls_Omni_ConfigurableSkuSwitch_Plugin_Magento_Swatches_Block_Product_Renderer_Configurable"
+                sortOrder="10" type="Ls\Omni\Plugin\Swatches\Block\Product\Renderer\Configurable"/>
+    </type>
+    <!-- For setting one list id in quote -->
+    <type name="Magento\Quote\Model\QuoteRepository">
+        <plugin name="save_ls_one_list_id"
+                type="Ls\Omni\Plugin\Quote\Model\QuoteRepositoryPlugin"/>
+    </type>
+    <!-- To stop magento for calculating tax -->
+    <type name="Magento\Tax\Model\Sales\Total\Quote\Subtotal">
+        <plugin name="ls.checkout.cart.tax.subtotal" type="Ls\Omni\Model\Sales\Total\Quote\Subtotal"
+                sortOrder="1"/>
+    </type>
+    <!-- To stop magento for calculating tax -->
+    <type name="Magento\Tax\Model\Sales\Total\Quote\Tax">
+        <plugin name="ls.checkout.cart.tax.tax" type="Ls\Omni\Model\Sales\Total\Quote\Subtotal"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\Weee\Block\Item\Price\Renderer">
+        <plugin name="ls.row.total.renderer.sales.order.admin" type="Ls\Omni\Plugin\Block\Item\Price\RendererPlugin"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\Sales\Api\OrderManagementInterface">
+        <plugin name="ls_omni_around_cancel_order_operation" type="Ls\Omni\Plugin\Order\OrderManagement" sortOrder="1"/>
+    </type>
+    <!-- To stop magento for appending dashes for custom options product skus -->
+    <type name="Magento\Catalog\Model\Product\Option\Type\Select">
+        <plugin name="ls_omni_remove_dashes_for_custom_options" type="Ls\Omni\Plugin\Product\Type\SelectPlugin" sortOrder="1"/>
+    </type>
+</config>

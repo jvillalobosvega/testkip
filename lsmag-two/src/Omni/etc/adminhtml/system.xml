@@ -1,0 +1,320 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="ls_mag">
+            <tab>ls_retail</tab>
+            <resource>Ls_Core::config</resource>
+            <group id="service" translate="label" type="text" sortOrder="1"
+                   showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Configuration</label>
+                <field id="extension_version" translate="label" type="label" sortOrder="1" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Version</label>
+                    <backend_model>Ls\Omni\Model\System\Backend\ExtensionVersion</backend_model>
+                </field>
+                <field id="base_url" translate="label" type="text" sortOrder="10" showInWebsite="1">
+                    <label>Service Base URL</label>
+                    <validate>required-entry validate-url</validate>
+                    <comment>http://lsretail.cloudapp.net/lsomniservice</comment>
+                </field>
+                <field id="ls_key" translate="label comment" type="text" sortOrder="10" showInWebsite="1">
+                    <label>LS Key</label>
+                    <comment>For Multi Tenant Web Services</comment>
+                </field>
+                <field id="validate_base_url" translate="label comment" type="button" sortOrder="10"
+                       showInWebsite="1">
+                    <frontend_model>Ls\Omni\Block\Adminhtml\System\Config\Stores</frontend_model>
+                    <comment>Please validate your base url by clicking on button above</comment>
+                </field>
+                <field id="version" translate="label" type="label" sortOrder="10" showInWebsite="1">
+                    <label>LS Commerce Service Version</label>
+                </field>
+                <field id="ls_central_version" translate="label" type="label" sortOrder="10"
+                       showInWebsite="1">
+                    <label>LS Central Version</label>
+                </field>
+                <field id="selected_store" translate="label comment" type="select" sortOrder="10"
+                       showInWebsite="1">
+                    <label>Select Store</label>
+                    <validate>required-entry</validate>
+                    <source_model>Ls\Omni\Model\System\Source\NavStore</source_model>
+                    <comment>Choose the web store</comment>
+                </field>
+                <field id="replicate_hierarchy_code" translate="label comment" type="select" sortOrder="10"
+                       showInWebsite="1">
+                    <label>Select Hierarchy Code</label>
+                    <validate>required-entry</validate>
+                    <comment>Required to get hierarchy node and leaf from omni</comment>
+                    <source_model>Ls\Replication\Block\Adminhtml\System\Config\HierarchyCode</source_model>
+                </field>
+                <field id="debug" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Debug</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Debug Mode for Omni Client</comment>
+                </field>
+                <field id="timeout" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Service Timeout</label>
+                    <validate>required-entry validate-number validate-digits validate-greater-than-zero</validate>
+                    <comment>Max time in seconds to wait for omni response</comment>
+                </field>
+            </group>
+            <group id="ls_disaster_recovery" translate="label" type="text" sortOrder="5" showInWebsite="1">
+                <label>Service Down Notification</label>
+                <field id="notification" translate="label" type="select" sortOrder="1"
+                       showInWebsite="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="email" translate="label" type="text" sortOrder="2"
+                       showInWebsite="1">
+                    <label>Notification Email</label>
+                    <depends>
+                        <field id="*/*/notification">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="ls_recommend" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>LS Recommend</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="product" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Show on Product Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="cart" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Show on Cart Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="home" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Show on Home Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="ls_loyaltypoints" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Loyalty Points</label>
+                <field id="cart" translate="label" type="select" sortOrder="2" showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Show on Cart Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="checkout" translate="label" type="select" sortOrder="3" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show on Checkout Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="ls_coupons" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Coupons</label>
+                <field id="cart" translate="label" type="select" sortOrder="2" showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Show on Cart Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="checkout" translate="label" type="select" sortOrder="3" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show on Checkout Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="coupon_recommendations" translate="label" type="select" sortOrder="4" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Coupon Recommendations on Cart/Checkout Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="ls_giftcard" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Gift Card</label>
+                <field id="cart" translate="label" type="select" sortOrder="2" showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Show on Cart Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="checkout" translate="label" type="select" sortOrder="3" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show on Checkout Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="ls_discounts" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Discount Management</label>
+                <field id="discount" translate="label" type="select" sortOrder="1" showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Show Promotions on Product Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="discount_login_register_notice" translate="label" type="select" sortOrder="2"
+                       showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Login/Register Notice</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="*/*/discount">1</field>
+                    </depends>
+                </field>
+                <field id="discount_mixandmatch_limit" translate="label comment" type="text" sortOrder="3" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Mix and Match Products Limit on Popup</label>
+                    <depends>
+                        <field id="*/*/discount">1</field>
+                    </depends>
+                    <comment>This will display the number of mix and match discounts product on promotions in product
+                        page. Set value to -1 to display all products.
+                    </comment>
+                </field>
+            </group>
+            <group id="ls_stores" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Stores Listing</label>
+                <field id="timeformat" translate="label" type="select" sortOrder="2" showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Opening Hours Time Format</label>
+                    <source_model>Ls\Omni\Block\Adminhtml\System\Config\TimeFormat</source_model>
+                </field>
+            </group>
+            <group id="ls_order_management" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Order Management</label>
+                <field id="prefix" translate="label comment" type="text" sortOrder="2" showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="1">
+                    <label>Magento Order Number Prefix</label>
+                    <comment>Maximum Length 5 Characters</comment>
+                    <validate>validate-length maximum-length-5 validate-no-html-tags validate-sequence-number</validate>
+                </field>
+                <field id="shipping_item_id" translate="label comment" type="text" sortOrder="2" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Shipping Charge Item Id</label>
+                    <comment>Please make sure this item Id is the same as set in LS Central. This value is used to calculate the flat shipment amount and is sent as a separate orderline with the order.</comment>
+                </field>
+            </group>
+        </section>
+        <!-- For shipment Method -->
+        <section id="carriers" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <group id="clickandcollect" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Click And Collect</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="name" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Method Name</label>
+                </field>
+                <field id="payment_option" translate="label" type="multiselect" sortOrder="1" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Allowed Payment Methods</label>
+                    <source_model>Ls\Omni\Model\System\Source\PaymentOption</source_model>
+                </field>
+                <field id="price" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Shipping Cost</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="specificerrmsg" translate="label" type="textarea" sortOrder="80" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Displayed Error Message</label>
+                </field>
+                <field id="sallowspecific" translate="label" type="select" sortOrder="90" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Ship to Applicable Countries</label>
+                    <frontend_class>shipping-applicable-country</frontend_class>
+                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="91" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Ship to Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="showmethod" translate="label" type="select" sortOrder="92" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Show Method if Not Applicable</label>
+                    <frontend_class>shipping-skip-hide</frontend_class>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Sort Order</label>
+                </field>
+            </group>
+        </section>
+        <section id="payment">
+            <group id="ls_payment_method_pay_at_store" translate="label comment" type="text" sortOrder="50"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Pay at the Store</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Sort Order</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+            </group>
+        </section>
+        <section id="omni_clickandcollect" sortOrder="2" showInDefault="1">
+            <tab>ls_retail</tab>
+            <label>Click And Collect</label>
+            <resource>Ls_Core::config</resource>
+            <group id="general" showInDefault="1">
+                <label>Default Maps Settings</label>
+                <field id="maps_api_key" translate="label" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Google Maps API Key</label>
+                </field>
+                <field id="default_latitude" translate="label" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Default Latitude</label>
+                </field>
+                <field id="default_longitude" translate="label" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Default Longitude</label>
+                </field>
+                <field id="default_zoom" translate="label" type="text" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Default Zoom</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

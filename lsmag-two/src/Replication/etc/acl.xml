@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Ls_Replication::ls_retail" title="LS Retail" sortOrder="85">
+                    <resource id="Ls_Replication::ls_retail_conf_group" title="Configuration" translate="title"
+                              sortOrder="1">
+                        <resource id="Ls_Replication::ls_retail_conf_group_configuration"
+                                  title="LS Retail Configuration"
+                                  translate="title"
+                                  sortOrder="2">
+                        </resource>
+                    </resource>
+                    <resource id="Ls_Replication::ls_retail_cron_group" title="Manual Crons"
+                              translate="title"
+                              sortOrder="3">
+                        <resource id="Ls_Replication::ls_retail_cron_group_crons_grid" title="Crons Listing"
+                                  translate="title"
+                                  sortOrder="4">
+                        </resource>
+                    </resource>
+                    <resource id="Ls_Replication::ls_retail_logs_report" title="Logs"
+                              translate="title"
+                              sortOrder="5">
+                        <resource id="Ls_Replication::ls_retail_logs_report_main" title="Report"
+                                  translate="title"
+                                  sortOrder="6">
+                        </resource>
+                    </resource>
+                    <resource id="Ls_Replication::replication_grid_group" title="Replication Status"
+                              translate="title"
+                              sortOrder="10">
+                        <resource id="Ls_Replication::item_grid" title="Item Replication" translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::item_price_grid" title="Price Replication"
+                                  translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::item_inventory_grid" title="Inventory Status Replication"
+                                  translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::barcode_grid" title="Barcode Replication"
+                                  translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::data_translation_grid" title="Data Translation Replication"
+                                  translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::data_translation_lang_code_grid"
+                                  title="Data Translation Lang Code Replication"
+                                  translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::extendedvariantvalue_grid"
+                                  title="Extended Variant Value Replication" translate="title" sortOrder="10"/>
+                        <resource id="Ls_Replication::imagelink_grid" title="Image Link Replication"
+                                  translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::itemvariantregistration_grid"
+                                  title="Item Variant Registration Replication" translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::hierarchy_grid" title="Hierarchy Replication"
+                                  translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::hierarchynode_grid" title="Hierarchy Node Replication"
+                                  translate="title" sortOrder="10"/>
+                        <resource id="Ls_Replication::hierarchyleaf_grid" title="Hierarchy Leaf Replication"
+                                  translate="title" sortOrder="10"/>
+                        <resource id="Ls_Replication::attribute_grid" title="Attribute Replication"
+                                  translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::attributevalue_grid" title="Attribute Value Replication"
+                                  translate="title" sortOrder="10"/>
+                        <resource id="Ls_Replication::attributeoptionvalue_grid"
+                                  title="Attribute Option Value Replication" translate="title" sortOrder="10"/>
+                        <resource id="Ls_Replication::discount_grid" title="Discount Replication"
+                                  translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::discount_validation_grid" title="Discount Validation Replication"
+                                  translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::itemcategory_grid" title="Item Category Replication"
+                                  translate="title" sortOrder="10"/>
+                        <resource id="Ls_Replication::productgroup_grid" title="Product Group Replication"
+                                  translate="title" sortOrder="10"/>
+                        <resource id="Ls_Replication::store_grid" title="Store Replication" translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::uom_grid" title="Unit Of Measure" translate="title"
+                                  sortOrder="10"/>
+                        <resource id="Ls_Replication::item_uom_grid" title="Item Unit Of Measure" translate="title"
+                                  sortOrder="10"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

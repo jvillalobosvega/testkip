@@ -1,0 +1,28 @@
+<?php
+
+/** @var Customer $block */
+
+use Magento\Customer\Block\Account\Customer;
+
+/**
+ * Generate info message for user to loggedin or register in order to view discounts.
+ *
+ */
+if (!$block->customerLoggedIn()) {
+    /** For the refer url redirecton. $currenturl */
+    $currenturl = $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+    /** Login and Registration URL links. */
+    $login_url       = $block->getUrl('customer/account/login', ['referer' => base64_encode($currenturl)]);
+    $registrationUrl = $block->getUrl('customer/account/create', ['referer' => base64_encode($currenturl)]); ?>
+    <div class="messages">
+        <div class="message message-info info" role="alert">
+            <?php
+            echo $block->escapeHtml(__(
+                'Please <a href="%1">Login</a> / <a href="%2">Register</a> to view available discounts on this product.',
+                $login_url,
+                $registrationUrl
+            ), ['a']);
+            ?>
+        </div>
+    </div>
+<?php } ?>

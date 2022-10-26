@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- For sending cart updates to omni  -->
+    <type name="Magento\QuoteGraphQl\Model\Resolver\AddProductsToCart">
+        <plugin name="dispatch_cart_changes_event" type="Ls\OmniGraphQl\Plugin\Model\Resolver\CartProductsPlugin"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\QuoteGraphQl\Model\Resolver\AddSimpleProductsToCart">
+        <plugin name="dispatch_cart_changes_event" type="Ls\OmniGraphQl\Plugin\Model\Resolver\CartProductsPlugin"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\ConfigurableProductGraphQl\Model\Resolver\AddConfigurableProductsToCart">
+        <plugin name="dispatch_cart_changes_event" type="Ls\OmniGraphQl\Plugin\Model\Resolver\CartProductsPlugin"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\QuoteGraphQl\Model\Resolver\UpdateCartItems">
+        <plugin name="dispatch_cart_changes_event" type="Ls\OmniGraphQl\Plugin\Model\Resolver\CartProductsPlugin"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\QuoteGraphQl\Model\Resolver\RemoveItemFromCart">
+        <plugin name="dispatch_cart_changes_event" type="Ls\OmniGraphQl\Plugin\Model\Resolver\CartProductsPlugin"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\QuoteGraphQl\Model\Resolver\MergeCarts">
+        <plugin name="dispatch_cart_changes_event" type="Ls\OmniGraphQl\Plugin\Model\Resolver\CartProductsPlugin"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\SalesGraphQl\Model\Resolver\Reorder">
+        <plugin name="dispatch_cart_changes_event" type="Ls\OmniGraphQl\Plugin\Model\Resolver\CartProductsPlugin"
+                sortOrder="1"/>
+    </type>
+    <!-- Plugin that updates the price of the item in the minicart/cart page   -->
+    <type name="Magento\QuoteGraphQl\Model\Resolver\CartItemPrices">
+        <plugin name="correcting_line_price" type="Ls\OmniGraphQl\Plugin\Model\Resolver\CartItemPricesPlugin"
+                sortOrder="1"/>
+    </type>
+    <!-- Plugin to remove coupon -->
+    <type name="Magento\QuoteGraphQl\Model\Resolver\RemoveCouponFromCart">
+        <plugin name="ls_omnigraphql_remove_coupon"
+                type="Ls\OmniGraphQl\Plugin\Model\Resolver\RemoveCouponFromCartPlugin"
+                sortOrder="1"/>
+    </type>
+</config>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\Model\AccountManagement">
+        <plugin name="ls_customer_graphql_account_management"
+                type="Ls\CustomerGraphQl\Plugin\AccountManagement"
+                sortOrder="1"/>
+    </type>
+    <type name="Magento\CustomerGraphQl\Model\Customer\SaveCustomer">
+        <plugin name="ls_customer_graphql_update_account"
+                type="Ls\CustomerGraphQl\Plugin\UpdateAccount"
+                sortOrder="1"/>
+    </type>
+</config>

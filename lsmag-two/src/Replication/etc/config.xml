@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <ls_mag>
+            <replication>
+                <replicate_data_translation_lang_code>Default</replicate_data_translation_lang_code>
+                <manual_cron_grid_default_store>1</manual_cron_grid_default_store>
+                <replicate_all_stores_items>0</replicate_all_stores_items>
+                <default_batch_size>2000</default_batch_size>
+                <product_batch_size>30</product_batch_size>
+                <discount_batch_size>-1</discount_batch_size>
+                <product_attribute_batch_size>1000</product_attribute_batch_size>
+                <product_inventory_batch_size>1000</product_inventory_batch_size>
+                <product_prices_batch_size>1000</product_prices_batch_size>
+                <product_images_batch_size>2000</product_images_batch_size>
+                <product_barcode_batch_size>1000</product_barcode_batch_size>
+                <variant_batch_size>2000</variant_batch_size>
+                <product_assignment_to_category_batch_size>100</product_assignment_to_category_batch_size>
+                <attribute_sets_mechanism>ITEM_CATEGORY_CODE</attribute_sets_mechanism>
+                <replicate_category>1</replicate_category>
+                <advanced>0</advanced>
+                <create_attribute_set>1</create_attribute_set>
+                <categorize_products>1</categorize_products>
+                <batch_size_configuration>0</batch_size_configuration>
+                <debug_on_error>0</debug_on_error>
+                <cron_expr_configuration>0</cron_expr_configuration>
+                <cron_expr_nav_store>1 * * * * *</cron_expr_nav_store>
+                <cron_expr_tender_type>1 * * * * *</cron_expr_tender_type>
+                <cron_expr_category>1 * * * * *</cron_expr_category>
+                <cron_expr_variant>1 * * * * *</cron_expr_variant>
+                <cron_expr_uom>1 * * * * *</cron_expr_uom>
+                <cron_expr_barcode>1 * * * * *</cron_expr_barcode>
+                <cron_expr_product>1 * * * * *</cron_expr_product>
+            </replication>
+            <one_list>
+                <availability_check>0</availability_check>
+                <product_availability>1</product_availability>
+                <display_stores>0</display_stores>
+                <update_inventory>0</update_inventory>
+                <guest_checkout_email>guest@lsretail.com</guest_checkout_email>
+                <guest_checkout_password>guest@123</guest_checkout_password>
+                <sales_order_create_method>0</sales_order_create_method>
+                <special_order_create_retries>2</special_order_create_retries>
+                <sales_order_create_retries>2</sales_order_create_retries>
+            </one_list>
+            <cron>
+                <sales_order_workflow>*/10 * * * *</sales_order_workflow>
+                <heartbeat_workflow>*/10 * * * *</heartbeat_workflow>
+            </cron>
+            <cron_enhancement>
+                <requests_per_run>100</requests_per_run>
+                <inventory_active_from>00,00,00</inventory_active_from>
+                <inventory_active_to>00,00,00</inventory_active_to>
+                <inventory_per_store>0</inventory_per_store>
+                <if_zero>0</if_zero>
+            </cron_enhancement>
+        </ls_mag>
+    </default>
+</config>

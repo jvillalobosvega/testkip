@@ -1,0 +1,10 @@
+<?php
+// @codingStandardsIgnoreStart
+/* @var Link $block */
+// @codingStandardsIgnoreEnd
+use \Ls\Customer\Block\Link; ?>
+<li class="link loyalty" data-bind="scope: 'loyalty'">
+    <a <?= /* @noEscape */
+    $block->getLinkAttributes() ?>><?= $block->escapeHtml($block->getLabel()) ?>
+    </a>
+</li>
